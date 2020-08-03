@@ -1,12 +1,37 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import Board from './components/Board';
 import * as serviceWorker from './serviceWorker';
+
+const lists = [
+  {
+      title: "now",
+      cards: [
+          {
+              title: "react"
+          },
+          {
+              title: "angular"
+          }
+      ]
+  },
+  {
+      title: "tomorrow",
+      cards: [
+          {
+              title: "bachelor"
+          },
+          {
+              title: "work"
+          }
+      ]
+  }
+]
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Board board={lists} />
   </React.StrictMode>,
   document.getElementById('root')
 );

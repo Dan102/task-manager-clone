@@ -1,3 +1,5 @@
+
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +12,91 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.dnd-board {
+  display: flex;
+  flex-direction: row;
+  background-color: dodgerblue;
+  height: 100vh;
+}
+
+.dnd-list {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 20px;
+  background-color: lightgrey;
+  min-width: 220px;
+  border-radius: 5px;
+  padding: 10px;
+  height: min-content;
+}
+
+.dnd-card {
+  margin: 5px 0px;
+  width: 200px;
+  min-height: 60px;
+  background-color: white;
+  border-radius: 2.5px;
+  padding: 5px 10px;
+}
+
+textarea {
+  resize: none;
+  padding: 5px 10px;
+}
+
+.add-card, .add-card-list, .add-card *, .add-card-list * {
+  display: block;
+}
+
+.card-list-title {
+  color: #4E67C5;
+  font-size: 20px;
+  text-transform: capitalize;
+  font-weight: bold;
+  margin-bottom: 7px;
+}
+
+.card-title {
+  font-size: 15px;
+  margin-bottom: 3px;
+  font-weight: 550;
+  flex-grow: 1;
+}
+
+.card-description {
+  font-size: 10px;
+}
+
+.add-card-button {
+  background: #4E67C5;
+  color: white;
+  padding: 3px 12px;
+  border: 0px;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+.add-card-textarea {
+  margin-top: 7px;
+}
+
+.card-heading {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.card-deadline {
+  font-size: 8px;
+  font-style: italic;
+}
+
+.card-priority {
+  font-size: 8px;
+  background-color: #4E67C5;
+  color: white;
+  padding: 2px 5px;
+  margin-left: 8px;
 }
