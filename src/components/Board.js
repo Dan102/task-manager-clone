@@ -1,21 +1,56 @@
 import React, {useState, useRef, useEffect} from "react";
-import List from "./CardList"
+import CardList from "./CardList"
 import AddCardList from "./AddCardList"
+import TopPanel from "./TopPanel";
+import CardDetail from "./CardDetail";
 
-function Board(props) {
-    const [lists, setLists] = useState(props.board);
+function Board() {
 
-    // useEffect(() => {
-    //     setLists(props.board);
-    // }, [setLists, props.board])
+    const [lists, setLists] = useState([
+        {
+            title: "now",
+            cards: [
+                {
+                    title: "react",
+                    description: "Si vis pacem para belum si vic pacem para belum",
+                    deadline: new Date(),
+                    priority: 1
+                },
+                {
+                    title: "angular",
+                    description: "Si vis pacem para belum si vic pacem para belum si vis pacem para belum vic pacem para belum si",
+                    deadline: new Date(),
+                    priority: 1
+                }
+            ]
+        },
+        {
+            title: "tomorrow",
+            cards: [
+                {
+                    title: "bachelor",
+                    description: "Si vis pacem para belum si vic pacem para belum si vis pacem para belum vic pacem para belum si vis pacem",
+                    deadline: new Date(),
+                    priority: 1
+                },
+                {
+                    title: "work",
+                    description: "Si vis pacem para belum si",
+                    deadline: new Date(),
+                    priority: 1
+                }
+            ]
+        }
+      ]);
 
     const dragCard = useRef();
     const dragNode = useRef();
 
+    const [clickedCard, setClickedCard] = useState({})
+
     const handleDragStart = (e, listIndex, cardIndex) => {
         e.dataTransfer.effectAllowed = "copyMove";
         dragNode.current = e.target;
-        // dragNode.current.addEventListener('dragend', handleDragEnd)
         dragCard.current = {listIndex, cardIndex};
     }
 
@@ -30,13 +65,12 @@ function Board(props) {
             let newLists = JSON.parse(JSON.stringify(oldLists));
             const removedCard = newLists[currentCard.listIndex].cards[currentCard.cardIndex];
             newLists[currentCard.listIndex].cards.splice(currentCard.cardIndex, 1);
-            
+
             if (targetClassName == "dnd-card") {
                 newLists[targetListIndex].cards.splice(targetCardIndex, 0, removedCard);
                 dragCard.current = {'listIndex' : targetListIndex, 'cardIndex' : targetCardIndex}
                 // dragNode.current = e.target;
             } else {
-                console.log("here")
                 newLists[targetListIndex].cards.push(removedCard);
                 dragCard.current = {'listIndex' : targetListIndex, 'cardIndex' : newLists[targetListIndex].cards.length - 1}
                 // dragNode.current = e.target;
@@ -48,7 +82,7 @@ function Board(props) {
     const addCardList = (title) => {
         setLists( oldLists => {
                 return [ ...oldLists,
-                { 
+                {
                     title: title,
                     cards: []
                 }];
@@ -69,23 +103,30 @@ function Board(props) {
         })
     }
 
-    // const handleDragEnd = (e) => {
-    //     dragCard.current = null;
-    //     dragNode.current.removeEventListener('dragend', handleDragEnd)
-    //     dragNode.current = null;
-    // }
+    const showCardDetail = (listIndex, cardIndex) => {
+        setClickedCard(() => {
+            console.log(lists[listIndex].cards)
+            return lists[listIndex].cards[cardIndex];
+        })
+    }
 
     return (
-        <div className="dnd-board">
-            {lists.map((list, listIndex) => (
-                <List 
-                    key={listIndex}     
-                    addCard={addCard}               
-                    handleDragStart={handleDragStart} handleDragEnter={handleDragEnter}
-                    list={list} listIndex={listIndex}/>
-            ))}
-            <AddCardList addCardList={addCardList}/>
-        </div>
+        <>
+            <CardDetail card={clickedCard}/>
+            <div id="visible-content">
+                <TopPanel />
+                <div className="dnd-board">
+                    {lists.map((list, listIndex) => (
+                        <CardList
+                            key={listIndex}
+                            addCard={addCard} showCardDetail={showCardDetail}
+                            handleDragStart={handleDragStart} handleDragEnter={handleDragEnter}
+                            list={list} listIndex={listIndex}/>
+                    ))}
+                    <AddCardList addCardList={addCardList}/>
+                </div>
+            </div>
+        </>
     );
 }
 

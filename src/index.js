@@ -1,37 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import * as serviceWorker from './serviceWorker';
 import './index.css';
 import Board from './components/Board';
-import * as serviceWorker from './serviceWorker';
-
-const lists = [
-  {
-      title: "now",
-      cards: [
-          {
-              title: "react"
-          },
-          {
-              title: "angular"
-          }
-      ]
-  },
-  {
-      title: "tomorrow",
-      cards: [
-          {
-              title: "bachelor"
-          },
-          {
-              title: "work"
-          }
-      ]
-  }
-]
+import Dashboard from './components/Dashboard';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Board board={lists} />
+		<BrowserRouter>
+			<Switch>
+				<Route path='/Board' component={Board} />
+				<Route path='/' component={Dashboard} />
+			</Switch>
+		</BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );

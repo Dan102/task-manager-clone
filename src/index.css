@@ -19,12 +19,13 @@ code {
   flex-direction: row;
   background-color: dodgerblue;
   height: 100vh;
+  overflow: auto;
 }
 
 .dnd-list {
   display: flex;
   flex-direction: column;
-  margin: 15px 20px;
+  margin: 5px 20px;
   background-color: lightgrey;
   min-width: 220px;
   border-radius: 5px;
@@ -35,15 +36,24 @@ code {
 .dnd-card {
   margin: 5px 0px;
   width: 200px;
-  min-height: 60px;
+  height: 75px;
   background-color: white;
   border-radius: 2.5px;
-  padding: 5px 10px;
+  padding: 7px 12px;
 }
 
 textarea {
   resize: none;
   padding: 5px 10px;
+  background-color: white;
+}
+
+select {
+  background-color: white;
+}
+
+button {
+  cursor: pointer;
 }
 
 .add-card, .add-card-list, .add-card *, .add-card-list * {
@@ -52,21 +62,21 @@ textarea {
 
 .card-list-title {
   color: #4E67C5;
-  font-size: 20px;
+  font-size: 30px;
   text-transform: capitalize;
   font-weight: bold;
-  margin-bottom: 7px;
+  margin-bottom: 2px;
 }
 
 .card-title {
-  font-size: 15px;
-  margin-bottom: 3px;
+  font-size: 19px;
+  margin-bottom: 1px;
   font-weight: 550;
   flex-grow: 1;
 }
 
 .card-description {
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .add-card-button {
@@ -89,14 +99,205 @@ textarea {
 }
 
 .card-deadline {
-  font-size: 8px;
+  font-size: 10px;
   font-style: italic;
 }
 
 .card-priority {
-  font-size: 8px;
+  font-size: 10px;
   background-color: #4E67C5;
   color: white;
   padding: 2px 5px;
   margin-left: 8px;
+}
+
+.top-panel {
+  display: flex;
+  background-color: dodgerblue;
+  color: white;
+  justify-content: end;
+  font-size: 10px;
+  padding: 5px 10px;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 60px;
+  height: 5px;
+  border-radius: 5px;  
+  background: lightgrey;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%; 
+  background: #4E67C5;;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #4E67C5;;
+  cursor: pointer;
+}
+
+.option-section {
+  /* margin: 5px 15px; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.option-section form {
+  display: flex;
+}
+
+.top-panel-title {
+  margin: 0px 6px 0 12px;
+  font-size: 12px;
+}
+
+input[type="radio"] {
+  margin: 0px;
+}
+
+input[type="radio"] + label {
+  margin-right: 5px;
+}
+
+input[type="range"] {
+  margin-top: 5px;
+}
+
+html.darken-page {
+  background-color: black;
+}
+
+html.darken-page #visible-content {
+  opacity: 0.5;
+}
+
+#card-detail-background {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  z-index: 1000;
+}
+
+#card-detail {
+  display: inline-block;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 600px;
+  border-radius: 25px;
+  background-color: white;
+}
+
+.dnd-board-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  width: 300px;
+  height: 200px;
+  text-align: center;
+  margin: 10px;
+  padding: 20px;
+  position: relative;
+  text-decoration: none;
+}
+
+.board-remove {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  color: gray;
+  font-size: 12px;;
+  color: white;
+  background: #6F8DFF;
+  padding: 3px 7px;
+  border-radius: 5px;
+}
+
+.dnd-board-list {
+  display: flex;
+  background-color: dodgerblue;
+  padding: 100px 20px 60px 20px;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.board-title {
+  color: #4E67C5;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+.dnd-dashboard {
+  background-color: dodgerblue;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+}
+
+.add-board-textarea {
+  background-color: #d3d3d3;
+  width: 200px;
+  height: 100px;
+  border-radius: 3px;
+  font-size: 30px;
+  color: #4E67C5;
+}
+
+.add-board-button {
+  padding: 5px 10px;
+  background-color: #4E67C5;
+  color: white;
+  margin-top: 15px;
+  border-radius: 3px;
+}
+
+.dnd-board-item form {
+	background-color: white;
+	width: 250px;
+	height: 166px;
+	padding-top: 15px;
+	border-radius: 10px;
+}
+
+.add-card textarea, .add-card-list textarea {
+  font-size: 19px;
+  width: 200px;
+  height: 45px;
 }

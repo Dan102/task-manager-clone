@@ -3,17 +3,17 @@ import Card from "./Card"
 import AddCard from "./AddCard"
 
 
-const List = (props) => {
-
+const CardList = (props) => {
     return (
         <div
           className="dnd-list">
-            <span class="card-list-title">
+            <span className="card-list-title">
             {props.list.title}
             </span>
             {props.list.cards.map((card, cardIndex) => {
                 return <Card
                           key={cardIndex}
+                          showCardDetail={props.showCardDetail}
                           handleDragStart={props.handleDragStart} handleDragEnter={props.handleDragEnter}
                           listIndex={props.listIndex} card={card} cardIndex={cardIndex}/>
             })}            
@@ -24,4 +24,4 @@ const List = (props) => {
     );
 }
 
-export default List;
+export default CardList;
