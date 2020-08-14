@@ -20,6 +20,7 @@ code {
   background-color: dodgerblue;
   height: 100vh;
   overflow: auto;
+  flex-grow: 1;
 }
 
 .dnd-list {
@@ -36,7 +37,7 @@ code {
 .dnd-card {
   margin: 5px 0px;
   width: 200px;
-  height: 75px;
+  height: 90px;
   background-color: white;
   border-radius: 2.5px;
   padding: 7px 12px;
@@ -186,6 +187,12 @@ html.darken-page #visible-content {
   opacity: 0.5;
 }
 
+#visible-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 #card-detail-background {
   display: none;
   position: fixed;
@@ -197,16 +204,72 @@ html.darken-page #visible-content {
   z-index: 1000;
 }
 
+.card-detail-inline {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
+.card-detail-inline span {
+  flex-grow: 1;
+  text-align: left;
+}
+
+#card-detail input {
+  padding: 5px 10px;
+  width: 100%;
+}
+
+.card-detail-title {
+  font-size: 23px;
+  margin-top: 5px;
+  text-transform: capitalize;
+}
+
+#card-detail button, #card-detail input[type="submit"] {
+  padding: 5px 30px;
+  color: white;
+  border-radius: 5px;
+  width: auto;
+  font-size: 12px;
+  height: min-content;
+}
+
 #card-detail {
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
   position: fixed;
   left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 400px;
-  height: 600px;
+  top: 30%;
+  text-align: left;
+  transform: translate(-50%, -30%);
   border-radius: 25px;
   background-color: white;
+  padding: 40px 60px;
+}
+
+.delete-button {
+  background-color: crimson;
+}
+
+.cancel-button {
+  background-color: gray;
+}
+
+#card-detail .save-button {  
+  background-color: #4E67C5;
+}
+
+#card-detail-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: auto;
+}
+
+#card-detail textarea, #card-detail input {
+  background-color: lightgray;
 }
 
 .dnd-board-item {
@@ -269,6 +332,7 @@ html, body, #root {
   font-size: 100%;
   vertical-align: baseline;
   background: transparent;
+  box-sizing: border-box;
 }
 
 .add-board-textarea {

@@ -18,7 +18,7 @@ function Board() {
                 },
                 {
                     title: "angular",
-                    description: "Si vis pacem para belum si vic pacem para belum si vis pacem para belum vic pacem para belum si",
+                    description: "Si vis pacem para belum si vic pacem para belum si vis pacem para belum vic pacem para",
                     deadline: new Date(),
                     priority: 1
                 }
@@ -29,7 +29,7 @@ function Board() {
             cards: [
                 {
                     title: "bachelor",
-                    description: "Si vis pacem para belum si vic pacem para belum si vis pacem para belum vic pacem para belum si vis pacem",
+                    description: "Si vis pacem para belum si vic pacem para belum si vis pacem para belum vic pacem para",
                     deadline: new Date(),
                     priority: 1
                 },
