@@ -1,17 +1,20 @@
-import React from "react"
+import React, {useState} from "react"
 
-const TopPanel = () => {
+const TopPanel = (props) => {
+
     return (
         <div className="top-panel">
             <div className="option-section">
                 <span className="top-panel-title">Detail:</span>
                 <form>
-                    <input className="slider" type="range" min="1" max="3" />
+                    <input className="slider" value={props.detailLevel} onChange={(e) => {
+                         props.setDetailLevel(e.target.value);
+                    }} type="range" min="1" max="3" style={{background:"lightgray"}} />
                 </form>
             </div>
             <div className="option-section">
                 <span className="top-panel-title">Sort:</span>
-                <select name="sort" id="sort">
+                <select name="sort" value={props.sortOption} onChange={(e) => props.setSortOption(e.target.value)}>
                     <option value="Own">Own</option>
                     <option value="Deadline">Deadline</option>
                     <option value="Priority">Priority</option>

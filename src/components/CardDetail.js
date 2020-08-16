@@ -10,11 +10,14 @@ function CardDetail(props) {
     const [newPriority, setNewPriority] = useState(1)
 
     useEffect(() => {
-        setNewTitle(() => {return props.card.title})
-        setNewDescription(() => {return props.card.description})
-        console.log(new Date(props.card.deadline).toDateString())
-        setNewDeadline(() => {return new Date(props.card.deadline)})
-        setNewPriority(() => {return props.card.priority})
+        if (props.card.card === null) {
+            return
+        }
+        setNewTitle(() => {return props.card.card.title})
+        setNewDescription(() => {return props.card.card.description})
+        console.log(new Date(props.card.card.deadline).toDateString())
+        setNewDeadline(() => {return new Date(props.card.card.deadline)})
+        setNewPriority(() => {return props.card.card.priority})
     }, [props]);
 
     const switchOffDetail = (e) => {
@@ -24,7 +27,16 @@ function CardDetail(props) {
     }
 
     const handleSubmit = (e) => {
-        console.log("submitted")
+        e.preventDefault();
+        switchOffDetail(e)
+        console.log(e)
+        props.updateCard(e, props.card.listIndex, {
+            id: props.card.card.id,
+            title: newTitle,
+            description: newDescription,
+            deadline: newDeadline,
+            priority: newPriority
+        })        
     }
 
     return (
@@ -33,15 +45,15 @@ function CardDetail(props) {
                 <form className="card-detail-container" onSubmit={handleSubmit}>
                     <div className="card-detail-inline">
                         <span className="card-detail-title">title:</span>
-                        <button className="delete-button">Delete</button>
+                        <button className="delete-button" onClick={(e) => props.removeCard(e, props.card.card.id, props.card.listIndex)}>remove</button>
                     </div>
-                    <textarea value={newTitle} onChange={(e) => setNewTitle(e.target.value)}></textarea>
+                    <textarea name="title" value={newTitle} onChange={(e) => setNewTitle(e.target.value)}></textarea>
                     <div className="card-detail-title">description:</div>
-                    <textarea value={newDescription} onChange={(e) => setNewDescription(e.target.value)}></textarea>
+                    <textarea name="description" value={newDescription} onChange={(e) => setNewDescription(e.target.value)}></textarea>
                     <div className="card-detail-title">deadline: </div>
-                    <input type="date" value={Moment(newDeadline).format("YYYY-MM-DD")} onChange={(e) => setNewDeadline(e.target.value)}></input>
+                    <input name="date" type="date" value={Moment(newDeadline).format("YYYY-MM-DD")} onChange={(e) => setNewDeadline(e.target.value)}></input>
                     <div className="card-detail-title">priority: </div>
-                    <input type="number" name="priority" min="1" max="5" value={newPriority || 1} onChange={(e) => setNewPriority(e.target.value)}></input>
+                    <input name="priority" type="number" name="priority" min="1" max="5" value={newPriority || 1} onChange={(e) => setNewPriority(e.target.value)}></input>
                     <div className="card-detail-inline" style={{marginTop: "18px"}}>
                         <span className="save-button-section">
                             <input type="submit" value="Save" className="save-button"></input>

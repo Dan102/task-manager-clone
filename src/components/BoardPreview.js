@@ -9,7 +9,7 @@ function BoardPreview(props) {
 
     return (
         <a href="/board" className="dnd-board-item">
-            <button className="board-remove" onClick={handleRemoveClick}>remove</button>
+            <button className="board-remove" onClick={handleRemoveClick}>X</button>
             <div className="board-title">{props.board.title}</div>
         </a>
     )

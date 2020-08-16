@@ -25,12 +25,13 @@ code {
 
 .dnd-list {
   display: flex;
+  position: relative;
   flex-direction: column;
   margin: 5px 20px;
   background-color: lightgrey;
-  min-width: 220px;
+  width: 220px;
   border-radius: 5px;
-  padding: 10px;
+  padding: 17px 10px 10px 10px;
   height: min-content;
 }
 
@@ -43,6 +44,26 @@ code {
   padding: 7px 12px;
 }
 
+.dnd-card-big {
+  cursor: grabbing;
+  margin: 5px 0px;
+  width: 200px;
+  height: 90px;
+  background-color: white;
+  border-radius: 2.5px;
+  padding: 7px 12px;
+}
+
+.dnd-card-small {
+  cursor: grabbing;
+  margin: 5px 0px;
+  width: 200px;
+  height: 50;
+  background-color: white;
+  border-radius: 2.5px;
+  padding: 5px 12px;
+}
+
 textarea {
   resize: none;
   padding: 5px 10px;
@@ -51,6 +72,7 @@ textarea {
 
 select {
   background-color: white;
+  width: 75px;
 }
 
 button {
@@ -67,6 +89,7 @@ button {
   text-transform: capitalize;
   font-weight: bold;
   margin-bottom: 2px;
+  word-wrap: break-word;
 }
 
 .card-title {
@@ -121,6 +144,12 @@ button {
   padding: 5px 10px;
 }
 
+
+.top-panel select{
+  height: 100%;
+  font-size: 12px;
+}
+
 .slider {
   -webkit-appearance: none;
   width: 60px;
@@ -164,7 +193,7 @@ button {
 
 .top-panel-title {
   margin: 0px 6px 0 12px;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 input[type="radio"] {
@@ -228,7 +257,7 @@ html.darken-page #visible-content {
 }
 
 #card-detail button, #card-detail input[type="submit"] {
-  padding: 5px 30px;
+  padding: 5px 25px;
   color: white;
   border-radius: 5px;
   width: auto;
@@ -250,7 +279,7 @@ html.darken-page #visible-content {
 }
 
 .delete-button {
-  background-color: crimson;
+  background-color: #F1868C;
 }
 
 .cancel-button {
@@ -294,7 +323,7 @@ html.darken-page #visible-content {
   color: gray;
   font-size: 12px;;
   color: white;
-  background: #6F8DFF;
+  background: #F1868C;
   padding: 3px 7px;
   border-radius: 5px;
 }
@@ -348,7 +377,7 @@ html, body, #root {
   padding: 5px 10px;
   background-color: #4E67C5;
   color: white;
-  margin-top: 15px;
+  margin-top: 7px;
   border-radius: 3px;
 }
 
@@ -356,7 +385,8 @@ html, body, #root {
 	background-color: white;
 	width: 250px;
 	height: 166px;
-	padding-top: 15px;
+  padding-top: 15px;
+  padding-bottom: 12px;
 	border-radius: 10px;
 }
 

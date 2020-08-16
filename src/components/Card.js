@@ -15,13 +15,20 @@ function Card(props) {
             onClick = {handleCardClicked}
             onDragStart = {(e) => props.handleDragStart(e, props.listIndex, props.cardIndex)}
             onDragEnter = {(e) => props.handleDragEnter(e, props.listIndex, props.cardIndex)}
-            className="dnd-card">
+            onDragOver = {(e) => e.preventDefault()}
+            className={props.detailLevel <= 2 ? "dnd-card-big" : "dnd-card-small"}>
             <div className="card-heading">
                 <div className="card-title">{props.card.title}</div>
-                <div className="card-deadline">{Moment(props.card.deadline).format('DD.M')}</div>
-                <div className="card-priority">{props.card.priority}</div>
+                { props.detailLevel == 1 &&
+                    <>
+                        <div className="card-deadline">{Moment(props.card.deadline).format('DD.M')}</div>
+                        <div className="card-priority">{props.card.priority}</div>
+                    </>
+                }
             </div>
-            <div className="card-description">{props.card.description}</div>
+            { props.detailLevel <= 2 &&
+                <div className="card-description">{props.card.description}</div>
+            }
         </div>
     )
 }
