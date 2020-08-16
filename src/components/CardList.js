@@ -6,7 +6,7 @@ import AddCard from "./AddCard"
 const CardList = (props) => {
     return (
         <div className="dnd-list">
-            <button className="board-remove" onClick={(e) => props.removeCardList(e, props.listIndex)}>x</button>
+            <button className="board-remove" onClick={(e) => props.removeCardList(e, props.list.id)}>x</button>
             <span className="card-list-title">{props.list.title}</span>
             {props.list.cards.map((card, cardIndex) => {
                 return <Card

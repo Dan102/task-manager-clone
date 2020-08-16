@@ -4,64 +4,41 @@ import AddCardList from "./AddCardList"
 import TopPanel from "./TopPanel";
 import CardDetail from "./CardDetail";
 
-function Board() {
+function Board(props) {
 
-    const [lists, setLists] = useState([
-        {
-            id: 0,
-            title: "now",
-            cards: [
-                {
-                    id: 0,
-                    title: "react",
-                    description: "Si vis pacem para belum si vic pacem para belum",
-                    deadline: new Date(),
-                    priority: 2
-                },
-                {
-                    id: 1,
-                    title: "angular",
-                    description: "Si vis pacem para belum si vic pacem para belum si vis pacem para belum vic pacem para",
-                    deadline: new Date(),
-                    priority: 1
-                },
-                {
-                    id: 4,
-                    title: "angular",
-                    description: "Si vis pacem para belum si vic pacem para belum si vis pacem para belum vic pacem para",
-                    deadline: new Date(),
-                    priority: 3
-                }
-            ]
-        },
-        {
-            id: 1,
-            title: "tomorrow",
-            cards: [
-                {
-                    id: 2,
-                    title: "bachelor",
-                    description: "Si vis pacem para belum si vic pacem para belum si vis pacem para belum vic pacem para",
-                    deadline: new Date(),
-                    priority: 1
-                },
-                {
-                    id: 3,
-                    title: "work",
-                    description: "Si vis pacem para belum si",
-                    deadline: new Date(2018,4,13),
-                    priority: 1
-                }
-            ]
-        }
-    ]);
-
-    const dragCard = useRef();
-    const dragNode = useRef();
-
+    const [lists, setLists] = useState([])
+    const [localListNextId, setLocalListNextId] = useState(0)
+    const [localCardNextId, setLocalCardNextId] = useState(0)
     const [clickedCard, setClickedCard] = useState({card: null, listIndex: null})
     const [detailLevel, setDetailLevel] = useState(1)
     const [sortOption, setSortOption] = useState("Own") 
+    const dragCard = useRef();
+    const dragNode = useRef();
+
+    useEffect(() => {
+        const currentBoardLists = JSON.parse(localStorage.getItem("board" + props.match.params.id))
+        const currentLocalListNextId = JSON.parse(localStorage.getItem("localListNextId" + props.match.params.id))
+        const currentLocalCardNextId = JSON.parse(localStorage.getItem("localCardNextId" + props.match.params.id))
+        console.log("Loading: ", lists, localListNextId, localCardNextId)
+        if (currentBoardLists && currentBoardLists != []) {
+            setLists(currentBoardLists)
+        }
+        if (currentLocalListNextId) {
+            setLocalListNextId(currentLocalListNextId)
+        }
+        if (currentLocalCardNextId) {
+            setLocalListNextId(currentLocalCardNextId)
+        }
+    }, []);
+
+    useEffect(() => {
+        if (lists != [] && lists != undefined) {
+            console.log("Saving: ", lists, localListNextId, localCardNextId)
+            localStorage.setItem("board" + props.match.params.id, JSON.stringify(lists))
+            localStorage.setItem("localListNextId" + props.match.params.id, JSON.stringify(localListNextId))
+            localStorage.setItem("localCardNextId" + props.match.params.id, JSON.stringify(localCardNextId))
+        }
+    }, [lists]);
 
     const handleDragStart = (e, listIndex, cardIndex) => {
         e.dataTransfer.effectAllowed = "copyMove";
@@ -98,9 +75,11 @@ function Board() {
 
     const addCardList = (title) => {
         setLists( oldLists => {
+                const currentLocalListNextId = localListNextId;
+                setLocalListNextId(localListNextId + 1)
                 return [ ...oldLists,
                 {
-                    id: 2,
+                    id: currentLocalListNextId,
                     title: title,
                     cards: [],
                 }];
@@ -111,10 +90,12 @@ function Board() {
     const addCard = (title, listIndex) => {
         setLists( oldLists => {
             let newLists = JSON.parse(JSON.stringify(oldLists));
+            const currentLocalCardNextId = localCardNextId;
+            setLocalCardNextId(localCardNextId + 1)
             newLists[listIndex].cards = [
                 ...newLists[listIndex].cards,
                 {
-                    id: 5,
+                    id: currentLocalCardNextId,
                     title: title,
                 }
             ]

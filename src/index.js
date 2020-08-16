@@ -10,7 +10,7 @@ ReactDOM.render(
   <React.StrictMode>
 		<BrowserRouter>
 			<Switch>
-				<Route path='/Board' component={Board} />
+				<Route path='/Board/:id' component={Board} />
 				<Route path='/' component={Dashboard} />
 			</Switch>
 		</BrowserRouter>
