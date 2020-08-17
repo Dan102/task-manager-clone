@@ -1,16 +1,16 @@
 import React from 'react'
 
-function AddCardList(props) {
+const AddCardList = ({addCardList}) => {
     
-    function handleAddCard(e) {
+    const handleAddCardList = (e) => {
         e.preventDefault();
         const title = e.target.elements.cardListTitle.value
-        props.addCardList(title);
+        addCardList(title);
     }
 
     return (
         <div className="dnd-list add-card-list">
-            <form onSubmit={handleAddCard}>
+            <form onSubmit={handleAddCardList}>
                 <textarea className="add-card-textarea" name="cardListTitle" placeholder="New list..."></textarea>
                 <button className="add-card-button">Add List</button>
             </form>

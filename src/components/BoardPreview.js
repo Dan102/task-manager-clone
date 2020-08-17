@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react'
 
-function BoardPreview(props) {
+const BoardPreview = ({board, removeBoard}) => {
 
     const handleRemoveClick = (e) => {
         e.preventDefault();
-        props.removeBoard(props.board.id)
+        removeBoard(board.id)
     }
 
     return (
-        <a href={"/board/" + props.board.id}  className="dnd-board-item">
+        <a href={"/board/" + board.id}  className="dnd-board-item">
             <button className="board-remove" onClick={handleRemoveClick}>X</button>
-            <div className="board-title">{props.board.title}</div>
+            <div className="board-title">{board.title}</div>
         </a>
     )
 }

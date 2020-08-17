@@ -7,27 +7,10 @@ function Dashboard() {
     const [boards, setBoards] = useState([])
     const [globalBoardNextId, setGlobalBoardNextId] = useState(0);
 
-    const removeBoard = (removeIndex) => {
-        setBoards((oldBoards) => {
-            return oldBoards.filter((board) => board.id != removeIndex)
-        })
-    }
-
-    const addBoard = (title) => {
-        setBoards((oldBoards) => {
-            const currentGlobalBoardNextId = globalBoardNextId;
-            setGlobalBoardNextId(globalBoardNextId + 1)
-            return [...oldBoards, {
-                id: currentGlobalBoardNextId,
-                title: title
-            }]
-        })
-    }
-
     useEffect(() => {
         const currentBoardPreviewList = JSON.parse(localStorage.getItem("boardPreviewList"))
         const currentGlobalBoardNextId = JSON.parse(localStorage.getItem("globalBoardNextId"))
-        console.log("Saving: ", currentBoardPreviewList, currentGlobalBoardNextId)
+        console.log("Loading: ", currentBoardPreviewList, currentGlobalBoardNextId)
         if (currentGlobalBoardNextId != undefined) {
             setGlobalBoardNextId(currentGlobalBoardNextId)
         }
@@ -43,6 +26,24 @@ function Dashboard() {
             localStorage.setItem("globalBoardNextId", JSON.stringify(globalBoardNextId))
         }
     }, [boards]);
+
+    const addBoard = (title) => {
+        setBoards((oldBoards) => {
+            const currentGlobalBoardNextId = globalBoardNextId;
+            setGlobalBoardNextId(globalBoardNextId + 1)
+            return [...oldBoards, {
+                id: currentGlobalBoardNextId,
+                title: title
+            }]
+        })
+    }
+
+    const removeBoard = (removeId) => {
+        setBoards((oldBoards) => {
+            return oldBoards.filter((board) => board.id != removeId)
+        })
+        localStorage.removeItem("board" + removeId)
+    }
 
     return (
         <div className="dnd-dashboard">

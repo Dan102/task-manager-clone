@@ -1,3 +1,28 @@
+$main-color: dodgerblue;
+$accent-color: #4E67C5;
+$background-color: lightgray;
+$light-color: white;
+$delete-button-color: #F1868C;
+
+@mixin flex-direction-align-justify($dir, $align, $justify) {
+  display: flex;
+  flex-direction: $dir;
+  align-items: $align;
+  justify-content: $justify;
+}
+@mixin flex-direction-align($dir, $align) {
+  display: flex;
+  flex-direction: $dir;
+  align-items: $align;
+}@mixin flex-direction-justify($dir, $justify) {
+  display: flex;
+  flex-direction: $dir;
+  justify-content: $justify;
+}@mixin flex-direction($dir) {
+  display: flex;
+  flex-direction: $dir;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -13,18 +38,16 @@ code {
 }
 
 .dnd-board {
-  display: flex;
-  flex-direction: row;
-  background-color: dodgerblue;
+  @include flex-direction(row);
+  background-color: $main-color;
   height: 100vh;
   overflow: auto;
   flex-grow: 1;
 }
 
 .dnd-list {
-  display: flex;
+  @include flex-direction(column);
   position: relative;
-  flex-direction: column;
   margin: 5px 20px;
   background-color: lightgrey;
   width: 220px;
@@ -34,42 +57,33 @@ code {
 }
 
 .dnd-card {
+  cursor: grab;
   margin: 5px 0px;
   width: 200px;
-  height: 90px;
-  background-color: white;
+  background-color: $light-color;
   border-radius: 2.5px;
-  padding: 7px 12px;
 }
 
 .dnd-card-big {
-  cursor: grabbing;
-  margin: 5px 0px;
-  width: 200px;
+  @extend .dnd-card;
   height: 90px;
-  background-color: white;
-  border-radius: 2.5px;
   padding: 7px 12px;
 }
 
 .dnd-card-small {
-  cursor: grabbing;
-  margin: 5px 0px;
-  width: 200px;
-  height: 50;
-  background-color: white;
-  border-radius: 2.5px;
+  @extend .dnd-card;
+  height: 50px;
   padding: 5px 12px;
 }
 
 textarea {
   resize: none;
   padding: 5px 10px;
-  background-color: white;
+  background-color: $light-color;
 }
 
 select {
-  background-color: white;
+  background-color: $light-color;
   width: 75px;
 }
 
@@ -77,12 +91,12 @@ button {
   cursor: pointer;
 }
 
-.add-card, .add-card-list, .add-card *, .add-card-list * {
+.add-card *, .add-card-list * {
   display: block;
 }
 
 .card-list-title {
-  color: #4E67C5;
+  color: $accent-color;
   font-size: 30px;
   text-transform: capitalize;
   font-weight: bold;
@@ -102,8 +116,8 @@ button {
 }
 
 .add-card-button {
-  background: #4E67C5;
-  color: white;
+  background: $accent-color;
+  color: $light-color;
   padding: 3px 12px;
   border: 0px;
   border-radius: 5px;
@@ -115,9 +129,7 @@ button {
 }
 
 .card-heading {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  @include flex-direction-align(row, center);
 }
 
 .card-deadline {
@@ -127,17 +139,16 @@ button {
 
 .card-priority {
   font-size: 10px;
-  background-color: #4E67C5;
-  color: white;
+  background-color: $accent-color;
+  color: $light-color;
   padding: 2px 5px;
   margin-left: 8px;
 }
 
 .top-panel {
-  display: flex;
-  background-color: dodgerblue;
-  color: white;
-  justify-content: end;
+  @include flex-direction-justify(row, end);
+  background-color: $main-color;
+  color: $light-color;
   font-size: 10px;
   padding: 5px 10px;
 }
@@ -166,7 +177,7 @@ button {
   width: 15px;
   height: 15px;
   border-radius: 50%; 
-  background: #4E67C5;;
+  background: $accent-color;
   cursor: pointer;
 }
 
@@ -174,19 +185,17 @@ button {
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background: #4E67C5;;
+  background: $accent-color;;
   cursor: pointer;
 }
 
 .option-section {
   /* margin: 5px 15px; */
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  @include flex-direction-align(row, center);
 }
 
 .option-section form {
-  display: flex;
+  @include flex-direction(row);
 }
 
 .top-panel-title {
@@ -215,9 +224,8 @@ html.darken-page #visible-content {
 }
 
 #visible-content {
+  @include flex-direction(column);
   height: 100%;
-  display: flex;
-  flex-direction: column;
 }
 
 #card-detail-background {
@@ -232,9 +240,7 @@ html.darken-page #visible-content {
 }
 
 .card-detail-inline {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  @include flex-direction-align(row, center);
   width: 100%;
 }
 
@@ -256,7 +262,7 @@ html.darken-page #visible-content {
 
 #card-detail button, #card-detail input[type="submit"] {
   padding: 5px 25px;
-  color: white;
+  color: $light-color;
   border-radius: 5px;
   width: auto;
   font-size: 12px;
@@ -264,20 +270,19 @@ html.darken-page #visible-content {
 }
 
 #card-detail {
-  display: flex;
-  flex-direction: column;
+  @include flex-direction(column);
   position: fixed;
   left: 50%;
   top: 30%;
   text-align: left;
   transform: translate(-50%, -30%);
   border-radius: 25px;
-  background-color: white;
+  background-color: $light-color;
   padding: 40px 60px;
 }
 
 .delete-button {
-  background-color: #F1868C;
+  background-color: $delete-button-color;
 }
 
 .cancel-button {
@@ -285,26 +290,21 @@ html.darken-page #visible-content {
 }
 
 #card-detail .save-button {  
-  background-color: #4E67C5;
+  background-color: $accent-color;
 }
 
 #card-detail-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  @include flex-direction-align(column, flex-start);
   margin: auto;
 }
 
 #card-detail textarea, #card-detail input {
-  background-color: lightgray;
+  background-color: $background-color;
 }
 
 .dnd-board-item {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
+  @include flex-direction-align-justify(column, center, center);
+  background-color: $light-color;
   width: 300px;
   height: 200px;
   text-align: center;
@@ -320,23 +320,21 @@ html.darken-page #visible-content {
   top: 10px;
   color: gray;
   font-size: 12px;;
-  color: white;
-  background: #F1868C;
+  color: $light-color;
+  background: $delete-button-color;
   padding: 3px 7px;
   border-radius: 5px;
 }
 
 .dnd-board-list {
-  display: flex;
-  background-color: dodgerblue;
+  @include flex-direction-justify(row, center);
+  background-color: $main-color;
   padding: 100px 20px 60px 20px;
   flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: center;
 }
 
 .board-title {
-  color: #4E67C5;
+  color: $accent-color;
   font-size: 40px;
   font-weight: bold;
 }
@@ -346,7 +344,7 @@ html, body, #root {
 }
 
 .dnd-dashboard {
-  background-color: dodgerblue;
+  background-color: $main-color;
   min-height: 100%;
   overflow: hidden;
 }
@@ -368,19 +366,19 @@ html, body, #root {
   height: 100px;
   border-radius: 3px;
   font-size: 30px;
-  color: #4E67C5;
+  color: $accent-color;
 }
 
 .add-board-button {
   padding: 5px 10px;
-  background-color: #4E67C5;
-  color: white;
+  background-color: $accent-color;
+  color: $light-color;
   margin-top: 7px;
   border-radius: 3px;
 }
 
 .dnd-board-item form {
-	background-color: white;
+	background-color: $light-color;
 	width: 250px;
 	height: 166px;
   padding-top: 15px;

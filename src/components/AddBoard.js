@@ -1,11 +1,11 @@
 import React from "react"
 
-function AddBoard(props) {
+const AddBoard = ({addBoard}) => {
 
-    function handleAddBoard(e) {
+    const handleAddBoard = (e) => {
         e.preventDefault();
         const title = e.target.elements.cardTitle.value;
-        props.addBoard(title);
+        addBoard(title);
     }
 
     return (        

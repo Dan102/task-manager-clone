@@ -15,7 +15,6 @@ function CardDetail(props) {
         }
         setNewTitle(() => {return props.card.card.title})
         setNewDescription(() => {return props.card.card.description})
-        console.log(new Date(props.card.card.deadline).toDateString())
         setNewDeadline(() => {return new Date(props.card.card.deadline)})
         setNewPriority(() => {return props.card.card.priority})
     }, [props]);
@@ -29,8 +28,7 @@ function CardDetail(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
         switchOffDetail(e)
-        console.log(e)
-        props.updateCard(e, props.card.listIndex, {
+        props.updateCard(props.card.listIndex, {
             id: props.card.card.id,
             title: newTitle,
             description: newDescription,
@@ -45,7 +43,7 @@ function CardDetail(props) {
                 <form className="card-detail-container" onSubmit={handleSubmit}>
                     <div className="card-detail-inline">
                         <span className="card-detail-title">title:</span>
-                        <button className="delete-button" onClick={(e) => props.removeCard(e, props.card.card.id, props.card.listIndex)}>remove</button>
+                        <button className="delete-button" onClick={(e) => props.removeCard(props.card.card.id, props.card.listIndex)}>remove</button>
                     </div>
                     <textarea name="title" value={newTitle} onChange={(e) => setNewTitle(e.target.value)}></textarea>
                     <div className="card-detail-title">description:</div>

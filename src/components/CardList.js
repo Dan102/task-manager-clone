@@ -3,21 +3,22 @@ import Card from "./Card"
 import AddCard from "./AddCard"
 
 
-const CardList = (props) => {
+const CardList = ({list, listIndex, detailLevel, showCardDetail, addCard, removeCardList, handleDragStart, handleDragEnter}) => {
+
     return (
         <div className="dnd-list">
-            <button className="board-remove" onClick={(e) => props.removeCardList(e, props.list.id)}>x</button>
-            <span className="card-list-title">{props.list.title}</span>
-            {props.list.cards.map((card, cardIndex) => {
+            <button className="board-remove" onClick={(e) => removeCardList(list.id)}>x</button>
+            <span className="card-list-title">{list.title}</span>
+            {list.cards.map((card, cardIndex) => {
                 return <Card
                           key={cardIndex}
-                          showCardDetail={props.showCardDetail}
-                          listIndex={props.listIndex} card={card} cardIndex={cardIndex} detailLevel={props.detailLevel}
-                          handleDragStart={props.handleDragStart} handleDragEnter={props.handleDragEnter}/>
+                          showCardDetail={showCardDetail}
+                          listIndex={listIndex} card={card} cardIndex={cardIndex} detailLevel={detailLevel}
+                          handleDragStart={handleDragStart} handleDragEnter={handleDragEnter}/>
             })}            
             <AddCard 
-                handleDragEnter={props.handleDragEnter} addCard={props.addCard}
-                listIndex={props.listIndex} listSize={props.list.length}/>
+                handleDragEnter={handleDragEnter} addCard={addCard}
+                listIndex={listIndex} listSize={list.length}/>
         </div>
     );
 }

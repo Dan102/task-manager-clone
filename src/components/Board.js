@@ -4,7 +4,7 @@ import AddCardList from "./AddCardList"
 import TopPanel from "./TopPanel";
 import CardDetail from "./CardDetail";
 
-function Board(props) {
+const Board = (props) => {
 
     const [lists, setLists] = useState([])
     const [localListNextId, setLocalListNextId] = useState(0)
@@ -13,26 +13,28 @@ function Board(props) {
     const [detailLevel, setDetailLevel] = useState(1)
     const [sortOption, setSortOption] = useState("Own") 
     const dragCard = useRef();
-    const dragNode = useRef();
 
     useEffect(() => {
         const currentBoardLists = JSON.parse(localStorage.getItem("board" + props.match.params.id))
         const currentLocalListNextId = JSON.parse(localStorage.getItem("localListNextId" + props.match.params.id))
         const currentLocalCardNextId = JSON.parse(localStorage.getItem("localCardNextId" + props.match.params.id))
-        console.log("Loading: ", lists, localListNextId, localCardNextId)
-        if (currentBoardLists && currentBoardLists != []) {
+        console.log("Loading: ", currentBoardLists, currentLocalListNextId, currentLocalCardNextId)
+        if (currentBoardLists && currentBoardLists.length != 0) {
             setLists(currentBoardLists)
+            console.log("loaded list: ", lists, localListNextId, localCardNextId)
         }
         if (currentLocalListNextId) {
             setLocalListNextId(currentLocalListNextId)
+            console.log("loaded list id: ", lists, localListNextId, localCardNextId)
         }
         if (currentLocalCardNextId) {
-            setLocalListNextId(currentLocalCardNextId)
+            setLocalCardNextId(currentLocalCardNextId)
+            console.log("loaded card id: ", lists, localListNextId, localCardNextId)
         }
     }, []);
 
     useEffect(() => {
-        if (lists != [] && lists != undefined) {
+        if (lists != undefined && lists.length != 0) {
             console.log("Saving: ", lists, localListNextId, localCardNextId)
             localStorage.setItem("board" + props.match.params.id, JSON.stringify(lists))
             localStorage.setItem("localListNextId" + props.match.params.id, JSON.stringify(localListNextId))
@@ -41,8 +43,6 @@ function Board(props) {
     }, [lists]);
 
     const handleDragStart = (e, listIndex, cardIndex) => {
-        e.dataTransfer.effectAllowed = "copyMove";
-        dragNode.current = e.target;
         dragCard.current = {listIndex, cardIndex};
         setSortOption("Own")
     }
@@ -52,8 +52,7 @@ function Board(props) {
         const currentCard = dragCard.current;
         const targetClassName = e.target.className;
         if (targetClassName != "dnd-card-small" && targetClassName != "dnd-card-big" && targetClassName != "add-card" &&
-            e.target.parentNode.className != "add-card" && e.target.parentNode.parentNode.className != "add-card" &&
-            currentCard.id != e.target.id) {
+            e.target.parentNode.className != "add-card" && e.target.parentNode.parentNode.className != "add-card") {
             return
         }
         setLists( oldLists => {
@@ -63,14 +62,34 @@ function Board(props) {
             if (targetClassName == "dnd-card-small" || targetClassName == "dnd-card-big") {
                 newLists[targetListIndex].cards.splice(targetCardIndex, 0, removedCard);
                 dragCard.current = {'listIndex' : targetListIndex, 'cardIndex' : targetCardIndex}
-                // dragNode.current = e.target;
             } else {
                 newLists[targetListIndex].cards.push(removedCard);
                 dragCard.current = {'listIndex' : targetListIndex, 'cardIndex' : newLists[targetListIndex].cards.length - 1}
-                // dragNode.current = e.target;
             }
             return newLists;
         })
+    }
+
+    const showCardDetail = (listIndex, cardIndex) => {
+        setClickedCard(() => {
+            return {card: lists[listIndex].cards[cardIndex], listIndex: listIndex};
+        })
+    }
+
+    const addCard = (title, listIndex) => {        
+        const currentLocalCardNextId = localCardNextId;
+        setLists( oldLists => {
+            let newLists = JSON.parse(JSON.stringify(oldLists));
+            newLists[listIndex].cards = [
+                ...newLists[listIndex].cards,
+                {
+                    id: currentLocalCardNextId,
+                    title: title,
+                }
+            ]
+            return newLists
+        })
+        setLocalCardNextId(localCardNextId + 1)
     }
 
     const addCardList = (title) => {
@@ -87,29 +106,7 @@ function Board(props) {
         )
     }
 
-    const addCard = (title, listIndex) => {
-        setLists( oldLists => {
-            let newLists = JSON.parse(JSON.stringify(oldLists));
-            const currentLocalCardNextId = localCardNextId;
-            setLocalCardNextId(localCardNextId + 1)
-            newLists[listIndex].cards = [
-                ...newLists[listIndex].cards,
-                {
-                    id: currentLocalCardNextId,
-                    title: title,
-                }
-            ]
-            return newLists
-        })
-    }
-
-    const showCardDetail = (listIndex, cardIndex) => {
-        setClickedCard(() => {
-            return {card: lists[listIndex].cards[cardIndex], listIndex: listIndex};
-        })
-    }
-
-    const removeCard = (e, cardIndex, listIndex) => {
+    const removeCard = (cardIndex, listIndex) => {
         setLists((oldLists) => {
             let newLists = JSON.parse(JSON.stringify(oldLists));
             newLists[listIndex].cards = newLists[listIndex].cards.filter(card => card.id != cardIndex);
@@ -117,18 +114,19 @@ function Board(props) {
         })
     }
 
-    const removeCardList = (e, listIndex) => {
+    const removeCardList = (listIndex) => {
         setLists((oldLists) => {
             return oldLists.filter(list => list.id != listIndex);
         })
     }
 
-    const updateCard = (e, listIndex, newCard) => {
+    const updateCard = (listIndex, newCard) => {
         setLists((oldLists) => {
+            console.log(newCard)
             let newLists = JSON.parse(JSON.stringify(oldLists));
-            const targetCardId = newLists[listIndex].cards.map(x => x.id).indexOf(newCard.id)
-            console.log(targetCardId, newCard)            
+            const targetCardId = newLists[listIndex].cards.map(x => x.id).indexOf(newCard.id)    
             newLists[listIndex].cards[targetCardId] = newCard;
+            console.log(newLists, targetCardId)
             return newLists;
         })
     }
@@ -149,7 +147,6 @@ function Board(props) {
     }
 
     const sortLists = (newSortOption) => {
-        console.log(newSortOption)
         setLists ((oldLists) => {
             let newLists = JSON.parse(JSON.stringify(oldLists));
             newLists.forEach(list => {
@@ -162,10 +159,6 @@ function Board(props) {
             return newLists
         })
     }
-
-    // const setDetail = (newdetail) => {
-    //     detail = newdetail;
-    // }
 
     return (
         <>

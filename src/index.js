@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
-import './index.css';
+import './index.scss';
 import Board from './components/Board';
 import Dashboard from './components/Dashboard';
 
