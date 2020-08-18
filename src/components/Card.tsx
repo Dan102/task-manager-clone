@@ -1,11 +1,28 @@
 import React, {useState, useRef} from "react"
 import Moment from 'moment'
+import ICard from "../models/ICard"
 
-const Card = ({card, listIndex, cardIndex, detailLevel, showCardDetail, handleDragStart, handleDragEnter}) => {
+interface ICardProps {
+    card: ICard;
+    listIndex: number;
+    cardIndex: number;
+    detailLevel: number;
+    showCardDetail: (listIndex: number, cardIndex: number) => void;
+    handleDragStart: (e: React.DragEvent<HTMLDivElement>, listIndex: number, cardIndex: number) => void;
+    handleDragEnter: (e: React.DragEvent<HTMLDivElement>, targetListIndex: number, targetCardIndex: number) => void;
+}
 
-    const handleCardClicked = (e) => {
-        document.querySelector("html").classList.add("darken-page");
-        document.getElementById("card-detail-background").style.display = "block";
+const Card = ({card, listIndex, cardIndex, detailLevel, showCardDetail, handleDragStart, handleDragEnter}: ICardProps) => {
+
+    const handleCardClicked = (e: React.DragEvent<HTMLDivElement>) => {
+        const htmlElement = document.querySelector("html")
+        if (htmlElement) {
+            htmlElement.classList.add("darken-page");
+        }
+        const cardDetailBackground = document.getElementById("card-detail-background");
+        if (cardDetailBackground) {
+            cardDetailBackground.style.display = "block";
+        }
         showCardDetail(listIndex, cardIndex)
     }
 

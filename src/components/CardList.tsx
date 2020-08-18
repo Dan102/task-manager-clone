@@ -1,9 +1,20 @@
 import React, {useState} from "react"
 import Card from "./Card"
 import AddCard from "./AddCard"
+import IList from "../models/IList";
 
+interface ICardListProps {
+    list: IList;
+    listIndex: number;
+    detailLevel: number;
+    showCardDetail: (listIndex: number, cardIndex: number) => void;
+    addCard: (title: string, listIndex: number) => void;
+    removeCardList: (listId: number) => void;
+    handleDragStart: (e: React.DragEvent<HTMLDivElement>, listIndex: number, cardIndex: number) => void;
+    handleDragEnter: (e: React.DragEvent<HTMLDivElement>, targetListIndex: number, targetCardIndex: number) => void;
+}
 
-const CardList = ({list, listIndex, detailLevel, showCardDetail, addCard, removeCardList, handleDragStart, handleDragEnter}) => {
+const CardList = ({list, listIndex, detailLevel, showCardDetail, addCard, removeCardList, handleDragStart, handleDragEnter}: ICardListProps) => {
 
     return (
         <div className="dnd-list">
@@ -18,7 +29,7 @@ const CardList = ({list, listIndex, detailLevel, showCardDetail, addCard, remove
             })}            
             <AddCard 
                 handleDragEnter={handleDragEnter} addCard={addCard}
-                listIndex={listIndex} listSize={list.length}/>
+                listIndex={listIndex} listSize={list.cards.length}/>
         </div>
     );
 }

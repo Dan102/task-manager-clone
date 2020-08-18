@@ -3,31 +3,46 @@ import CardList from "./CardList"
 import AddCardList from "./AddCardList"
 import TopPanel from "./TopPanel";
 import CardDetail from "./CardDetail";
+import { RouteComponentProps } from "react-router-dom";
+import IList from "../models/IList";
+import IClickedInfo from "../models/IClickedInfo";
+import ICard from "../models/ICard";
 
-const Board = (props) => {
 
-    const [lists, setLists] = useState([])
-    const [localListNextId, setLocalListNextId] = useState(0)
-    const [localCardNextId, setLocalCardNextId] = useState(0)
-    const [clickedCard, setClickedCard] = useState({card: null, listIndex: null})
-    const [detailLevel, setDetailLevel] = useState(1)
-    const [sortOption, setSortOption] = useState("Own") 
-    const dragCard = useRef();
+interface MatchParams {
+    id?: string | undefined;
+}
+
+export enum SortOptions {
+    Own,
+    Priority,
+    Deadline
+}
+
+const Board = (props:  RouteComponentProps<MatchParams>) => {
+
+    const [lists, setLists] = useState<IList[]>([])
+    const [localListNextId, setLocalListNextId] = useState<number>(0)
+    const [localCardNextId, setLocalCardNextId] = useState<number>(0)
+    const [clickedInfo, setClickedInfo] = useState<IClickedInfo>()
+    const [detailLevel, setDetailLevel] = useState<number>(1)
+    const [sortOption, setSortOption] = useState<SortOptions>(SortOptions.Own) 
+    const dragCard = useRef<{listIndex: number; cardIndex: number;}>();
 
     useEffect(() => {
-        const currentBoardLists = JSON.parse(localStorage.getItem("board" + props.match.params.id))
-        const currentLocalListNextId = JSON.parse(localStorage.getItem("localListNextId" + props.match.params.id))
-        const currentLocalCardNextId = JSON.parse(localStorage.getItem("localCardNextId" + props.match.params.id))
+        const currentBoardLists = JSON.parse(localStorage.getItem("board" + props.match.params.id) ?? "[]")
+        const currentLocalListNextId = JSON.parse(localStorage.getItem("localListNextId" + props.match.params.id) ?? "0")
+        const currentLocalCardNextId = JSON.parse(localStorage.getItem("localCardNextId" + props.match.params.id) ?? "0")
         console.log("Loading: ", currentBoardLists, currentLocalListNextId, currentLocalCardNextId)
         if (currentBoardLists && currentBoardLists.length != 0) {
             setLists(currentBoardLists)
             console.log("loaded list: ", lists, localListNextId, localCardNextId)
         }
-        if (currentLocalListNextId) {
+        if (currentLocalListNextId != 0) {
             setLocalListNextId(currentLocalListNextId)
             console.log("loaded list id: ", lists, localListNextId, localCardNextId)
         }
-        if (currentLocalCardNextId) {
+        if (currentLocalCardNextId != 0) {
             setLocalCardNextId(currentLocalCardNextId)
             console.log("loaded card id: ", lists, localListNextId, localCardNextId)
         }
@@ -42,19 +57,23 @@ const Board = (props) => {
         }
     }, [lists]);
 
-    const handleDragStart = (e, listIndex, cardIndex) => {
+    const handleDragStart = (e: React.DragEvent<HTMLDivElement>, listIndex: number, cardIndex: number) => {
         dragCard.current = {listIndex, cardIndex};
-        setSortOption("Own")
+        if (sortOption != SortOptions.Own) {
+            setSortOption(SortOptions.Own)
+        }
     }
 
-    const handleDragEnter = (e, targetListIndex, targetCardIndex) => {
+    const handleDragEnter = (e: React.DragEvent<HTMLDivElement>, targetListIndex: number, targetCardIndex: number) => {
         e.dataTransfer.dropEffect = "copy";
         const currentCard = dragCard.current;
-        const targetClassName = e.target.className;
+        const targetClassName = (e.target as HTMLHtmlElement).className;
         if (targetClassName != "dnd-card-small" && targetClassName != "dnd-card-big" && targetClassName != "add-card" &&
-            e.target.parentNode.className != "add-card" && e.target.parentNode.parentNode.className != "add-card") {
-            return
+            ((e.target as HTMLHtmlElement).parentNode as HTMLHtmlElement).className != "add-card" &&
+            (((e.target as HTMLHtmlElement).parentNode as HTMLHtmlElement).parentNode as HTMLHtmlElement).className != "add-card") {
+            return;
         }
+        if (currentCard == undefined) {return; }
         setLists( oldLists => {
             let newLists = JSON.parse(JSON.stringify(oldLists));
             const removedCard = newLists[currentCard.listIndex].cards[currentCard.cardIndex];
@@ -70,13 +89,13 @@ const Board = (props) => {
         })
     }
 
-    const showCardDetail = (listIndex, cardIndex) => {
-        setClickedCard(() => {
+    const showCardDetail = (listIndex: number, cardIndex: number) => {
+        setClickedInfo(() => {
             return {card: lists[listIndex].cards[cardIndex], listIndex: listIndex};
         })
     }
 
-    const addCard = (title, listIndex) => {        
+    const addCard = (title: string, listIndex: number) => {        
         const currentLocalCardNextId = localCardNextId;
         setLists( oldLists => {
             let newLists = JSON.parse(JSON.stringify(oldLists));
@@ -90,10 +109,13 @@ const Board = (props) => {
             return newLists
         })
         setLocalCardNextId(localCardNextId + 1)
+        if (sortOption != SortOptions.Own) {
+            setSortOption(SortOptions.Own)
+        }
     }
 
-    const addCardList = (title) => {
-        setLists( oldLists => {
+    const addCardList = (title: string) => {
+        setLists(oldLists => {
                 const currentLocalListNextId = localListNextId;
                 setLocalListNextId(localListNextId + 1)
                 return [ ...oldLists,
@@ -106,55 +128,56 @@ const Board = (props) => {
         )
     }
 
-    const removeCard = (cardIndex, listIndex) => {
+    const removeCard = (cardId: number, listIndex: number) => {
         setLists((oldLists) => {
-            let newLists = JSON.parse(JSON.stringify(oldLists));
-            newLists[listIndex].cards = newLists[listIndex].cards.filter(card => card.id != cardIndex);
+            let newLists: IList[] = JSON.parse(JSON.stringify(oldLists));
+            newLists[listIndex].cards = newLists[listIndex].cards.filter(card => card.id != cardId);
             return newLists;
         })
     }
 
-    const removeCardList = (listIndex) => {
+    const removeCardList = (listId: number) => {
         setLists((oldLists) => {
-            return oldLists.filter(list => list.id != listIndex);
+            return oldLists.filter(list => list.id != listId);
         })
     }
 
-    const updateCard = (listIndex, newCard) => {
+    const updateCard = (listIndex: number, newCard: ICard) => {
         setLists((oldLists) => {
-            console.log(newCard)
-            let newLists = JSON.parse(JSON.stringify(oldLists));
+            console.log("Updating card to: ", newCard)
+            let newLists: IList[] = JSON.parse(JSON.stringify(oldLists));
             const targetCardId = newLists[listIndex].cards.map(x => x.id).indexOf(newCard.id)    
             newLists[listIndex].cards[targetCardId] = newCard;
-            console.log(newLists, targetCardId)
             return newLists;
         })
+        if (sortOption != SortOptions.Own) {
+            setSortOption(SortOptions.Own)
+        }
     }
 
-    const changeSortOption = (newSortOption) => {
+    const changeSortOption = (newSortOption: SortOptions) => {
         setSortOption(newSortOption)
-        const newSortOptionLowerCase = newSortOption.toLowerCase()
-        switch (newSortOption) {
-            case "Own":
+        switch (+newSortOption) {
+            case SortOptions.Own:
                 break;
-            case "Deadline":
-                sortLists(newSortOptionLowerCase)  
+            case SortOptions.Deadline:
+                sortLists((a, b) => {
+                    return new Date(a.deadline).getTime() - new Date(b.deadline).getTime()
+                })  
                 break;
-            case "Priority":
-                sortLists(newSortOptionLowerCase)          
+            case SortOptions.Priority:
+                sortLists((a, b) => {
+                    return a.priority - b.priority
+                })          
                 break;
         }
     }
 
-    const sortLists = (newSortOption) => {
+    const sortLists = (compFunc: (a: any, b: any) => number) => {
         setLists ((oldLists) => {
-            let newLists = JSON.parse(JSON.stringify(oldLists));
+            let newLists: IList[] = JSON.parse(JSON.stringify(oldLists));
             newLists.forEach(list => {
-                list.cards.sort(
-                    (a, b) => {
-                        return new Date(a[newSortOption]) - new Date(b[newSortOption])
-                    }
-                )
+                list.cards.sort(compFunc);
             })
             return newLists
         })
@@ -162,17 +185,17 @@ const Board = (props) => {
 
     return (
         <>
-            <CardDetail card={clickedCard} removeCard={removeCard} updateCard={updateCard}/>
+            <CardDetail clickedInfo={clickedInfo} removeCard={removeCard} updateCard={updateCard}/>
             <div id="visible-content">
                 <TopPanel
                     detailLevel={detailLevel} setDetailLevel={setDetailLevel}
-                    sortOption={sortOption} setSortOption={changeSortOption}/>
+                    sortOption={sortOption} changeSortOption={changeSortOption}/>
                 <div className="dnd-board">
                     {lists.map((list, listIndex) => (
                         <CardList
                             key={listIndex}
                             addCard={addCard} showCardDetail={showCardDetail} removeCardList={removeCardList}
-                            list={list} listIndex={listIndex} detailLevel={detailLevel} sortOption={sortOption}
+                            list={list} listIndex={listIndex} detailLevel={detailLevel}
                             handleDragStart={handleDragStart} handleDragEnter={handleDragEnter}/>
                     ))}
                     <AddCardList addCardList={addCardList}/>
