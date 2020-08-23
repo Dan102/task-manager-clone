@@ -1,19 +1,20 @@
 import React, {useState, FormEvent} from "react"
 
 interface IAddCardProps {
+    listId: number;
     listIndex: number;
     listSize: number;
     addCard: (title: string, listIndex: number) => void;
     handleDragEnter: (e: React.DragEvent<HTMLDivElement>, targetListIndex: number, targetCardIndex: number) => void;
 }
 
-const AddCard = ({listIndex, listSize, addCard, handleDragEnter}: IAddCardProps) => {
+const AddCard = ({listId, listIndex, listSize, addCard, handleDragEnter}: IAddCardProps) => {
 
     const [newCardTitle, setNewCardTitle] = useState<string>("")
 
     const handleAddCard = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        addCard(newCardTitle, listIndex);
+        addCard(newCardTitle, listId);
     }
 
     return (

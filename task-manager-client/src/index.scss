@@ -146,7 +146,7 @@ button {
 }
 
 .top-panel {
-  @include flex-direction-justify(row, end);
+  @include flex-direction-justify(row, flex-end);
   background-color: $main-color;
   color: $light-color;
   font-size: 10px;

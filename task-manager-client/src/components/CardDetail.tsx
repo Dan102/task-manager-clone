@@ -6,7 +6,7 @@ import ICard from "../models/ICard";
 interface ICardDetailProps {
     clickedInfo: IClickedInfo | undefined;
     removeCard: (cardId: number, listIndex: number) => void;
-    updateCard: (listIndex: number, newCard: ICard) => void;
+    updateCard: (card: ICard) => void;
 }
 
 function CardDetail({clickedInfo, removeCard, updateCard}: ICardDetailProps) {
@@ -17,7 +17,7 @@ function CardDetail({clickedInfo, removeCard, updateCard}: ICardDetailProps) {
     const [newPriority, setNewPriority] = useState<number>(1)
 
     useEffect(() => {
-        if (clickedInfo == undefined) {
+        if (clickedInfo === undefined) {
             return;
         }
         setNewTitle(() => {return clickedInfo.card.title})
@@ -38,10 +38,10 @@ function CardDetail({clickedInfo, removeCard, updateCard}: ICardDetailProps) {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         switchOffDetail(e)
-        if (clickedInfo == undefined) {
+        if (clickedInfo === undefined) {
             return;
         }
-        updateCard(clickedInfo.listIndex, {
+        updateCard({
             id: clickedInfo.card.id,
             title: newTitle,
             description: newDescription,
@@ -50,11 +50,13 @@ function CardDetail({clickedInfo, removeCard, updateCard}: ICardDetailProps) {
         })        
     }
 
-    const handleDelete = () => {
-        if (clickedInfo == undefined) {
+    const handleDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+        if (clickedInfo === undefined) {
             return;
         }
         removeCard(clickedInfo.card.id, clickedInfo.listIndex);
+        switchOffDetail(e);
     }
 
     return (
@@ -63,7 +65,7 @@ function CardDetail({clickedInfo, removeCard, updateCard}: ICardDetailProps) {
                 <form className="card-detail-container" onSubmit={e => handleSubmit(e)}>
                     <div className="card-detail-inline">
                         <span className="card-detail-title">title:</span>
-                        <button className="delete-button" onClick={(e) => handleDelete()}>remove</button>
+                        <button className="delete-button" onClick={(e) => handleDelete(e)}>remove</button>
                     </div>
                     <textarea name="title" value={newTitle} onChange={(e) => setNewTitle(e.target.value)}></textarea>
                     <div className="card-detail-title">description:</div>

@@ -1,9 +1,9 @@
 import ICard from "./ICard";
 
-interface IList {
+interface ICardList {
     id: number;
     title: string;
     cards: ICard[];
 }
 
-export default IList;
+export default ICardList;

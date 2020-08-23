@@ -1,4 +1,4 @@
-import React, {useState, useRef} from "react"
+import React from "react"
 import Moment from 'moment'
 import ICard from "../models/ICard"
 
@@ -36,7 +36,7 @@ const Card = ({card, listIndex, cardIndex, detailLevel, showCardDetail, handleDr
             className={detailLevel <= 2 ? "dnd-card-big" : "dnd-card-small"}>
             <div className="card-heading">
                 <div className="card-title">{card.title}</div>
-                {detailLevel == 1 &&
+                {detailLevel === 1 &&
                     <>
                         <div className="card-deadline">{Moment(card.deadline).format('DD.M')}</div>
                         <div className="card-priority">{card.priority}</div>

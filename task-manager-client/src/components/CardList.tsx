@@ -1,10 +1,10 @@
-import React, {useState} from "react"
+import React from "react"
 import Card from "./Card"
 import AddCard from "./AddCard"
-import IList from "../models/IList";
+import ICardList from "../models/ICardList";
 
 interface ICardListProps {
-    list: IList;
+    list: ICardList;
     listIndex: number;
     detailLevel: number;
     showCardDetail: (listIndex: number, cardIndex: number) => void;
@@ -29,7 +29,7 @@ const CardList = ({list, listIndex, detailLevel, showCardDetail, addCard, remove
             })}            
             <AddCard 
                 handleDragEnter={handleDragEnter} addCard={addCard}
-                listIndex={listIndex} listSize={list.cards.length}/>
+                listId={list.id} listIndex={listIndex} listSize={list.cards.length}/>
         </div>
     );
 }
