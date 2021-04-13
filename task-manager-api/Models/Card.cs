@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace task_manager_api.Model
+namespace task_manager_api.Models
 {
     public class Card
     {
@@ -15,6 +15,7 @@ namespace task_manager_api.Model
         [MaxLength(60)]
         public string Description { get; set; }
 
+        // TODO: change to enum
         public int Priority { get; set; }
 
         public DateTime Deadline { get; set; }

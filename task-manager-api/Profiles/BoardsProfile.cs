@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using task_manager_api.Dtos;
-using task_manager_api.Model;
+using task_manager_api.Models;
 
 namespace task_manager_api.Profiles
 {
@@ -19,6 +19,7 @@ namespace task_manager_api.Profiles
             CreateMap<Card, Card>().ForMember(d => d.Id, opt => opt.Ignore());
             CreateMap<CardUpdateDto, Card>().ForMember(d => d.Id, opt => opt.Ignore());
             CreateMap<CardList, CardListReadDto>();
+            CreateMap<User, UserLoggedDto>();
         }
     }
 }

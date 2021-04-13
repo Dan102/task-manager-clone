@@ -23,6 +23,11 @@ $delete-button-color: #F1868C;
   flex-direction: $dir;
 }
 
+h1 {
+  font-size: 25px;
+  font-weight: bold;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -390,4 +395,54 @@ html, body, #root {
   font-size: 19px;
   width: 200px;
   height: 45px;
+}
+
+.login-page {
+  @include flex-direction-align-justify(column, center, center);
+  background-color: $main-color;
+  min-height: 100%;
+}
+
+.login-container {
+  @include flex-direction-align(column, center);
+  margin-bottom: 10%;
+  
+  h1 {
+    font-size: 30px;
+    color: $light-color;
+    margin-bottom: 5px;
+  }
+
+  button {
+    padding: 5px 20px;
+    background-color: darken($accent-color, 10);
+    color: $light-color;
+    border-radius: 5px;
+    align-self: flex-start;
+    margin-top: 15px;
+  }
+
+  span {
+    flex-basis: 0;
+  }
+}
+
+.login-page-area {
+  font-size: 18px;
+  @include flex-direction-align(column, flex-start);
+  margin-top: 15px;
+
+  span {
+    color: $light-color;
+    margin-bottom: 5px;
+  }
+
+  input {
+    background-color: $light-color;  
+    padding: 5px;
+  }
+}
+
+.status-text-failure {
+  color: darken($delete-button-color, 20);
 }

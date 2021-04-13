@@ -3,6 +3,7 @@ import BoardPreview from './BoardPreview'
 import AddBoard from './AddBoard'
 import IBoardPreview from '../models/IBoardPreview';
 import { APP_SETTINGS } from '../app-settings';
+import axios from 'axios';
 
 function Dashboard() {
 
@@ -14,16 +15,11 @@ function Dashboard() {
     }, []);
 
     const fetchBoardPreviews = () => {
-        fetch(APP_SETTINGS.boardsUrl, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }).then(response => response.json())
-        .then(response => {
-            console.log(response)
-            setBoardPreviews(response)
-        })
+        axios.get<IBoardPreview[]>(APP_SETTINGS.boardsUrl)
+            .then(response => {
+                console.log(response.data)
+                setBoardPreviews(response.data)
+            })
     }
 
     const addBoard = (title: string) => {

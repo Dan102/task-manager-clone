@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using task_manager_api.Dtos;
-using task_manager_api.Model;
+using task_manager_api.Helpers;
+using task_manager_api.Models;
 using task_manager_api.Repository;
 
 namespace task_manager_api.Controllers
 {
-    [Route("api/boards")]
+    [Route("api/[controller]")]
     [ApiController]
     public class BoardsController : ControllerBase
     {
@@ -21,12 +22,14 @@ namespace task_manager_api.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult<IList<Board>> GetBoardPreviews() {
             var boards = boardRepository.GetBoards();
             return Ok(mapper.Map<IList<BoardPreviewReadDto>>(boards));
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public ActionResult<Board> GetBoard(int id) {
             var board = boardRepository.GetBoard(id);
             if (board == null)
@@ -37,6 +40,7 @@ namespace task_manager_api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult CreateBoard([FromBody]string title)
         {
             var success = boardRepository.CreateBoard(title);
@@ -48,6 +52,7 @@ namespace task_manager_api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public ActionResult DeleteBoard(int id)
         {
             var success = boardRepository.DeleteBoard(id);

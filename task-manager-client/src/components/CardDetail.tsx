@@ -10,7 +10,7 @@ interface ICardDetailProps {
 }
 
 function CardDetail({clickedInfo, removeCard, updateCard}: ICardDetailProps) {
-    
+
     const [newTitle, setNewTitle] = useState<string>("")
     const [newDescription, setNewDescription] = useState<string>("")
     const [newDeadline, setNewDeadline] = useState<Date>(new Date())
@@ -47,7 +47,7 @@ function CardDetail({clickedInfo, removeCard, updateCard}: ICardDetailProps) {
             description: newDescription,
             deadline: newDeadline,
             priority: newPriority
-        })        
+        })
     }
 
     const handleDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

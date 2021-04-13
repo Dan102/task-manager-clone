@@ -5,11 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using task_manager_api.Dtos;
+using task_manager_api.Helpers;
 using task_manager_api.Repository;
 
 namespace task_manager_api.Controllers
 {
-    [Route("api/cardlists")]
+    [Route("api/[controller]")]
     [ApiController]
     public class CardListController : ControllerBase
     {
@@ -20,6 +21,7 @@ namespace task_manager_api.Controllers
             this.cardListRepository = cardListRepository;
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult CreateCardList([FromBody]CardListCreateDto card)
         {
@@ -31,6 +33,7 @@ namespace task_manager_api.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public ActionResult DeleteCardList(int id)
         {

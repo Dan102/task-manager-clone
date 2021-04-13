@@ -33,17 +33,17 @@ const Card = ({card, listIndex, cardIndex, detailLevel, showCardDetail, handleDr
             onDragStart = {(e) => handleDragStart(e, listIndex, cardIndex)}
             onDragEnter = {(e) => handleDragEnter(e, listIndex, cardIndex)}
             onDragOver = {(e) => e.preventDefault()}
-            className={detailLevel <= 2 ? "dnd-card-big" : "dnd-card-small"}>
+            className={detailLevel >= 2 ? "dnd-card-big" : "dnd-card-small"}>
             <div className="card-heading">
                 <div className="card-title">{card.title}</div>
-                {detailLevel === 1 &&
+                {detailLevel === 3 &&
                     <>
                         <div className="card-deadline">{Moment(card.deadline).format('DD.M')}</div>
                         <div className="card-priority">{card.priority}</div>
                     </>
                 }
             </div>
-            {detailLevel <= 2 &&
+            {detailLevel >= 2 &&
                 <div className="card-description">{card.description}</div>
             }
         </div>

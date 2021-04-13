@@ -13,7 +13,7 @@ const AddBoard = ({addBoard}: IAddBoardProps) => {
         addBoard(newBoardTitle);
     }
 
-    return (        
+    return (
         <div className="dnd-board-item" style={{background: "transparent"}}>
             <form onSubmit={e => handleAddBoard(e)}>
                 <textarea className="add-board-textarea" name="cardTitle" placeholder="New board..."

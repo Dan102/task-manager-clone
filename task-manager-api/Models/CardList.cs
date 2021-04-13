@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace task_manager_api.Model
+namespace task_manager_api.Models
 {
     public class CardList
     {

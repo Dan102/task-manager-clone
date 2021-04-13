@@ -13,7 +13,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using task_manager_api.Data;
+using task_manager_api.Helpers;
 using task_manager_api.Repository;
+using task_manager_api.Services;
+using task_manager_api.Services.Interfaces;
 
 namespace task_manager_api
 {
@@ -45,6 +48,8 @@ namespace task_manager_api
             services.AddScoped<IBoardRepository, BoardRepository>();
             services.AddScoped<ICardListRepository, CardListRepository>();
             services.AddScoped<ICardRepository, CardRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,7 +66,7 @@ namespace task_manager_api
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseMiddleware<JwtMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

@@ -5,12 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using task_manager_api.Dtos;
-using task_manager_api.Model;
+using task_manager_api.Helpers;
+using task_manager_api.Models;
 using task_manager_api.Repository;
 
 namespace task_manager_api.Controllers
 {
-    [Route("api/cards")]
+    [Route("api/[controller]")]
     [ApiController]
     public class CardController : ControllerBase
     {
@@ -23,6 +24,7 @@ namespace task_manager_api.Controllers
             this.mapper = mapper;
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult CreateCard([FromBody]CardCreateDto card)
         {
@@ -34,6 +36,7 @@ namespace task_manager_api.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public ActionResult UpdateCard(int id, [FromBody]CardUpdateDto card)
         {
@@ -45,6 +48,7 @@ namespace task_manager_api.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public ActionResult DeleteCard(int id)
         {

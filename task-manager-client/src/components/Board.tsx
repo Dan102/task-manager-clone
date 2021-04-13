@@ -1,13 +1,14 @@
-import React, {useState, useRef, useEffect} from "react";
+import React, {useState, useRef, useEffect, useContext} from "react";
 import CardList from "./CardList"
 import AddCardList from "./AddCardList"
 import TopPanel from "./TopPanel";
 import CardDetail from "./CardDetail";
-import { RouteComponentProps } from "react-router-dom";
 import ICardList from "../models/ICardList";
 import IClickedInfo from "../models/IClickedInfo";
 import ICard from "../models/ICard";
 import { APP_SETTINGS } from "../app-settings";
+import { useParams } from "react-router";
+import { AuthContext } from "../contexts/AuthContext";
 
 
 interface MatchParams {
@@ -20,24 +21,31 @@ export enum SortOptions {
     Deadline
 }
 
-const Board = (props:  RouteComponentProps<MatchParams>) => {
+export enum DisplayOptions {
+    Graphical,
+    Text,
+}
 
+const Board = () => {
+    const currentBoardId = useParams<number>()
+    const authContext = useContext(AuthContext);
     const [lists, setLists] = useState<ICardList[]>([])
     const [clickedInfo, setClickedInfo] = useState<IClickedInfo>()
-    const [detailLevel, setDetailLevel] = useState<number>(1)
+    const [detailLevel, setDetailLevel] = useState<number>(3)
     const [sortOption, setSortOption] = useState<SortOptions>(SortOptions.Own)
+    const [displayOption, setDisplayOption] = useState<DisplayOptions>(DisplayOptions.Graphical)
     const dragCard = useRef<{listIndex: number; cardIndex: number;}>();
 
     useEffect(() => {
         document.title = 'Board';
-        fetchBoard();
+        fetchBoard(currentBoardId);
     }, []);
 
-    const fetchBoard = () => {
-        fetch(APP_SETTINGS.boardsUrl + "/" + props.match.params.id, {
+    const fetchBoard = (boardId: number) => {
+        fetch(APP_SETTINGS.boardsUrl + "/" + boardId, {
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             }
         }).then(response => response.json())
         .then(response => {
@@ -95,7 +103,7 @@ const Board = (props:  RouteComponentProps<MatchParams>) => {
                 "CardListId": listIndex,
                 "Title" : title
             }),
-        }).then(response => fetchBoard());
+        }).then(response => fetchBoard(currentBoardId));
     }
 
     const addCardList = (title: string) => {
@@ -106,10 +114,10 @@ const Board = (props:  RouteComponentProps<MatchParams>) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "BoardId": Number(props.match.params.id),
+                "BoardId": Number(currentBoardId),
                 "Title" : title
             })
-        }).then(response => fetchBoard());
+        }).then(response => fetchBoard(currentBoardId));
     }
 
     const removeCard = (cardId: number) => {
@@ -119,7 +127,7 @@ const Board = (props:  RouteComponentProps<MatchParams>) => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }
-        }).then(response => fetchBoard());
+        }).then(response => fetchBoard(currentBoardId));
     }
 
     const removeCardList = (listId: number) => {
@@ -132,7 +140,7 @@ const Board = (props:  RouteComponentProps<MatchParams>) => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }
-        }).then(response => fetchBoard());
+        }).then(response => fetchBoard(currentBoardId));
     }
 
     const updateCard = (card: ICard) => {
@@ -143,7 +151,7 @@ const Board = (props:  RouteComponentProps<MatchParams>) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(card)
-        }).then(response => fetchBoard());
+        }).then(response => fetchBoard(currentBoardId));
         if (sortOption !== SortOptions.Own) {
             setSortOption(SortOptions.Own)
         }
@@ -178,11 +186,12 @@ const Board = (props:  RouteComponentProps<MatchParams>) => {
     }
 
     return (
-        <>
+        <React.Fragment>
             <CardDetail clickedInfo={clickedInfo} removeCard={removeCard} updateCard={updateCard}/>
             <div id="visible-content">
                 <TopPanel
                     detailLevel={detailLevel} setDetailLevel={setDetailLevel}
+                    displayOption={displayOption} setDisplayOption={setDisplayOption}
                     sortOption={sortOption} changeSortOption={changeSortOption}/>
                 <div className="dnd-board">
                     {lists.map((list, listIndex) => (
@@ -195,7 +204,7 @@ const Board = (props:  RouteComponentProps<MatchParams>) => {
                     <AddCardList addCardList={addCardList}/>
                 </div>
             </div>
-        </>
+        </React.Fragment>
     );
 }
 

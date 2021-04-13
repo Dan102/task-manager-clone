@@ -3,5 +3,6 @@ export const APP_SETTINGS = {
     apiBaseUrl: baseUrl,
     boardsUrl: baseUrl + "/boards",
     cardlistsUrl: baseUrl + "/cardlists",
-    cardsUrl: baseUrl + "/cards"
+    cardsUrl: baseUrl + "/cards",
+    loginUrl: baseUrl + "/user/login"
 }

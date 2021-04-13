@@ -7,7 +7,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using task_manager_api.Data;
 using task_manager_api.Dtos;
-using task_manager_api.Model;
+using task_manager_api.Models;
 
 namespace task_manager_api.Repository
 {

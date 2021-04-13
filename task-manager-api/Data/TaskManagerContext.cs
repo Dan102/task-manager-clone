@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using task_manager_api.Model;
+using task_manager_api.Models;
 
 namespace task_manager_api.Data
 {
@@ -16,6 +16,7 @@ namespace task_manager_api.Data
         public DbSet<Board> Boards { get; set; }
         public DbSet<CardList> CardLists { get; set; }
         public DbSet<Card> Cards { get; set; }
+        public DbSet<User> Users { get; set; }
 
     }
 }
