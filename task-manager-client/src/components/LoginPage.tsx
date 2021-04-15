@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useContext, useState } from "react"
 import { useHistory } from "react-router";
 import { APP_SETTINGS } from "../app-settings";
@@ -13,35 +14,20 @@ const LoginPage = () => {
   const [loginStatus, setLoginStatus] = useState("");
 
   const loginClick = () => {
-    const requestOptions = {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    return axios.post(APP_SETTINGS.loginUrl, {
         username,
         password
-      })
-    };
-    return fetch(APP_SETTINGS.loginUrl, requestOptions)
-      .then(response => {
+    }).then(response => {
         if(response.status === 200) {
-          console.log(response)
-          return response.json()
-          .then(data => {
-              console.log("Logging successful! received data:", data,);
-              authContext.loginUser(data);
-              localStorage.setItem("loggedUser", JSON.stringify(data));
-              history.push("/");
-            }).catch(e => {
-              console.log("Error logging in", e);
-            })
+            localStorage.setItem("loggedUser", JSON.stringify(response.data));
+            authContext.loginUser(response.data);
+            history.push("/");
         } else if(response.status === 401) {
-          setLoginStatus("Combination of password and username is invalid.");
+            setLoginStatus("Combination of password and username is invalid.");
         } else {
-          setLoginStatus("Unexpected error during logging proccess.");
+            setLoginStatus("Unexpected error during logging proccess.");
         }
-      })
+    })
   }
 
   return (

@@ -11,12 +11,12 @@ namespace task_manager_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BoardsController : ControllerBase
+    public class BoardController : ControllerBase
     {
         private readonly IBoardRepository boardRepository;
         private readonly IMapper mapper;
 
-        public BoardsController(IBoardRepository boardRepository, IMapper mapper) {
+        public BoardController(IBoardRepository boardRepository, IMapper mapper) {
             this.boardRepository = boardRepository;
             this.mapper = mapper;
         }

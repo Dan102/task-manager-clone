@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import IBoardPreview from '../models/IBoardPreview';
 
 interface IBoardPreviewProps {
@@ -14,10 +15,10 @@ const BoardPreview = ({boardPreview, removeBoard}: IBoardPreviewProps) => {
     }
 
     return (
-        <a href={"/board/" + boardPreview.id}  className="dnd-board-item">
+        <Link to={"/Board/" + boardPreview.id}  className="dnd-board-item">
             <button className="board-remove" onClick={e => handleRemoveClick(e)}>X</button>
             <div className="board-title">{boardPreview.title}</div>
-        </a>
+        </Link>
     )
 }
 

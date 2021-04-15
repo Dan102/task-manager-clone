@@ -5,7 +5,7 @@ interface IAddCardListProps {
 }
 
 const AddCardList = ({addCardList}: IAddCardListProps) => {
-    
+
     const [newCardListTitle, setNewCardListTitle] = useState<string>("")
 
     const handleAddCardList = (e: React.FormEvent<HTMLFormElement>) => {

@@ -21,17 +21,15 @@ function AuthProvider({children}: any) {
 
   useEffect(() => {
     if (authContext?.user?.token) {
-      console.log("really loading")
       axios.defaults.headers.common['Authorization'] = 'bearer ' + authContext?.user?.token;
     }
   }, [authContext])
 
   useEffect(() => {
-    console.log("changing authContext to: ", loadUserFromStorage())
-    setAuthContext({
-      user: loadUserFromStorage(),
-      loginUser
-    });
+    const loadedUser: IUser | undefined = loadUserFromStorage();
+    if (loadedUser) {
+      loginUser(loadedUser);
+    }
   }, [])
 
   function loadUserFromStorage(): IUser | undefined {
@@ -42,6 +40,7 @@ function AuthProvider({children}: any) {
   }
 
   function loginUser(data: IUser): void {
+    axios.defaults.headers.common['Authorization'] = 'bearer ' + loadUserFromStorage()?.token;
     setAuthContext({
       user: data,
       loginUser

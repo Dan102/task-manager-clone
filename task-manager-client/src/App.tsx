@@ -9,6 +9,11 @@ import routes from './routes';
 
 const App = () => {
 
+  useEffect(() => {
+    axios.defaults.headers['Accept'] = 'application/json';
+    axios.defaults.headers['Content-Type'] = 'application/json';
+  }, [])
+
   return (
     <React.StrictMode>
       <AuthProvider>

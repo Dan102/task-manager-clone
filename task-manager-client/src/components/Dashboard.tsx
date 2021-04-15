@@ -11,39 +11,27 @@ function Dashboard() {
 
     useEffect(() => {
         document.title = 'Dashboard';
-        fetchBoardPreviews();
+        getBoardPreviews();
     }, []);
 
-    const fetchBoardPreviews = () => {
+    const getBoardPreviews = () => {
         axios.get<IBoardPreview[]>(APP_SETTINGS.boardsUrl)
             .then(response => {
-                console.log(response.data)
                 setBoardPreviews(response.data)
             })
     }
 
     const addBoard = (title: string) => {
-        fetch(APP_SETTINGS.boardsUrl, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: '"' + title.trim() + '"'
-        }).then(response => fetchBoardPreviews());
+        axios.post<void>(APP_SETTINGS.boardsUrl, '"' + title.trim() + '"')
+            .then(response => getBoardPreviews());
     }
 
     const removeBoard = (boardId: number) => {
         if(!boardPreviews.filter(bp => bp.id === boardId)[0].isEmpty && !window.confirm("You are going to delete non empty board. Are you sure?")) {
             return;
         }
-        fetch(APP_SETTINGS.boardsUrl + "/" + boardId, {
-            method: 'DELETE',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }).then(response => fetchBoardPreviews());
+        axios.delete<void>(APP_SETTINGS.boardsUrl + "/" + boardId)
+            .then(response => getBoardPreviews());
     }
 
     return (

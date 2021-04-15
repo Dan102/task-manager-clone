@@ -9,10 +9,12 @@ import ICard from "../models/ICard";
 import { APP_SETTINGS } from "../app-settings";
 import { useParams } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
+import axios from "axios";
+import IBoard from "../models/IBoard";
 
 
 interface MatchParams {
-    id?: string | undefined;
+    id: string;
 }
 
 export enum SortOptions {
@@ -27,30 +29,23 @@ export enum DisplayOptions {
 }
 
 const Board = () => {
-    const currentBoardId = useParams<number>()
-    const authContext = useContext(AuthContext);
+    const { id: boardIdUrlParam } = useParams<MatchParams>()
     const [lists, setLists] = useState<ICardList[]>([])
     const [clickedInfo, setClickedInfo] = useState<IClickedInfo>()
     const [detailLevel, setDetailLevel] = useState<number>(3)
     const [sortOption, setSortOption] = useState<SortOptions>(SortOptions.Own)
     const [displayOption, setDisplayOption] = useState<DisplayOptions>(DisplayOptions.Graphical)
-    const dragCard = useRef<{listIndex: number; cardIndex: number;}>();
+    const dragCard = useRef<{ listIndex: number; cardIndex: number; }>();
 
     useEffect(() => {
         document.title = 'Board';
-        fetchBoard(currentBoardId);
+        getBoard(boardIdUrlParam);
     }, []);
 
-    const fetchBoard = (boardId: number) => {
-        fetch(APP_SETTINGS.boardsUrl + "/" + boardId, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            }
-        }).then(response => response.json())
-        .then(response => {
-            console.log(response)
-            setLists(response.cardLists)
+    const getBoard = (boardId: string) => {
+        axios.get<IBoard>(APP_SETTINGS.boardsUrl + "/" + boardId)
+            .then(response => {
+            setLists(response.data.cardLists)
         })
     }
 
@@ -93,65 +88,39 @@ const Board = () => {
     }
 
     const addCard = (title: string, listIndex: number) => {
-        fetch(APP_SETTINGS.cardsUrl, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                "CardListId": listIndex,
-                "Title" : title
-            }),
-        }).then(response => fetchBoard(currentBoardId));
+        axios.post<void>(APP_SETTINGS.cardsUrl, {
+            "CardListId": listIndex,
+            "Title" : title
+        }).then(response => {
+            getBoard(boardIdUrlParam)
+        })
     }
 
     const addCardList = (title: string) => {
-        fetch(APP_SETTINGS.cardlistsUrl, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                "BoardId": Number(currentBoardId),
-                "Title" : title
-            })
-        }).then(response => fetchBoard(currentBoardId));
+        axios.post<void>(APP_SETTINGS.cardlistsUrl, {
+            "BoardId": Number(boardIdUrlParam),
+            "Title" : title
+        }).then(response => {
+            getBoard(boardIdUrlParam)
+        })
     }
 
     const removeCard = (cardId: number) => {
-        fetch(APP_SETTINGS.cardsUrl + "/" + cardId, {
-            method: 'DELETE',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }).then(response => fetchBoard(currentBoardId));
+        axios.delete<void>(APP_SETTINGS.cardsUrl + "/" + cardId)
+            .then(response => getBoard(boardIdUrlParam));
     }
 
     const removeCardList = (listId: number) => {
         if(lists.filter(list => list.id === listId)[0].cards.length !== 0 && !window.confirm("You are going to delete non empty list. Are you sure?")) {
             return;
         }
-        fetch(APP_SETTINGS.cardlistsUrl + "/" + listId, {
-            method: 'DELETE',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }).then(response => fetchBoard(currentBoardId));
+        axios.delete<void>(APP_SETTINGS.cardlistsUrl + "/" + listId)
+            .then(response => getBoard(boardIdUrlParam));
     }
 
     const updateCard = (card: ICard) => {
-        fetch(APP_SETTINGS.cardsUrl + "/" + card.id, {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(card)
-        }).then(response => fetchBoard(currentBoardId));
+        axios.put<void>(APP_SETTINGS.cardsUrl + "/" + card.id, card)
+            .then(response => getBoard(boardIdUrlParam));
         if (sortOption !== SortOptions.Own) {
             setSortOption(SortOptions.Own)
         }
