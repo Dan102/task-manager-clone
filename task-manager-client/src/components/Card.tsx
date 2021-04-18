@@ -1,18 +1,21 @@
 import React from "react"
 import Moment from 'moment'
-import ICard from "../models/ICard"
+import ICard from "../models/interfaces/ICard"
+import { useSelector } from "react-redux";
+import { IApplicationState } from "../App";
 
 interface ICardProps {
     card: ICard;
     listIndex: number;
     cardIndex: number;
-    detailLevel: number;
     showCardDetail: (listIndex: number, cardIndex: number) => void;
     handleDragStart: (e: React.DragEvent<HTMLDivElement>, listIndex: number, cardIndex: number) => void;
     handleDragEnter: (e: React.DragEvent<HTMLDivElement>, targetListIndex: number, targetCardIndex: number) => void;
 }
 
-const Card = ({card, listIndex, cardIndex, detailLevel, showCardDetail, handleDragStart, handleDragEnter}: ICardProps) => {
+const Card = ({card, listIndex, cardIndex, showCardDetail, handleDragStart, handleDragEnter}: ICardProps) => {
+
+    const detailLevel = useSelector<IApplicationState, number>(x => x.settings.detailLevel);
 
     const handleCardClicked = (e: React.DragEvent<HTMLDivElement>) => {
         const htmlElement = document.querySelector("html")

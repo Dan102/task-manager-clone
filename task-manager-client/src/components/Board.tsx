@@ -1,58 +1,66 @@
-import React, {useState, useRef, useEffect, useContext} from "react";
+import React, { useState, useRef, useEffect } from "react";
 import CardList from "./CardList"
 import AddCardList from "./AddCardList"
 import TopPanel from "./TopPanel";
 import CardDetail from "./CardDetail";
-import ICardList from "../models/ICardList";
-import IClickedInfo from "../models/IClickedInfo";
-import ICard from "../models/ICard";
-import { APP_SETTINGS } from "../app-settings";
-import { useParams } from "react-router";
-import { AuthContext } from "../contexts/AuthContext";
-import axios from "axios";
-import IBoard from "../models/IBoard";
-
+import ICard from "../models/interfaces/ICard";
+import ICardList from "../models/interfaces/ICardList";
+import IClickedInfo from "../models/interfaces/IClickedInfo";
+import SortSettings from "../models/enums/SortSettings";
+import getBoardRequest from "../api/requests/getBoardRequest";
+import addCardRequest from "../api/requests/addCardRequest";
+import removeCardRequest from "../api/requests/removeCardRequest";
+import removeCardListRequest from "../api/requests/removeCardListRequest";
+import updateCardRequest from "../api/requests/updateCardRequest";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { changeSortSettingsAction } from "../reducers/settingsReducer";
+import { IApplicationState } from "../App";
 
 interface MatchParams {
     id: string;
-}
-
-export enum SortOptions {
-    Own,
-    Priority,
-    Deadline
-}
-
-export enum DisplayOptions {
-    Graphical,
-    Text,
 }
 
 const Board = () => {
     const { id: boardIdUrlParam } = useParams<MatchParams>()
     const [lists, setLists] = useState<ICardList[]>([])
     const [clickedInfo, setClickedInfo] = useState<IClickedInfo>()
-    const [detailLevel, setDetailLevel] = useState<number>(3)
-    const [sortOption, setSortOption] = useState<SortOptions>(SortOptions.Own)
-    const [displayOption, setDisplayOption] = useState<DisplayOptions>(DisplayOptions.Graphical)
+    const sortSettings = useSelector<IApplicationState, SortSettings>(x => x.settings.sortSettings);
+    const dispatch = useDispatch();
     const dragCard = useRef<{ listIndex: number; cardIndex: number; }>();
 
     useEffect(() => {
         document.title = 'Board';
-        getBoard(boardIdUrlParam);
+        fetchBoard(boardIdUrlParam);
     }, []);
 
-    const getBoard = (boardId: string) => {
-        axios.get<IBoard>(APP_SETTINGS.boardsUrl + "/" + boardId)
-            .then(response => {
+    useEffect(() => {
+        switch (+sortSettings) {
+            case SortSettings.Own:
+                break;
+            case SortSettings.Deadline:
+                sortLists((a, b) => {
+                    return new Date(a.deadline).getTime() - new Date(b.deadline).getTime()
+                })
+                break;
+            case SortSettings.Priority:
+                sortLists((a, b) => {
+                    return a.priority - b.priority
+                })
+                break;
+        }
+    }, [sortSettings])
+
+    const fetchBoard = (boardId: string) => {
+        getBoardRequest(+boardId).then(response => {
             setLists(response.data.cardLists)
         })
     }
 
     const handleDragStart = (e: React.DragEvent<HTMLDivElement>, listIndex: number, cardIndex: number) => {
         dragCard.current = {listIndex, cardIndex};
-        if (sortOption !== SortOptions.Own) {
-            setSortOption(SortOptions.Own)
+        if (sortSettings !== SortSettings.Own) {
+            dispatch(changeSortSettingsAction(SortSettings.Own))
         }
     }
 
@@ -88,59 +96,32 @@ const Board = () => {
     }
 
     const addCard = (title: string, listIndex: number) => {
-        axios.post<void>(APP_SETTINGS.cardsUrl, {
-            "CardListId": listIndex,
-            "Title" : title
-        }).then(response => {
-            getBoard(boardIdUrlParam)
+        addCardRequest(listIndex, title).then(_response => {
+            fetchBoard(boardIdUrlParam)
         })
     }
 
     const addCardList = (title: string) => {
-        axios.post<void>(APP_SETTINGS.cardlistsUrl, {
-            "BoardId": Number(boardIdUrlParam),
-            "Title" : title
-        }).then(response => {
-            getBoard(boardIdUrlParam)
+        addCardRequest(+boardIdUrlParam, title).then(_response => {
+            fetchBoard(boardIdUrlParam)
         })
     }
 
     const removeCard = (cardId: number) => {
-        axios.delete<void>(APP_SETTINGS.cardsUrl + "/" + cardId)
-            .then(response => getBoard(boardIdUrlParam));
+        removeCardRequest(cardId).then(_response => fetchBoard(boardIdUrlParam));
     }
 
     const removeCardList = (listId: number) => {
         if(lists.filter(list => list.id === listId)[0].cards.length !== 0 && !window.confirm("You are going to delete non empty list. Are you sure?")) {
             return;
         }
-        axios.delete<void>(APP_SETTINGS.cardlistsUrl + "/" + listId)
-            .then(response => getBoard(boardIdUrlParam));
+        removeCardListRequest(listId).then(_response => fetchBoard(boardIdUrlParam));
     }
 
     const updateCard = (card: ICard) => {
-        axios.put<void>(APP_SETTINGS.cardsUrl + "/" + card.id, card)
-            .then(response => getBoard(boardIdUrlParam));
-        if (sortOption !== SortOptions.Own) {
-            setSortOption(SortOptions.Own)
-        }
-    }
-
-    const changeSortOption = (newSortOption: SortOptions) => {
-        setSortOption(newSortOption)
-        switch (+newSortOption) {
-            case SortOptions.Own:
-                break;
-            case SortOptions.Deadline:
-                sortLists((a, b) => {
-                    return new Date(a.deadline).getTime() - new Date(b.deadline).getTime()
-                })
-                break;
-            case SortOptions.Priority:
-                sortLists((a, b) => {
-                    return a.priority - b.priority
-                })
-                break;
+        updateCardRequest(card).then(_response => fetchBoard(boardIdUrlParam));
+        if (sortSettings !== SortSettings.Own) {
+            dispatch(changeSortSettingsAction(SortSettings.Own));
         }
     }
 
@@ -158,16 +139,13 @@ const Board = () => {
         <React.Fragment>
             <CardDetail clickedInfo={clickedInfo} removeCard={removeCard} updateCard={updateCard}/>
             <div id="visible-content">
-                <TopPanel
-                    detailLevel={detailLevel} setDetailLevel={setDetailLevel}
-                    displayOption={displayOption} setDisplayOption={setDisplayOption}
-                    sortOption={sortOption} changeSortOption={changeSortOption}/>
+                <TopPanel/>
                 <div className="dnd-board">
                     {lists.map((list, listIndex) => (
                         <CardList
                             key={listIndex}
                             addCard={addCard} showCardDetail={showCardDetail} removeCardList={removeCardList}
-                            list={list} listIndex={listIndex} detailLevel={detailLevel}
+                            list={list} listIndex={listIndex}
                             handleDragStart={handleDragStart} handleDragEnter={handleDragEnter}/>
                     ))}
                     <AddCardList addCardList={addCardList}/>

@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from "react"
+import React, { useState, useEffect } from "react"
 import Moment from "moment"
-import IClickedInfo from "../models/IClickedInfo";
-import ICard from "../models/ICard";
+import ICard from "../models/interfaces/ICard"
+import IClickedInfo from "../models/interfaces/IClickedInfo"
 
 interface ICardDetailProps {
     clickedInfo: IClickedInfo | undefined;

@@ -1,448 +1,453 @@
 $main-color: dodgerblue;
-$accent-color: #4E67C5;
+$accent-color: #4e67c5;
 $background-color: lightgray;
 $light-color: white;
-$delete-button-color: #F1868C;
+$delete-button-color: #f1868c;
 
 @mixin flex-direction-align-justify($dir, $align, $justify) {
-  display: flex;
-  flex-direction: $dir;
-  align-items: $align;
-  justify-content: $justify;
+    display: flex;
+    flex-direction: $dir;
+    align-items: $align;
+    justify-content: $justify;
 }
 @mixin flex-direction-align($dir, $align) {
-  display: flex;
-  flex-direction: $dir;
-  align-items: $align;
-}@mixin flex-direction-justify($dir, $justify) {
-  display: flex;
-  flex-direction: $dir;
-  justify-content: $justify;
-}@mixin flex-direction($dir) {
-  display: flex;
-  flex-direction: $dir;
+    display: flex;
+    flex-direction: $dir;
+    align-items: $align;
+}
+@mixin flex-direction-justify($dir, $justify) {
+    display: flex;
+    flex-direction: $dir;
+    justify-content: $justify;
+}
+@mixin flex-direction($dir) {
+    display: flex;
+    flex-direction: $dir;
 }
 
 h1 {
-  font-size: 25px;
-  font-weight: bold;
+    font-size: 25px;
+    font-weight: bold;
 }
 
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+        'Droid Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 .dnd-board {
-  @include flex-direction(row);
-  background-color: $main-color;
-  height: 100vh;
-  overflow: auto;
-  flex-grow: 1;
+    @include flex-direction(row);
+    background-color: $main-color;
+    height: 100vh;
+    overflow: auto;
+    flex-grow: 1;
 }
 
 .dnd-list {
-  @include flex-direction(column);
-  position: relative;
-  margin: 5px 20px;
-  background-color: lightgrey;
-  width: 220px;
-  border-radius: 5px;
-  padding: 17px 10px 10px 10px;
-  height: min-content;
+    @include flex-direction(column);
+    position: relative;
+    margin: 5px 20px;
+    background-color: lightgrey;
+    width: 220px;
+    border-radius: 5px;
+    padding: 17px 10px 10px 10px;
+    height: min-content;
 }
 
 .dnd-card {
-  cursor: grab;
-  margin: 5px 0px;
-  width: 200px;
-  background-color: $light-color;
-  border-radius: 2.5px;
+    cursor: grab;
+    margin: 5px 0px;
+    width: 200px;
+    background-color: $light-color;
+    border-radius: 2.5px;
 }
 
 .dnd-card-big {
-  @extend .dnd-card;
-  height: 90px;
-  padding: 7px 12px;
+    @extend .dnd-card;
+    height: 90px;
+    padding: 7px 12px;
 }
 
 .dnd-card-small {
-  @extend .dnd-card;
-  height: 50px;
-  padding: 5px 12px;
+    @extend .dnd-card;
+    height: 50px;
+    padding: 5px 12px;
 }
 
 textarea {
-  resize: none;
-  padding: 5px 10px;
-  background-color: $light-color;
+    resize: none;
+    padding: 5px 10px;
+    background-color: $light-color;
 }
 
 select {
-  background-color: $light-color;
-  width: 75px;
+    background-color: $light-color;
+    width: 75px;
 }
 
 button {
-  cursor: pointer;
+    cursor: pointer;
 }
 
-.add-card *, .add-card-list * {
-  display: block;
+.add-card *,
+.add-card-list * {
+    display: block;
 }
 
 .card-list-title {
-  color: $accent-color;
-  font-size: 30px;
-  text-transform: capitalize;
-  font-weight: bold;
-  margin-bottom: 2px;
-  word-wrap: break-word;
+    color: $accent-color;
+    font-size: 30px;
+    text-transform: capitalize;
+    font-weight: bold;
+    margin-bottom: 2px;
+    word-wrap: break-word;
 }
 
 .card-title {
-  font-size: 19px;
-  margin-bottom: 1px;
-  font-weight: 550;
-  flex-grow: 1;
+    font-size: 19px;
+    margin-bottom: 1px;
+    font-weight: 550;
+    flex-grow: 1;
 }
 
 .card-description {
-  font-size: 12px;
+    font-size: 12px;
 }
 
 .add-card-button {
-  background: $accent-color;
-  color: $light-color;
-  padding: 3px 12px;
-  border: 0px;
-  border-radius: 5px;
-  margin-top: 5px;
+    background: $accent-color;
+    color: $light-color;
+    padding: 3px 12px;
+    border: 0px;
+    border-radius: 5px;
+    margin-top: 5px;
 }
 
 .add-card-textarea {
-  margin-top: 7px;
+    margin-top: 7px;
 }
 
 .card-heading {
-  @include flex-direction-align(row, center);
+    @include flex-direction-align(row, center);
 }
 
 .card-deadline {
-  font-size: 10px;
-  font-style: italic;
+    font-size: 10px;
+    font-style: italic;
 }
 
 .card-priority {
-  font-size: 10px;
-  background-color: $accent-color;
-  color: $light-color;
-  padding: 2px 5px;
-  margin-left: 8px;
+    font-size: 10px;
+    background-color: $accent-color;
+    color: $light-color;
+    padding: 2px 5px;
+    margin-left: 8px;
 }
 
 .top-panel {
-  @include flex-direction-justify(row, flex-end);
-  background-color: $main-color;
-  color: $light-color;
-  font-size: 10px;
-  padding: 5px 10px;
+    @include flex-direction-justify(row, flex-end);
+    background-color: $main-color;
+    color: $light-color;
+    font-size: 10px;
+    padding: 5px 10px;
 }
 
-
-.top-panel select{
-  height: 100%;
-  font-size: 12px;
+.top-panel select {
+    height: 100%;
+    font-size: 12px;
 }
 
 .slider {
-  -webkit-appearance: none;
-  width: 60px;
-  height: 5px;
-  border-radius: 5px;  
-  background: lightgrey;
-  outline: none;
-  opacity: 0.7;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
+    -webkit-appearance: none;
+    width: 60px;
+    height: 5px;
+    border-radius: 5px;
+    background: lightgrey;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: 0.2s;
+    transition: opacity 0.2s;
 }
 
 .slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%; 
-  background: $accent-color;
-  cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: $accent-color;
+    cursor: pointer;
 }
 
 .slider::-moz-range-thumb {
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  background: $accent-color;;
-  cursor: pointer;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: $accent-color;
+    cursor: pointer;
 }
 
 .option-section {
-  /* margin: 5px 15px; */
-  @include flex-direction-align(row, center);
+    /* margin: 5px 15px; */
+    @include flex-direction-align(row, center);
 }
 
 .option-section form {
-  @include flex-direction(row);
+    @include flex-direction(row);
 }
 
 .top-panel-title {
-  margin: 0px 6px 0 12px;
-  font-size: 16px;
+    margin: 0px 6px 0 12px;
+    font-size: 16px;
 }
 
-input[type="radio"] {
-  margin: 0px;
+input[type='radio'] {
+    margin: 0px;
 }
 
-input[type="radio"] + label {
-  margin-right: 5px;
+input[type='radio'] + label {
+    margin-right: 5px;
 }
 
-input[type="range"] {
-  margin-top: 5px;
+input[type='range'] {
+    margin-top: 5px;
 }
 
 html.darken-page {
-  background-color: black;
+    background-color: black;
 }
 
 html.darken-page #visible-content {
-  opacity: 0.5;
+    opacity: 0.5;
 }
 
 #visible-content {
-  @include flex-direction(column);
-  height: 100%;
+    @include flex-direction(column);
+    height: 100%;
 }
 
 #card-detail-background {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  z-index: 1000;
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    z-index: 1000;
 }
 
 .card-detail-inline {
-  @include flex-direction-align(row, center);
-  width: 100%;
+    @include flex-direction-align(row, center);
+    width: 100%;
 }
 
 .card-detail-inline span {
-  flex-grow: 1;
-  text-align: left;
+    flex-grow: 1;
+    text-align: left;
 }
 
 #card-detail input {
-  padding: 5px 10px;
-  width: 100%;
+    padding: 5px 10px;
+    width: 100%;
 }
 
 .card-detail-title {
-  font-size: 23px;
-  margin-top: 5px;
-  text-transform: capitalize;
+    font-size: 23px;
+    margin-top: 5px;
+    text-transform: capitalize;
 }
 
-#card-detail button, #card-detail input[type="submit"] {
-  padding: 5px 25px;
-  color: $light-color;
-  border-radius: 5px;
-  width: auto;
-  font-size: 12px;
-  height: min-content;
+#card-detail button,
+#card-detail input[type='submit'] {
+    padding: 5px 25px;
+    color: $light-color;
+    border-radius: 5px;
+    width: auto;
+    font-size: 12px;
+    height: min-content;
 }
 
 #card-detail {
-  @include flex-direction(column);
-  position: fixed;
-  left: 50%;
-  top: 30%;
-  text-align: left;
-  transform: translate(-50%, -30%);
-  border-radius: 25px;
-  background-color: $light-color;
-  padding: 40px 60px;
+    @include flex-direction(column);
+    position: fixed;
+    left: 50%;
+    top: 30%;
+    text-align: left;
+    transform: translate(-50%, -30%);
+    border-radius: 25px;
+    background-color: $light-color;
+    padding: 40px 60px;
 }
 
 .delete-button {
-  background-color: $delete-button-color;
+    background-color: $delete-button-color;
 }
 
 .cancel-button {
-  background-color: gray;
+    background-color: gray;
 }
 
-#card-detail .save-button {  
-  background-color: $accent-color;
+#card-detail .save-button {
+    background-color: $accent-color;
 }
 
 #card-detail-container {
-  @include flex-direction-align(column, flex-start);
-  margin: auto;
+    @include flex-direction-align(column, flex-start);
+    margin: auto;
 }
 
-#card-detail textarea, #card-detail input {
-  background-color: $background-color;
+#card-detail textarea,
+#card-detail input {
+    background-color: $background-color;
 }
 
 .dnd-board-item {
-  @include flex-direction-align-justify(column, center, center);
-  background-color: $light-color;
-  width: 300px;
-  height: 200px;
-  text-align: center;
-  margin: 10px;
-  padding: 20px;
-  position: relative;
-  text-decoration: none;
+    @include flex-direction-align-justify(column, center, center);
+    background-color: $light-color;
+    width: 300px;
+    height: 200px;
+    text-align: center;
+    margin: 10px;
+    padding: 20px;
+    position: relative;
+    text-decoration: none;
 }
 
 .board-remove {
-  position: absolute;
-  right: 15px;
-  top: 10px;
-  color: gray;
-  font-size: 12px;;
-  color: $light-color;
-  background: $delete-button-color;
-  padding: 3px 7px;
-  border-radius: 5px;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    color: gray;
+    font-size: 12px;
+    color: $light-color;
+    background: $delete-button-color;
+    padding: 3px 7px;
+    border-radius: 5px;
 }
 
 .dnd-board-list {
-  @include flex-direction-justify(row, center);
-  background-color: $main-color;
-  padding: 100px 20px 60px 20px;
-  flex-wrap: wrap;
+    @include flex-direction-justify(row, center);
+    background-color: $main-color;
+    padding: 100px 20px 60px 20px;
+    flex-wrap: wrap;
 }
 
 .board-title {
-  color: $accent-color;
-  font-size: 40px;
-  font-weight: bold;
+    color: $accent-color;
+    font-size: 40px;
+    font-weight: bold;
 }
 
-html, body, #root {
-  height: 100%;
+html,
+body,
+#root {
+    height: 100%;
 }
 
 .dnd-dashboard {
-  background-color: $main-color;
-  min-height: 100%;
-  overflow: hidden;
+    background-color: $main-color;
+    min-height: 100%;
+    overflow: hidden;
 }
 
 * {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  outline: 0;
-  font-size: 100%;
-  vertical-align: baseline;
-  background: transparent;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+    box-sizing: border-box;
 }
 
 .add-board-textarea {
-  background-color: #d3d3d3;
-  width: 200px;
-  height: 100px;
-  border-radius: 3px;
-  font-size: 30px;
-  color: $accent-color;
+    background-color: #d3d3d3;
+    width: 200px;
+    height: 100px;
+    border-radius: 3px;
+    font-size: 30px;
+    color: $accent-color;
 }
 
 .add-board-button {
-  padding: 5px 10px;
-  background-color: $accent-color;
-  color: $light-color;
-  margin-top: 7px;
-  border-radius: 3px;
+    padding: 5px 10px;
+    background-color: $accent-color;
+    color: $light-color;
+    margin-top: 7px;
+    border-radius: 3px;
 }
 
 .dnd-board-item form {
-	background-color: $light-color;
-	width: 250px;
-	height: 166px;
-  padding-top: 15px;
-  padding-bottom: 12px;
-	border-radius: 10px;
+    background-color: $light-color;
+    width: 250px;
+    height: 166px;
+    padding-top: 15px;
+    padding-bottom: 12px;
+    border-radius: 10px;
 }
 
-.add-card textarea, .add-card-list textarea {
-  font-size: 19px;
-  width: 200px;
-  height: 45px;
+.add-card textarea,
+.add-card-list textarea {
+    font-size: 19px;
+    width: 200px;
+    height: 45px;
 }
 
 .login-page {
-  @include flex-direction-align-justify(column, center, center);
-  background-color: $main-color;
-  min-height: 100%;
+    @include flex-direction-align-justify(column, center, center);
+    background-color: $main-color;
+    min-height: 100%;
 }
 
 .login-container {
-  @include flex-direction-align(column, center);
-  margin-bottom: 10%;
-  
-  h1 {
-    font-size: 30px;
-    color: $light-color;
-    margin-bottom: 5px;
-  }
+    @include flex-direction-align(column, center);
+    margin-bottom: 10%;
 
-  button {
-    padding: 5px 20px;
-    background-color: darken($accent-color, 10);
-    color: $light-color;
-    border-radius: 5px;
-    align-self: flex-start;
-    margin-top: 15px;
-  }
+    h1 {
+        font-size: 30px;
+        color: $light-color;
+        margin-bottom: 5px;
+    }
 
-  span {
-    flex-basis: 0;
-  }
+    button {
+        padding: 5px 20px;
+        background-color: darken($accent-color, 10);
+        color: $light-color;
+        border-radius: 5px;
+        align-self: flex-start;
+        margin-top: 15px;
+    }
+
+    span {
+        flex-basis: 0;
+    }
 }
 
 .login-page-area {
-  font-size: 18px;
-  @include flex-direction-align(column, flex-start);
-  margin-top: 15px;
+    font-size: 18px;
+    @include flex-direction-align(column, flex-start);
+    margin-top: 15px;
 
-  span {
-    color: $light-color;
-    margin-bottom: 5px;
-  }
+    span {
+        color: $light-color;
+        margin-bottom: 5px;
+    }
 
-  input {
-    background-color: $light-color;  
-    padding: 5px;
-  }
+    input {
+        background-color: $light-color;
+        padding: 5px;
+    }
 }
 
 .status-text-failure {
-  color: darken($delete-button-color, 20);
+    color: darken($delete-button-color, 20);
 }

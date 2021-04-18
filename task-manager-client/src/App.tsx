@@ -1,26 +1,40 @@
 
 import axios from 'axios';
-import { userInfo } from 'node:os';
-import React, { useContext, useEffect } from 'react';
-import {AuthContext, AuthProvider} from './contexts/AuthContext';
+import React, { useEffect } from 'react';
+import { Provider } from 'react-redux';
+import { combineReducers, createStore } from 'redux';
 import './index.scss';
-import IUser from './models/ILoggedUser';
+import IAppSettings from './models/interfaces/IAppSettings';
+import { authReducer, IAuthState } from './reducers/authReducer';
+import { settingsReducer } from './reducers/settingsReducer';
 import routes from './routes';
+
+export interface IApplicationState {
+    settings: IAppSettings,
+    auth: IAuthState
+}
 
 const App = () => {
 
-  useEffect(() => {
-    axios.defaults.headers['Accept'] = 'application/json';
-    axios.defaults.headers['Content-Type'] = 'application/json';
-  }, [])
+    const store = createStore(
+        combineReducers<IApplicationState>({
+            settings: settingsReducer,
+            auth: authReducer
+        })
+    );
 
-  return (
-    <React.StrictMode>
-      <AuthProvider>
-        {routes}
-      </AuthProvider>
-    </React.StrictMode>
-  )
+    useEffect(() => {
+        axios.defaults.headers['Accept'] = 'application/json';
+        axios.defaults.headers['Content-Type'] = 'application/json';
+    }, [])
+
+    return (
+        <React.StrictMode>
+            <Provider store={store}>
+                {routes}
+            </Provider>
+        </React.StrictMode>
+    )
 }
 
 export default App;
