@@ -14,7 +14,7 @@ namespace task_manager_api.Profiles
         public BoardsProfile()
         {
             CreateMap<Board, BoardReadDto>();
-            CreateMap<Board, BoardPreviewReadDto>().ForMember(d => d.isEmpty, opt => opt.MapFrom(src => src.CardLists.Count == 0));
+            CreateMap<Board, BoardPreviewReadDto>().ForMember(d => d.IsEmpty, opt => opt.MapFrom(src => src.CardLists.Count == 0));
             CreateMap<Card, CardReadDto>();
             CreateMap<Card, Card>().ForMember(d => d.Id, opt => opt.Ignore());
             CreateMap<CardUpdateDto, Card>().ForMember(d => d.Id, opt => opt.Ignore());

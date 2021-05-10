@@ -1,10 +1,7 @@
 import { Reducer } from "redux"
 import ILoggedUser from "../models/interfaces/ILoggedUser"
+import { IAuthState } from "./models/IAuthState";
 
-
-export interface IAuthState {
-    loggedUser: ILoggedUser | undefined;
-}
 
 const initialAppSettings: IAuthState = {
     loggedUser: undefined

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import CardList from "./CardList"
 import AddCardList from "./AddCardList"
-import TopPanel from "./TopPanel";
+import TopBoardPanel from "./TopBoardPanel";
 import CardDetail from "./CardDetail";
 import ICard from "../models/interfaces/ICard";
 import ICardList from "../models/interfaces/ICardList";
@@ -15,7 +15,8 @@ import updateCardRequest from "../api/requests/updateCardRequest";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { changeSortSettingsAction } from "../reducers/settingsReducer";
-import { IApplicationState } from "../App";
+import { IApplicationState } from "../reducers/store";
+import SpinnerPage from "./SpinnerPage";
 
 interface MatchParams {
     id: string;
@@ -23,8 +24,9 @@ interface MatchParams {
 
 const Board = () => {
     const { id: boardIdUrlParam } = useParams<MatchParams>()
-    const [lists, setLists] = useState<ICardList[]>([])
+    const [lists, setLists] = useState<ICardList[]>()
     const [clickedInfo, setClickedInfo] = useState<IClickedInfo>()
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     const sortSettings = useSelector<IApplicationState, SortSettings>(x => x.settings.sortSettings);
     const dispatch = useDispatch();
     const dragCard = useRef<{ listIndex: number; cardIndex: number; }>();
@@ -33,6 +35,12 @@ const Board = () => {
         document.title = 'Board';
         fetchBoard(boardIdUrlParam);
     }, []);
+
+    useEffect(() => {
+        if (lists) {
+            setIsLoading(false);
+        }
+    })
 
     useEffect(() => {
         switch (+sortSettings) {
@@ -52,6 +60,7 @@ const Board = () => {
     }, [sortSettings])
 
     const fetchBoard = (boardId: string) => {
+        setIsLoading(true);
         getBoardRequest(+boardId).then(response => {
             setLists(response.data.cardLists)
         })
@@ -90,9 +99,11 @@ const Board = () => {
     }
 
     const showCardDetail = (listIndex: number, cardIndex: number) => {
-        setClickedInfo(() => {
-            return {card: lists[listIndex].cards[cardIndex], listIndex: listIndex};
-        })
+        if (lists) {
+            setClickedInfo(() => {
+                return { card: lists[listIndex].cards[cardIndex], listIndex: listIndex };
+            })
+        }
     }
 
     const addCard = (title: string, listIndex: number) => {
@@ -112,7 +123,7 @@ const Board = () => {
     }
 
     const removeCardList = (listId: number) => {
-        if(lists.filter(list => list.id === listId)[0].cards.length !== 0 && !window.confirm("You are going to delete non empty list. Are you sure?")) {
+        if(lists?.filter(list => list.id === listId)[0].cards.length !== 0 && !window.confirm("You are going to delete non empty list. Are you sure?")) {
             return;
         }
         removeCardListRequest(listId).then(_response => fetchBoard(boardIdUrlParam));
@@ -136,22 +147,28 @@ const Board = () => {
     }
 
     return (
-        <React.Fragment>
-            <CardDetail clickedInfo={clickedInfo} removeCard={removeCard} updateCard={updateCard}/>
-            <div id="visible-content">
-                <TopPanel/>
-                <div className="dnd-board">
-                    {lists.map((list, listIndex) => (
-                        <CardList
-                            key={listIndex}
-                            addCard={addCard} showCardDetail={showCardDetail} removeCardList={removeCardList}
-                            list={list} listIndex={listIndex}
-                            handleDragStart={handleDragStart} handleDragEnter={handleDragEnter}/>
-                    ))}
-                    <AddCardList addCardList={addCardList}/>
+        <SpinnerPage isLoading={isLoading} component={
+            <React.Fragment>
+                <CardDetail clickedInfo={clickedInfo} removeCard={removeCard} updateCard={updateCard} />
+                <div id="visible-content">
+                    <TopBoardPanel />
+                    <div className="dnd-board">
+                        {lists &&
+                            <>
+                                {lists?.map((list, listIndex) => (
+                                    <CardList
+                                        key={listIndex}
+                                        addCard={addCard} showCardDetail={showCardDetail} removeCardList={removeCardList}
+                                        list={list} listIndex={listIndex}
+                                        handleDragStart={handleDragStart} handleDragEnter={handleDragEnter} />
+                                ))}
+                                <AddCardList addCardList={addCardList} />
+                            </>
+                        }
+                    </div>
                 </div>
-            </div>
-        </React.Fragment>
+            </React.Fragment>
+        }/>
     );
 }
 

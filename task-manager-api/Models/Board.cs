@@ -13,6 +13,8 @@ namespace task_manager_api.Models
         [MaxLength(30)]
         public string Title { get; set; }
 
+        public bool IsFavourite { get; set; }
+
         public IList<CardList> CardLists { get; set; }
 
         public DateTime CreateDate { get; set; }

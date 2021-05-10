@@ -4,7 +4,7 @@ import API_ROUTES from "../apiRoutes";
 
 
 function getBoardRequest(boardId: number): Promise<AxiosResponse<IBoard>> {
-    return axios.get<IBoard>(API_ROUTES.boardsUrl + "/" + boardId);
+    return axios.get<IBoard>(API_ROUTES.boardUrl + "/" + boardId);
 }
 
 export default getBoardRequest;

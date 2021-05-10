@@ -2,7 +2,7 @@ import React from "react"
 import Moment from 'moment'
 import ICard from "../models/interfaces/ICard"
 import { useSelector } from "react-redux";
-import { IApplicationState } from "../App";
+import { IApplicationState } from "../reducers/store";
 
 interface ICardProps {
     card: ICard;

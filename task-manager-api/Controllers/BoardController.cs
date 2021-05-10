@@ -6,6 +6,7 @@ using task_manager_api.Dtos;
 using task_manager_api.Helpers;
 using task_manager_api.Models;
 using task_manager_api.Repository;
+using task_manager_api.Services.Interfaces;
 
 namespace task_manager_api.Controllers
 {
@@ -14,10 +15,12 @@ namespace task_manager_api.Controllers
     public class BoardController : ControllerBase
     {
         private readonly IBoardRepository boardRepository;
+        private readonly IBoardService boardService;
         private readonly IMapper mapper;
 
-        public BoardController(IBoardRepository boardRepository, IMapper mapper) {
+        public BoardController(IBoardRepository boardRepository, IBoardService boardService, IMapper mapper) {
             this.boardRepository = boardRepository;
+            this.boardService = boardService;
             this.mapper = mapper;
         }
 
@@ -26,6 +29,14 @@ namespace task_manager_api.Controllers
         public ActionResult<IList<Board>> GetBoardPreviews() {
             var boards = boardRepository.GetBoards();
             return Ok(mapper.Map<IList<BoardPreviewReadDto>>(boards));
+        }
+
+        [HttpPut("{id}")]
+        [Authorize]
+        public ActionResult UpdateBoardPreview(int id, [FromBody] BoardPreviewUpdateDto boardPreviewUpdate)
+        {
+            boardService.UpdateBoardIsFavourite(id, boardPreviewUpdate.IsFavourite);
+            return Ok();
         }
 
         [HttpGet("{id}")]

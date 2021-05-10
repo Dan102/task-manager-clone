@@ -50,6 +50,7 @@ namespace task_manager_api
             services.AddScoped<ICardRepository, CardRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IBoardService, BoardService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

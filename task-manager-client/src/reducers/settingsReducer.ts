@@ -1,7 +1,7 @@
 import { Reducer } from "redux"
 import DisplaySettings from "../models/enums/DisplaySettings"
 import SortSettings from "../models/enums/SortSettings"
-import IAppSettings from "../models/interfaces/IAppSettings"
+import IAppSettings from "./models/IAppSettingsState"
 
 
 const initialAppSettings: IAppSettings = {

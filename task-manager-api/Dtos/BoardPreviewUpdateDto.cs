@@ -5,14 +5,8 @@ using System.Threading.Tasks;
 
 namespace task_manager_api.Dtos
 {
-    public class BoardPreviewReadDto
+    public class BoardPreviewUpdateDto
     {
-        public int Id { get; set; }
-
-        public string Title { get; set; }
-
         public bool IsFavourite { get; set; }
-
-        public bool IsEmpty { get; set; }
     }
 }

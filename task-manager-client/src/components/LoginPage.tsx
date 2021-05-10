@@ -1,11 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react"
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import login from "../api/requests/loginRequest";
 import AuthHelper from "../helpers/authHelper";
 import ILoggedUser from "../models/interfaces/ILoggedUser";
 import { loginAction } from "../reducers/authReducer";
+import { IApplicationState } from "../reducers/store";
 
 const LoginPage = () => {
 
@@ -14,22 +15,27 @@ const LoginPage = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [loginStatus, setLoginStatus] = useState("");
+    const loggedUser = useSelector<IApplicationState, ILoggedUser | undefined>(x => x.auth.loggedUser);
 
     useEffect(() => {
         const loadedUser: ILoggedUser | undefined = AuthHelper.loadUserFromStorage();
         if (loadedUser) {
-            axios.defaults.headers.common['Authorization'] = 'bearer ' + loadedUser.token;
+            console.log("Loading user from storage");
             dispatch(loginAction(loadedUser));
         }
     }, [])
+
+    useEffect(() => {
+        if (loggedUser) {
+            history.push("/");
+        }
+    }, [loggedUser])
 
     const loginClick = () => {
         login(username, password).then(response => {
             if(response.status === 200) {
                 localStorage.setItem("loggedUser", JSON.stringify(response.data));
-                axios.defaults.headers.common['Authorization'] = 'bearer ' + response.data.token;
                 dispatch(loginAction(response.data));
-                history.push("/");
             } else if(response.status === 401) {
                 setLoginStatus("Combination of password and username is invalid.");
             } else {

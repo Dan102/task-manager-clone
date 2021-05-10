@@ -14,10 +14,12 @@ namespace task_manager_api.Repository
     public class BoardRepository : IBoardRepository
     {
         private readonly TaskManagerContext taskManagerContext;
+        private readonly IMapper mapper;
 
-        public BoardRepository(TaskManagerContext taskManagerContext)
+        public BoardRepository(TaskManagerContext taskManagerContext, IMapper mapper)
         {
             this.taskManagerContext = taskManagerContext;
+            this.mapper = mapper;
         }
 
         public Board GetBoard(int id)
@@ -48,6 +50,17 @@ namespace task_manager_api.Repository
                 CardLists = new List<CardList>(),
                 CreateDate = DateTime.Today
             });
+            return taskManagerContext.SaveChanges() >= 0;
+        }
+
+        public bool UpdateBoard(int id, Board board)
+        {
+            Board oldBoard = GetBoard(id);
+            if (oldBoard == null)
+            {
+                return false;
+            }
+            mapper.Map(board, oldBoard);
             return taskManagerContext.SaveChanges() >= 0;
         }
 

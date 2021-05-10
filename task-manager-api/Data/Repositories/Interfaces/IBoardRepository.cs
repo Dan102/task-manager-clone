@@ -9,6 +9,7 @@ namespace task_manager_api.Repository
         Board GetBoard(int id);
         IList<Board> GetBoards();
         bool CreateBoard(string title);
+        bool UpdateBoard(int id, Board board);
         bool DeleteBoard(int id);
     }
 }

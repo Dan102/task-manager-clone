@@ -4,7 +4,7 @@ import API_ROUTES from "../apiRoutes";
 
 
 function getBoardPreviewsRequest(): Promise<AxiosResponse<IBoardPreview[]>> {
-    return axios.get<IBoardPreview[]>(API_ROUTES.boardsUrl);
+    return axios.get<IBoardPreview[]>(API_ROUTES.boardUrl);
 }
 
 export default getBoardPreviewsRequest;
