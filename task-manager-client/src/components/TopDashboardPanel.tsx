@@ -1,6 +1,6 @@
 import React from "react"
 import { useDispatch } from "react-redux";
-import { logoutAction } from "../reducers/authReducer";
+import { logoutAction } from "../store/reducers/authReducer";
 
 
 const TopDashboardPanel = () => {

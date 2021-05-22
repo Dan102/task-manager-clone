@@ -5,8 +5,8 @@ import { useHistory } from "react-router";
 import login from "../api/requests/loginRequest";
 import AuthHelper from "../helpers/authHelper";
 import ILoggedUser from "../models/interfaces/ILoggedUser";
-import { loginAction } from "../reducers/authReducer";
-import { IApplicationState } from "../reducers/store";
+import { loginAction } from "../store/reducers/authReducer";
+import { IApplicationState } from "../store/store";
 
 const LoginPage = () => {
 

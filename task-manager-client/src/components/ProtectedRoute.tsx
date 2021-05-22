@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 import { useSelector } from "react-redux";
 import { Route } from "react-router";
 import ILoggedUser from "../models/interfaces/ILoggedUser";
-import { IApplicationState } from "../reducers/store";
+import { IApplicationState } from "../store/store";
 import LoginPage from "./LoginPage";
 
 interface ProtectedRouteProps {

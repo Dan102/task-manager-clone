@@ -1,8 +1,8 @@
 import { createStore, combineReducers } from "redux";
-import { authReducer } from "./authReducer";
 import IAppSettings from "./models/IAppSettingsState";
 import { IAuthState } from "./models/IAuthState";
-import { settingsReducer } from "./settingsReducer";
+import { authReducer } from "./reducers/authReducer";
+import { settingsReducer } from "./reducers/settingsReducer";
 
 export interface IApplicationState {
     settings: IAppSettings,

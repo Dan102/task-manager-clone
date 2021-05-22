@@ -1,7 +1,6 @@
-import { StoreState } from './../../reducers/store';
 import axios from "axios";
 import { Store } from "redux";
-import { logoutAction } from "../../reducers/authReducer";
+import { StoreState } from "../../store/store";
 
 const authRequestInterceptor = (store: Store<StoreState>) => {
     axios.interceptors.request.use(

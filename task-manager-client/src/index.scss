@@ -42,6 +42,10 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
+a {
+    text-decoration: none;
+}
+
 .dnd-board {
     @include flex-direction(row);
     background-color: $main-color;
@@ -524,5 +528,47 @@ body,
 @keyframes spin {
     to {
         transform: rotate(360deg);
+    }
+}
+
+.error-page-container {
+    @include flex-direction-align-justify(column, center, center);
+    height: 100%;
+    background-color: $main-color;
+
+    h1 {
+        font-size: 40px;
+        margin-top: -200px;
+        margin-bottom: 20px;
+    }
+
+    h2 {
+        font-weight: 400;
+        font-size: 20px;
+        font-style: italic;
+        margin-bottom: 10px;
+    }
+
+    h3 {
+        font-weight: 400;
+        margin-bottom: 20px;
+        text-align: center;
+
+        a {
+            padding: 5px 10px;
+            border-radius: 10px;
+            background-color: $light-color;
+            color: $accent-color;
+        }
+    }
+
+    .error-page-rainbow {
+        font-size: 40px;
+        display: inline-block;
+    }
+
+    .error-page-rainbow-rotated {
+        @extend .error-page-rainbow;
+        transform: scaleX(-1);
     }
 }

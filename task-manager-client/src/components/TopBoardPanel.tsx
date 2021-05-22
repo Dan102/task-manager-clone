@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import DisplaySettings from "../models/enums/DisplaySettings"
 import SortSettings from "../models/enums/SortSettings"
-import { changeDetailLevelAction, changeDisplaySettingsAction, changeSortSettingsAction } from "../reducers/settingsReducer";
-import { IApplicationState } from "../reducers/store";
+import { IApplicationState } from "../store/store";
+import { changeSortSettingsAction, changeDisplaySettingsAction, changeDetailLevelAction } from "../store/reducers/settingsReducer";
 
 
 const TopBoardPanel = () => {

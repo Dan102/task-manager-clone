@@ -1,6 +1,6 @@
 import { Reducer } from "redux"
-import ILoggedUser from "../models/interfaces/ILoggedUser"
-import { IAuthState } from "./models/IAuthState";
+import ILoggedUser from "../../models/interfaces/ILoggedUser";
+import { IAuthState } from "../models/IAuthState";
 
 
 const initialAppSettings: IAuthState = {

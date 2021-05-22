@@ -14,9 +14,9 @@ import removeCardListRequest from "../api/requests/removeCardListRequest";
 import updateCardRequest from "../api/requests/updateCardRequest";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { changeSortSettingsAction } from "../reducers/settingsReducer";
-import { IApplicationState } from "../reducers/store";
 import SpinnerPage from "./SpinnerPage";
+import { changeSortSettingsAction } from "../store/reducers/settingsReducer";
+import { IApplicationState } from "../store/store";
 
 interface MatchParams {
     id: string;
