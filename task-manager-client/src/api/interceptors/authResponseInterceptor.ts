@@ -3,7 +3,7 @@ import { Store } from 'redux';
 import { logoutAction } from '../../store/reducers/authReducer';
 import { StoreState } from '../../store/store';
 
-const authResponseInterceptor = (store: Store<StoreState>, history: any) => {
+const authResponseInterceptor = (store: Store<StoreState>, _history: any) => {
   axios.interceptors.response.use(
     (res) => res,
     (err) => {

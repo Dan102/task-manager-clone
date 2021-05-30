@@ -12,7 +12,7 @@ const TopDashboardPanel = () => {
 
   return (
     <div className="top-panel-right">
-      <button className="button-dashboard" onClick={(e) => handleSignOutClicked()}>
+      <button className="button-dashboard" onClick={() => handleSignOutClicked()}>
         Sign out
       </button>
     </div>

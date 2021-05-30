@@ -16,7 +16,7 @@ interface ICardProps {
 const Card = ({ card, listIndex, cardIndex, showCardDetail, handleDragStart, handleDragEnter }: ICardProps) => {
   const detailLevel = useSelector<IApplicationState, number>((x) => x.settings.detailLevel);
 
-  const handleCardClicked = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleCardClicked = () => {
     const htmlElement = document.querySelector('html');
     if (htmlElement) {
       htmlElement.classList.add('darken-page');
@@ -31,7 +31,7 @@ const Card = ({ card, listIndex, cardIndex, showCardDetail, handleDragStart, han
   return (
     <div
       draggable="true"
-      onClick={handleCardClicked}
+      onClick={() => handleCardClicked()}
       onDragStart={(e) => handleDragStart(e, listIndex, cardIndex)}
       onDragEnter={(e) => handleDragEnter(e, listIndex, cardIndex)}
       onDragOver={(e) => e.preventDefault()}

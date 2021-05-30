@@ -94,7 +94,7 @@ const Board = () => {
       return;
     }
     setLists((oldLists) => {
-      let newLists = JSON.parse(JSON.stringify(oldLists));
+      const newLists = JSON.parse(JSON.stringify(oldLists));
       const removedCard = newLists[currentCard.listIndex].cards[currentCard.cardIndex];
       newLists[currentCard.listIndex].cards.splice(currentCard.cardIndex, 1);
       if (targetClassName === 'dnd-card-small' || targetClassName === 'dnd-card-big') {
@@ -120,19 +120,19 @@ const Board = () => {
   };
 
   const addCard = (title: string, listIndex: number) => {
-    addCardRequest(listIndex, title).then((_response) => {
+    addCardRequest(listIndex, title).then(() => {
       fetchBoard(boardIdUrlParam);
     });
   };
 
   const addCardList = (title: string, color: string) => {
-    addCardListRequest(+boardIdUrlParam, title, color).then((_response) => {
+    addCardListRequest(+boardIdUrlParam, title, color).then(() => {
       fetchBoard(boardIdUrlParam);
     });
   };
 
   const removeCard = (cardId: number) => {
-    removeCardRequest(cardId).then((_response) => fetchBoard(boardIdUrlParam));
+    removeCardRequest(cardId).then(() => fetchBoard(boardIdUrlParam));
   };
 
   const removeCardList = (listId: number) => {
@@ -142,11 +142,11 @@ const Board = () => {
     ) {
       return;
     }
-    removeCardListRequest(listId).then((_response) => fetchBoard(boardIdUrlParam));
+    removeCardListRequest(listId).then(() => fetchBoard(boardIdUrlParam));
   };
 
   const updateCard = (card: ICard) => {
-    updateCardRequest(card).then((_response) => fetchBoard(boardIdUrlParam));
+    updateCardRequest(card).then(() => fetchBoard(boardIdUrlParam));
     if (sortSettings !== SortSettings.Own) {
       dispatch(changeSortSettingsAction(SortSettings.Own));
     }
@@ -154,7 +154,7 @@ const Board = () => {
 
   const sortLists = (compFunc: (a: any, b: any) => number) => {
     setLists((oldLists) => {
-      let newLists: Array<ICardList> = JSON.parse(JSON.stringify(oldLists));
+      const newLists: Array<ICardList> = JSON.parse(JSON.stringify(oldLists));
       newLists.forEach((list) => {
         list.cards.sort(compFunc);
       });
@@ -177,17 +177,7 @@ const Board = () => {
         />
       );
     } else {
-      boardDisplayElement = (
-        <BoardTable
-          lists={lists}
-          addCardList={addCardList}
-          removeCardList={removeCardList}
-          addCard={addCard}
-          showCardDetail={showCardDetail}
-          handleDragStart={handleDragStart}
-          handleDragEnter={handleDragEnter}
-        />
-      );
+      boardDisplayElement = <BoardTable lists={lists} />;
     }
     return boardDisplayElement;
   };

@@ -69,7 +69,7 @@ const LoginPage = () => {
             }}
           />
         </div>
-        <button onClick={(e) => loginClick()}>Log in</button>
+        <button onClick={() => loginClick()}>Log in</button>
         <div className={loginStatus !== '' ? 'status-text-failure' : ''} style={{ width: '0px', minWidth: '100%' }}>
           {loginStatus}
         </div>

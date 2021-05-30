@@ -50,7 +50,7 @@ function Dashboard() {
     const chosenBoard = boardPreviews?.filter((x) => x.id === boardId)[0];
     console.log(chosenBoard, !chosenBoard?.isFavourite);
     if (chosenBoard) {
-      updateBoardPreviewRequest(boardId, !chosenBoard.isFavourite).then((x) => getBoardPreviews());
+      updateBoardPreviewRequest(boardId, !chosenBoard.isFavourite).then(() => getBoardPreviews());
     }
   };
 

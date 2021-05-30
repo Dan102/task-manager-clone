@@ -3,12 +3,6 @@ import ICardList from '../models/interfaces/ICardList';
 
 interface IBoardTableProps {
   lists: ICardList[] | undefined;
-  addCardList: (title: string, color: string) => void;
-  removeCardList: (listId: number) => void;
-  addCard: (title: string, listIndex: number) => void;
-  showCardDetail: (listIndex: number, cardIndex: number) => void;
-  handleDragStart: (e: React.DragEvent<HTMLDivElement>, listIndex: number, cardIndex: number) => void;
-  handleDragEnter: (e: React.DragEvent<HTMLDivElement>, targetListIndex: number, targetCardIndex: number) => void;
 }
 
 interface ITableElement {
@@ -30,16 +24,31 @@ const cardListsToTableElements = (lists: ICardList[]): ITableElement[] => {
     .flat();
 };
 
-const BoardTable = ({
-  lists,
-  addCardList,
-  removeCardList,
-  addCard,
-  showCardDetail,
-  handleDragStart,
-  handleDragEnter,
-}: IBoardTableProps) => {
-  return <>{lists && <>TODO</>}</>;
+const BoardTable = ({ lists }: IBoardTableProps) => {
+  return (
+    <>
+      {lists && (
+        <table className="kanban-table">
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Deadline</th>
+            <th>Priority</th>
+            <th>Category</th>
+          </tr>
+          {cardListsToTableElements(lists).map((tableEl: ITableElement) => (
+            <tr key={tableEl.title}>
+              <td>{tableEl.title}</td>
+              <td>{tableEl.description}</td>
+              <td>{tableEl.deadline}</td>
+              <td>{tableEl.priority}</td>
+              <td>{tableEl.category}</td>
+            </tr>
+          ))}
+        </table>
+      )}
+    </>
+  );
 };
 
 export default BoardTable;

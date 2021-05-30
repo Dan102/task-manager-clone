@@ -25,7 +25,7 @@ const CardList = ({
 }: ICardListProps) => {
   return (
     <div className="dnd-list" style={{ '--bg-color': list.color ?? ListColors.Green } as React.CSSProperties}>
-      <button className="board-remove" onClick={(e) => removeCardList(list.id)}>
+      <button className="board-remove" onClick={() => removeCardList(list.id)}>
         x
       </button>
       <span className="card-list-title">{list.title}</span>
