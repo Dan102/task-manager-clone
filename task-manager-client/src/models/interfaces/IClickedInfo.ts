@@ -1,6 +1,6 @@
-import ICard from "./ICard";
+import ICard from './ICard';
 
 export default interface IClickedInfo {
-    card: ICard;
-    listIndex: number;
+  card: ICard;
+  listIndex: number;
 }

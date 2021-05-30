@@ -1,6 +1,6 @@
 enum DisplaySettings {
-    Kanban,
-    Table,
+  Kanban,
+  Table,
 }
 
 export default DisplaySettings;

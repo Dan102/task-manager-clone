@@ -1,5 +1,5 @@
 export default interface ILoggedUser {
-    fullname: string;
-    username: string;
-    token: string;
+  fullname: string;
+  username: string;
+  token: string;
 }

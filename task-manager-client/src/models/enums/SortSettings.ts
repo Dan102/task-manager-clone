@@ -1,7 +1,7 @@
 enum SortSettings {
-    Own,
-    Priority,
-    Deadline
+  Own,
+  Priority,
+  Deadline,
 }
 
 export default SortSettings;

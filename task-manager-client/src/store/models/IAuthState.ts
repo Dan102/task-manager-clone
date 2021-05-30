@@ -1,5 +1,5 @@
-import ILoggedUser from "../../models/interfaces/ILoggedUser";
+import ILoggedUser from '../../models/interfaces/ILoggedUser';
 
 export interface IAuthState {
-    loggedUser: ILoggedUser | undefined;
+  loggedUser: ILoggedUser | undefined;
 }

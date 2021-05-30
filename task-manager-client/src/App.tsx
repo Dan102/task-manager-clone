@@ -8,19 +8,14 @@ import routes from './routes';
 import store from './store/store';
 
 const App = () => {
+  const history = useHistory();
 
-    const history = useHistory();
+  useEffect(() => {
+    authRequestInterceptor(store);
+    authResponseInterceptor(store, history);
+  }, [history]);
 
-    useEffect(() => {
-        authRequestInterceptor(store);
-        authResponseInterceptor(store, history);
-    }, [history])
-
-    return (
-        <Provider store={store}>
-            {routes}
-        </Provider>
-    )
-}
+  return <Provider store={store}>{routes}</Provider>;
+};
 
 export default App;
