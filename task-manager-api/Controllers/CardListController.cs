@@ -23,9 +23,9 @@ namespace task_manager_api.Controllers
 
         [Authorize]
         [HttpPost]
-        public ActionResult CreateCardList([FromBody]CardListCreateDto card)
+        public ActionResult CreateCardList([FromBody]CardListCreateDto cardList)
         {
-            var success = cardListRepository.CreateCardList(card.BoardId, card.Title);
+            var success = cardListRepository.CreateCardList(cardList.BoardId, cardList.Title, cardList.Color);
             if (!success)
             {
                 throw new ArgumentException("Card couldn't be created");

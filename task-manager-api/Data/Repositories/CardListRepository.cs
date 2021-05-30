@@ -27,7 +27,7 @@ namespace task_manager_api.Repository
                 .FirstOrDefault(cardList => cardList.Id == id);
         }
 
-        public bool CreateCardList(int boardId, string title)
+        public bool CreateCardList(int boardId, string title, string color)
         {
             if (title == "" || title == null)
             {
@@ -42,7 +42,8 @@ namespace task_manager_api.Repository
             {
                 Title = title,
                 Cards = new List<Card>(),
-                CreateDate = DateTime.Today
+                CreateDate = DateTime.Today,
+                Color = color,
             });
             return taskManagerContext.SaveChanges() >= 0;
         }

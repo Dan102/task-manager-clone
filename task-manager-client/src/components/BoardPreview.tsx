@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import IBoardPreview from '../models/interfaces/IBoardPreview';
-import { IMAGES } from '../assets/images'
 
 interface IBoardPreviewProps {
     boardPreview: IBoardPreview;

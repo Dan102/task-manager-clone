@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
@@ -23,13 +22,13 @@ const LoginPage = () => {
             console.log("Loading user from storage");
             dispatch(loginAction(loadedUser));
         }
-    }, [])
+    }, [dispatch])
 
     useEffect(() => {
         if (loggedUser) {
             history.push("/");
         }
-    }, [loggedUser])
+    }, [loggedUser, history])
 
     const loginClick = () => {
         login(username, password).then(response => {
@@ -39,7 +38,7 @@ const LoginPage = () => {
             } else if(response.status === 401) {
                 setLoginStatus("Combination of password and username is invalid.");
             } else {
-                setLoginStatus("Unexpected error during logging proccess.");
+                setLoginStatus("Unexpected error during logging process.");
             }
         })
     }
@@ -55,8 +54,12 @@ const LoginPage = () => {
             </div>
             <div className="login-page-area">
                 <span>Password:</span>
-                <input type="password" value={password}
-                onChange={(e) => {setPassword(e.target.value)}}/>
+                    <input type="password" value={password}
+                        onChange={(e) => { setPassword(e.target.value) }} onKeyPress={
+                            (e) => {
+                                if (e.key === 'Enter') loginClick();
+                            }
+                        }/>
             </div>
             <button onClick={e => loginClick()}>Log in</button>
             <div className={loginStatus !== "" ? "status-text-failure" : ""} style={{width: "0px", minWidth: "100%"}}>

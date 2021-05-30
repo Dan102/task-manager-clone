@@ -1,7 +1,8 @@
-import React from "react"
-import Card from "./Card"
-import AddCard from "./AddCard"
-import ICardList from "../models/interfaces/ICardList";
+import React from 'react';
+import Card from './Card';
+import AddCard from './AddCard';
+import ICardList from '../models/interfaces/ICardList';
+import ListColors from '../models/enums/ListColors';
 
 interface ICardListProps {
     list: ICardList;
@@ -13,24 +14,43 @@ interface ICardListProps {
     handleDragEnter: (e: React.DragEvent<HTMLDivElement>, targetListIndex: number, targetCardIndex: number) => void;
 }
 
-const CardList = ({list, listIndex, showCardDetail, addCard, removeCardList, handleDragStart, handleDragEnter}: ICardListProps) => {
-
+const CardList = ({
+    list,
+    listIndex,
+    showCardDetail,
+    addCard,
+    removeCardList,
+    handleDragStart,
+    handleDragEnter,
+}: ICardListProps) => {
     return (
-        <div className="dnd-list">
-            <button className="board-remove" onClick={(e) => removeCardList(list.id)}>x</button>
+        <div className="dnd-list" style={{ '--bg-color': list.color ?? ListColors.Green } as React.CSSProperties}>
+            <button className="board-remove" onClick={(e) => removeCardList(list.id)}>
+                x
+            </button>
             <span className="card-list-title">{list.title}</span>
             {list.cards.map((card, cardIndex) => {
-                return <Card
-                          key={cardIndex}
-                          showCardDetail={showCardDetail}
-                          listIndex={listIndex} card={card} cardIndex={cardIndex}
-                          handleDragStart={handleDragStart} handleDragEnter={handleDragEnter}/>
+                return (
+                    <Card
+                        key={cardIndex}
+                        showCardDetail={showCardDetail}
+                        listIndex={listIndex}
+                        card={card}
+                        cardIndex={cardIndex}
+                        handleDragStart={handleDragStart}
+                        handleDragEnter={handleDragEnter}
+                    />
+                );
             })}
             <AddCard
-                handleDragEnter={handleDragEnter} addCard={addCard}
-                listId={list.id} listIndex={listIndex} listSize={list.cards.length}/>
+                handleDragEnter={handleDragEnter}
+                addCard={addCard}
+                listId={list.id}
+                listIndex={listIndex}
+                listSize={list.cards.length}
+            />
         </div>
     );
-}
+};
 
 export default CardList;

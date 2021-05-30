@@ -1,6 +1,6 @@
 enum DisplaySettings {
-    Graphical,
-    Text,
+    Kanban,
+    Table,
 }
 
 export default DisplaySettings;

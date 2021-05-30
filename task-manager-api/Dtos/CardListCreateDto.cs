@@ -11,5 +11,7 @@ namespace task_manager_api.Dtos
         public int BoardId { get; set; }
 
         public string Title { get; set; }
+
+        public string Color { get; set; }
     }
 }

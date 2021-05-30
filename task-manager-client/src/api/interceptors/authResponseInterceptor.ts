@@ -8,13 +8,12 @@ const authResponseInterceptor = (store: Store<StoreState>, history: any) => {
     axios.interceptors.response.use(
         res => res,
         err => {
-            // Network error
-            if (!err.status) {
-                window.location.href = "/error";
-            }
-            else if (err?.response?.status === 401) {
+            if (err?.response?.status === 401) {
                 localStorage.clear();
                 store.dispatch(logoutAction());
+            // Network error and not logged
+            } else if (!err.status) {
+                window.location.href = "/error";
             }
         })
 }

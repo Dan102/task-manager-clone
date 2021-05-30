@@ -12,6 +12,8 @@ namespace task_manager_api.Dtos
 
         public string Title { get; set; }
 
+        public string Color { get; set; }
+
         public IList<CardReadDto> Cards { get; set; }
     }
 }

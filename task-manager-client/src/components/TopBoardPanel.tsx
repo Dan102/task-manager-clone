@@ -44,12 +44,12 @@ const TopBoardPanel = () => {
                 </div>
                 <div className="option-section">
                     <span className="top-panel-right-title">Display:</span>
-                    <input type="radio" id="graphical" name="display" value={DisplaySettings.Graphical}
-                        checked={displaySettings === DisplaySettings.Graphical} onChange={e => handleSetDisplayOption(e)}/>
-                    <label htmlFor="graphical">Graphical</label>
-                    <input type="radio" id="text" name="display" value={DisplaySettings.Text}
-                        checked={displaySettings === DisplaySettings.Text} onChange={e => handleSetDisplayOption(e)}/>
-                    <label htmlFor="text">Text</label>
+                    <input type="radio" id="kanban" name="display" value={DisplaySettings.Kanban}
+                        checked={displaySettings === DisplaySettings.Kanban} onChange={e => handleSetDisplayOption(e)}/>
+                    <label htmlFor="kanbab">Kanban</label>
+                    <input type="radio" id="text" name="display" value={DisplaySettings.Table}
+                        checked={displaySettings === DisplaySettings.Table} onChange={e => handleSetDisplayOption(e)}/>
+                    <label htmlFor="table">Table</label>
                 </div>
             </div>
         </div>

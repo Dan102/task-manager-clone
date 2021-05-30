@@ -15,10 +15,10 @@ const ErrorPage = () => {
                 source of the error had enough time to magically disappear.
             </h3>
             <div>
-                <span className="error-page-rainbow">
+                <span className="error-page-rainbow" role="img" aria-label="rainbow-left">
                     🌈🌈🌈
                 </span>
-                <span className="error-page-rainbow-rotated">
+                <span className="error-page-rainbow-rotated" role="img" aria-label="rainbow-right">
                     🌈🌈🌈
                 </span>
             </div>

@@ -4,4 +4,5 @@ export default interface ICardList {
     id: number;
     title: string;
     cards: ICard[];
+    color: string;
 }

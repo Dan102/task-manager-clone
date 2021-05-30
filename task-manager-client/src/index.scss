@@ -1,8 +1,22 @@
-$main-color: dodgerblue;
-$accent-color: #4e67c5;
-$background-color: lightgray;
-$light-color: white;
-$delete-button-color: #f1868c;
+$light-pink: #ffadadff;
+$deep-champagne: #ffd6a5ff;
+$lemon-yellow-crayola: #fdffb6ff;
+$tea-green: #caffbf;
+$celeste: #9bf6ffff;
+$baby-blue-eyes: #a0c4ffff;
+$maximum-blue-purple: #bdb2ffff;
+$mauve: #ffc6ffff;
+$baby-powder: #fffffcff;
+
+$main-color: $deep-champagne;
+$accent-color: $celeste;
+$background-color: $baby-powder;
+$light-color: $lemon-yellow-crayola;
+$delete-button-color: $light-pink;
+$dark-accent-color: $baby-blue-eyes;
+$darkest-accent-color: $maximum-blue-purple;
+$green-accent-color: $tea-green;
+$pink-accent-color: $mauve;
 
 @mixin flex-direction-align-justify($dir, $align, $justify) {
     display: flex;
@@ -46,11 +60,14 @@ a {
     text-decoration: none;
 }
 
-.dnd-board {
-    @include flex-direction(row);
-    background-color: $main-color;
+.board-display {
+    background-color: $background-color;
     height: 100vh;
     overflow: auto;
+}
+
+.dnd-board {
+    @include flex-direction(row);
     flex-grow: 1;
 }
 
@@ -58,19 +75,43 @@ a {
     @include flex-direction(column);
     position: relative;
     margin: 5px 20px;
-    background-color: lightgrey;
+    background-color: $main-color;
     width: 220px;
     border-radius: 5px;
     padding: 17px 10px 10px 10px;
     height: min-content;
+    overflow: hidden;
+
+    &:before {
+        content: '';
+        width: 40px;
+        height: 40px;
+        background: var(--bg-color);
+        transform: rotate(45deg);
+        position: absolute;
+        top: -20px;
+        left: -20px;
+    }
+
+    &:after {
+        content: '';
+        width: 20px;
+        height: 20px;
+        background-color: $main-color;
+        transform: rotate(45deg);
+        position: absolute;
+        top: -10px;
+        left: -10px;
+    }
 }
 
 .dnd-card {
     cursor: grab;
     margin: 5px 0px;
     width: 200px;
-    background-color: $light-color;
+    background-color: $main-color;
     border-radius: 2.5px;
+    border: 1px dashed black;
 }
 
 .dnd-card-big {
@@ -88,11 +129,11 @@ a {
 textarea {
     resize: none;
     padding: 5px 10px;
-    background-color: $light-color;
+    background-color: $background-color;
 }
 
 select {
-    background-color: $light-color;
+    background-color: $accent-color;
     width: 75px;
 }
 
@@ -106,7 +147,7 @@ button {
 }
 
 .card-list-title {
-    color: $accent-color;
+    color: black;
     font-size: 30px;
     text-transform: capitalize;
     font-weight: bold;
@@ -127,15 +168,36 @@ button {
 
 .add-card-button {
     background: $accent-color;
-    color: $light-color;
+    color: black;
     padding: 3px 12px;
     border: 0px;
     border-radius: 5px;
     margin-top: 5px;
+    border: 1px dashed black;
 }
 
 .add-card-textarea {
     margin-top: 7px;
+    border-radius: 5px;
+}
+
+.add-card-colors {
+    @include flex-direction(row);
+    flex-wrap: wrap;
+
+    div > * {
+        display: inline-block;
+        vertical-align: middle;
+    }
+}
+
+.add-card-colors-square {
+    width: 15px;
+    height: 15px;
+    border-radius: 5px;
+    margin-left: 3px;
+    margin-right: 7px;
+    border: 1px dotted black;
 }
 
 .card-heading {
@@ -150,23 +212,25 @@ button {
 .card-priority {
     font-size: 10px;
     background-color: $accent-color;
-    color: $light-color;
+    color: black;
     padding: 2px 5px;
     margin-left: 8px;
+    border: 1px dashed black;
 }
 
 .top-panel {
     @include flex-direction-justify(row, space-between);
-    background-color: $main-color;
+    background-color: $background-color;
 
 }
 
 .button-dashboard {
     padding: 5px 10px;
     margin: 5px 5px;
-    background-color: $light-color;
+    background-color: $accent-color;
     border-radius: 5px;
-    color: $accent-color;
+    color: black;
+    border: 1px dashed black;
     font-weight: bold;
     text-decoration: none;
 }
@@ -175,8 +239,8 @@ button {
 
 .top-panel-right {
     @include flex-direction-justify(row, flex-end);
-    background-color: $main-color;
-    color: $light-color;
+    background-color: $background-color;
+    color: black;
     font-size: 10px;
     padding: 5px 10px;
 
@@ -256,6 +320,7 @@ html.darken-page #visible-content {
 
 #visible-content {
     @include flex-direction(column);
+    background-color: $background-color;
     height: 100%;
 }
 
@@ -294,11 +359,12 @@ html.darken-page #visible-content {
 #card-detail button,
 #card-detail input[type='submit'] {
     padding: 5px 25px;
-    color: $light-color;
+    color: black;
     border-radius: 5px;
     width: auto;
     font-size: 12px;
     height: min-content;
+    border: 1px dashed black;
 }
 
 #card-detail {
@@ -309,7 +375,7 @@ html.darken-page #visible-content {
     text-align: left;
     transform: translate(-50%, -30%);
     border-radius: 25px;
-    background-color: $light-color;
+    background-color: $main-color;
     padding: 40px 60px;
 }
 
@@ -318,11 +384,12 @@ html.darken-page #visible-content {
 }
 
 .cancel-button {
-    background-color: gray;
+    background-color: lightgray;
 }
 
 #card-detail .save-button {
     background-color: $accent-color;
+    color: black;
 }
 
 #card-detail-container {
@@ -333,11 +400,12 @@ html.darken-page #visible-content {
 #card-detail textarea,
 #card-detail input {
     background-color: $background-color;
+    border-radius: 3px;
 }
 
 .dnd-board-item {
     @include flex-direction-align-justify(column, center, center);
-    background-color: $light-color;
+    background-color: $main-color;
     width: 300px;
     height: 200px;
     text-align: center;
@@ -345,18 +413,19 @@ html.darken-page #visible-content {
     padding: 20px;
     position: relative;
     text-decoration: none;
+    border-radius: 10px;
 }
 
 .board-remove {
     position: absolute;
-    right: 15px;
-    top: 10px;
-    color: gray;
+    right: 10px;
+    top: 7px;
+    color: black;
     font-size: 12px;
-    color: $light-color;
     background: $delete-button-color;
     padding: 3px 7px;
     border-radius: 5px;
+    border: 0.5px solid black;
 }
 
 .board-favourite {
@@ -370,23 +439,25 @@ html.darken-page #visible-content {
 
 .board-favourite-active {
     @extend .board-favourite;
-    color: orange;
+    color: $accent-color;
 }
 
 .board-favourite-inactive {
     @extend .board-favourite;
-    color: white;
+    color: $main-color;
 }
 
 .dashboard-board-list {
-    @include flex-direction-justify(row, center);
-    background-color: $main-color;
-    padding: 100px 20px 60px 20px;
-    flex-wrap: wrap;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, auto));
+    justify-items: center;
+    background-color: $background-color;
+    padding: 100px 80px 60px 80px;
 }
 
 .board-title {
-    color: $accent-color;
+    color: black;
     font-size: 40px;
     font-weight: bold;
 }
@@ -398,9 +469,7 @@ body,
 }
 
 .dnd-dashboard {
-    background-color: $main-color;
-    min-height: 100vh;
-    overflow: hidden;
+    background-color: $background-color;
 }
 
 * {
@@ -415,24 +484,25 @@ body,
 }
 
 .add-board-textarea {
-    background-color: #d3d3d3;
+    background-color: $background-color;
     width: 200px;
     height: 100px;
     border-radius: 3px;
     font-size: 30px;
-    color: $accent-color;
+    color: black;
 }
 
 .add-board-button {
     padding: 5px 10px;
     background-color: $accent-color;
-    color: $light-color;
+    color: black;
+    border: 1px dashed black;
     margin-top: 7px;
     border-radius: 3px;
 }
 
 .dnd-board-item form {
-    background-color: $light-color;
+    background-color: $main-color;
     width: 250px;
     height: 166px;
     padding-top: 15px;
@@ -501,7 +571,7 @@ body,
     position: fixed;
     @include flex-direction-align-justify(column, center, center);
     top: 0;
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(0, 0, 0, 0.6);
     width: 100%;
     height: 100vh;
     padding: 0;
@@ -557,8 +627,10 @@ body,
         a {
             padding: 5px 10px;
             border-radius: 10px;
-            background-color: $light-color;
-            color: $accent-color;
+            line-height: 30px;
+            background-color: $accent-color;
+            color: black;
+            border: 1px dashed black;
         }
     }
 
@@ -570,5 +642,23 @@ body,
     .error-page-rainbow-rotated {
         @extend .error-page-rainbow;
         transform: scaleX(-1);
+    }
+}
+
+.kanban-table {
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
     }
 }
