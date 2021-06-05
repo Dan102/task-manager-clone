@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const ErrorPage = () => {
+const ErrorPage = (): JSX.Element => {
   return (
     <div className="error-page-container">
       <h1>Error Occurred</h1>

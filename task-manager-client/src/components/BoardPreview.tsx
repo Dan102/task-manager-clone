@@ -8,7 +8,7 @@ interface IBoardPreviewProps {
   changeBoardFavouriteStatus: (boardId: number) => void;
 }
 
-const BoardPreview = ({ boardPreview, removeBoard, changeBoardFavouriteStatus }: IBoardPreviewProps) => {
+const BoardPreview = ({ boardPreview, removeBoard, changeBoardFavouriteStatus }: IBoardPreviewProps): JSX.Element => {
   const handleRemoveClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     removeBoard(boardPreview.id);

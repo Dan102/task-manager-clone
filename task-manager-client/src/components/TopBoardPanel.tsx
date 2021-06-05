@@ -10,7 +10,7 @@ import {
   changeDetailLevelAction,
 } from '../store/reducers/settingsReducer';
 
-const TopBoardPanel = () => {
+const TopBoardPanel = (): JSX.Element => {
   const sortSettings = useSelector<IApplicationState, SortSettings>((x) => x.settings.sortSettings);
   const displaySettings = useSelector<IApplicationState, DisplaySettings>((x) => x.settings.displaySettings);
   const detailLevel = useSelector<IApplicationState, number>((x) => x.settings.detailLevel);

@@ -25,7 +25,7 @@ const Card = ({
   handleDragEnter,
   handleDrop,
   targetDragCard,
-}: ICardProps) => {
+}: ICardProps): JSX.Element => {
   const detailLevel = useSelector<IApplicationState, number>((x) => x.settings.detailLevel);
 
   const handleCardClicked = () => {

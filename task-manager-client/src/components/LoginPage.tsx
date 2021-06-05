@@ -7,7 +7,7 @@ import ILoggedUser from '../models/interfaces/ILoggedUser';
 import { loginAction } from '../store/reducers/authReducer';
 import { IApplicationState } from '../store/store';
 
-const LoginPage = () => {
+const LoginPage = (): JSX.Element => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [username, setUsername] = useState('');

@@ -10,7 +10,7 @@ interface ProtectedRouteProps {
   path: string;
 }
 
-const ProtectedRoute = ({ Component, path }: ProtectedRouteProps) => {
+const ProtectedRoute = ({ Component, path }: ProtectedRouteProps): JSX.Element => {
   const loggedUser = useSelector<IApplicationState, ILoggedUser | undefined>((x) => x.auth.loggedUser);
 
   useEffect(() => {

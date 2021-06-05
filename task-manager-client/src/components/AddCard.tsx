@@ -11,7 +11,7 @@ interface IAddCardProps {
   targetDragCard: CardPosition | null;
 }
 
-const AddCard = ({ listId, listIndex, listSize, addCard, handleDragEnter, handleDrop, targetDragCard }: IAddCardProps) => {
+const AddCard = ({ listId, listIndex, listSize, addCard, handleDragEnter, handleDrop, targetDragCard }: IAddCardProps): JSX.Element => {
   const [newCardTitle, setNewCardTitle] = useState<string>('');
 
   const handleAddCard = (e: FormEvent<HTMLFormElement>) => {

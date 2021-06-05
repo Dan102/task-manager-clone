@@ -9,7 +9,7 @@ import SpinnerPage from './SpinnerPage';
 import TopDashboardPanel from './TopDashboardPanel';
 import updateBoardIsFavouriteRequest from '../api/requests/updateBoardIsFavouriteRequest';
 
-function Dashboard() {
+function Dashboard(): JSX.Element {
   const [boardPreviews, setBoardPreviews] = useState<IBoardPreview[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -27,7 +27,7 @@ function Dashboard() {
   const getBoardPreviews = () => {
     setIsLoading(true);
     getBoardPreviewsRequest().then((response) => {
-      response.data.sort((x, y) => +y.isFavourite - +x.isFavourite);
+      response.data.sort((x: IBoardPreview, y: IBoardPreview) => +y.isFavourite - +x.isFavourite);
       setBoardPreviews(response.data);
     });
   };

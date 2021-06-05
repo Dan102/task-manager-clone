@@ -7,7 +7,7 @@ import './index.scss';
 import routes from './routes';
 import store from './store/store';
 
-const App = () => {
+const App = (): JSX.Element => {
   const history = useHistory();
 
   useEffect(() => {

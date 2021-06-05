@@ -20,17 +20,32 @@ export const SETTINGS_ACTIONS_TYPES = {
   CHANGE_DISPLAY_SETTINGS: 'CHANGE_DISPLAY_SETTINGS',
 };
 
-export const changeDetailLevelAction = (newDetailLevel: number) => ({
+export interface IChangeDetailLevelActionReturn {
+  type: string,
+  payload: number,
+}
+
+export interface IChangeSortSettingsActionReturn {
+  type: string,
+  payload: SortSettings,
+}
+
+export interface IChangeDisplaySettingsActionReturn {
+  type: string,
+  payload: DisplaySettings,
+}
+
+export const changeDetailLevelAction = (newDetailLevel: number): IChangeDetailLevelActionReturn => ({
   type: SETTINGS_ACTIONS_TYPES.CHANGE_DETAIL_LEVEL,
   payload: newDetailLevel,
 });
 
-export const changeSortSettingsAction = (newSortSettings: SortSettings) => ({
+export const changeSortSettingsAction = (newSortSettings: SortSettings): IChangeSortSettingsActionReturn => ({
   type: SETTINGS_ACTIONS_TYPES.CHANGE_SORT_SETTINGS,
   payload: newSortSettings,
 });
 
-export const changeDisplaySettingsAction = (newDisplaySettings: DisplaySettings) => ({
+export const changeDisplaySettingsAction = (newDisplaySettings: DisplaySettings): IChangeDisplaySettingsActionReturn => ({
   type: SETTINGS_ACTIONS_TYPES.CHANGE_DISPLAY_SETTINGS,
   payload: newDisplaySettings,
 });

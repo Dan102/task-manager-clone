@@ -24,7 +24,7 @@ const cardListsToTableElements = (lists: ICardList[]): ITableElement[] => {
     .flat();
 };
 
-const BoardTable = ({ lists }: IBoardTableProps) => {
+const BoardTable = ({ lists }: IBoardTableProps): JSX.Element => {
   return (
     <>
       {lists && (

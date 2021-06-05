@@ -26,7 +26,7 @@ const BoardKanban = ({
   handleDragEnter,
   handleDrop,
   targetDragCard,
-}: IBoardKanbanProps) => {
+}: IBoardKanbanProps): JSX.Element => {
   return (
     <div className="dnd-board">
       {lists && (

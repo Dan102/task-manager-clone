@@ -4,7 +4,7 @@ interface IAddBoardProps {
   addBoard: (title: string) => void;
 }
 
-const AddBoard = ({ addBoard }: IAddBoardProps) => {
+const AddBoard = ({ addBoard }: IAddBoardProps): JSX.Element => {
   const [newBoardTitle, setNewBoardTitle] = useState<string>('');
 
   const handleAddBoard = function (e: React.FormEvent<HTMLFormElement>): void {

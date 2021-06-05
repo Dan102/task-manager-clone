@@ -5,7 +5,7 @@ interface IAddCardListProps {
   addCardList: (title: string, color: string) => void;
 }
 
-const AddCardList = ({ addCardList }: IAddCardListProps) => {
+const AddCardList = ({ addCardList }: IAddCardListProps): JSX.Element => {
   const [newCardListColor, setNewCardListColor] = useState<ListColors>(ListColors.Pink);
   const [newCardListTitle, setNewCardListTitle] = useState<string>('');
 

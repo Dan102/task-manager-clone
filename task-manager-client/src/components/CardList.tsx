@@ -27,7 +27,7 @@ const CardList = ({
   handleDragEnter,
   handleDrop,
   targetDragCard,
-}: ICardListProps) => {
+}: ICardListProps): JSX.Element => {
   return (
     <div className="dnd-list" style={{ '--bg-color': list.color ?? ListColors.Green } as React.CSSProperties}>
       <button className="board-remove" onClick={() => removeCardList(list.id)}>

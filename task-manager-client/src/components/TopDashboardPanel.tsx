@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { logoutAction } from '../store/reducers/authReducer';
 
-const TopDashboardPanel = () => {
+const TopDashboardPanel = (): JSX.Element => {
   const dispatch = useDispatch();
 
   const handleSignOutClicked = () => {

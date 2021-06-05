@@ -16,12 +16,21 @@ export const AUTH_ACTIONS_TYPES = {
   LOGOUT: 'LOGOUT',
 };
 
-export const loginAction = (loggedUser: ILoggedUser) => ({
+export interface ILoginActionReturn {
+  type: string,
+  payload: ILoggedUser,
+}
+
+export interface ILogoutActionReturn {
+  type: string,
+}
+
+export const loginAction = (loggedUser: ILoggedUser): ILoginActionReturn => ({
   type: AUTH_ACTIONS_TYPES.LOGIN,
   payload: loggedUser,
 });
 
-export const logoutAction = () => ({
+export const logoutAction = (): ILogoutActionReturn => ({
   type: AUTH_ACTIONS_TYPES.LOGOUT,
 });
 

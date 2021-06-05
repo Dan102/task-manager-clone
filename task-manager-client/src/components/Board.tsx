@@ -31,7 +31,7 @@ export interface CardPosition {
 }
 
 
-const Board = () => {
+const Board = (): JSX.Element => {
   const { id: boardIdUrlParam } = useParams<MatchParams>();
   const [lists, setLists] = useState<ICardList[]>();
   const [clickedInfo, setClickedInfo] = useState<IClickedInfo>();

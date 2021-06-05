@@ -5,7 +5,7 @@ interface ISpinnerPageProps {
   isLoading: boolean;
 }
 
-const SpinnerPage = ({ component, isLoading }: ISpinnerPageProps) => {
+const SpinnerPage = ({ component, isLoading }: ISpinnerPageProps): JSX.Element => {
   return (
     <>
       {component}

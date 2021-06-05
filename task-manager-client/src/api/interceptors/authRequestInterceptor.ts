@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Store } from 'redux';
 import { StoreState } from '../../store/store';
 
-const authRequestInterceptor = (store: Store<StoreState>) => {
+const authRequestInterceptor = (store: Store<StoreState>): any => {
   axios.interceptors.request.use((req) => {
     req.headers['Accept'] = 'application/json';
     req.headers['Content-Type'] = 'application/json';
