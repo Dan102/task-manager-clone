@@ -3,6 +3,7 @@ import Card from './Card';
 import AddCard from './AddCard';
 import ICardList from '../models/interfaces/ICardList';
 import ListColors from '../models/enums/ListColors';
+import { CardPosition } from './Board';
 
 interface ICardListProps {
   list: ICardList;
@@ -12,6 +13,8 @@ interface ICardListProps {
   removeCardList: (listId: number) => void;
   handleDragStart: (e: React.DragEvent<HTMLDivElement>, listIndex: number, cardIndex: number) => void;
   handleDragEnter: (e: React.DragEvent<HTMLDivElement>, targetListIndex: number, targetCardIndex: number) => void;
+  handleDrop: (e: React.DragEvent<HTMLDivElement>, targetListIndex: number, targetCardIndex: number) => void;
+  targetDragCard: CardPosition | null;
 }
 
 const CardList = ({
@@ -22,6 +25,8 @@ const CardList = ({
   removeCardList,
   handleDragStart,
   handleDragEnter,
+  handleDrop,
+  targetDragCard,
 }: ICardListProps) => {
   return (
     <div className="dnd-list" style={{ '--bg-color': list.color ?? ListColors.Green } as React.CSSProperties}>
@@ -39,11 +44,15 @@ const CardList = ({
             cardIndex={cardIndex}
             handleDragStart={handleDragStart}
             handleDragEnter={handleDragEnter}
+            handleDrop={handleDrop}
+            targetDragCard={targetDragCard}
           />
         );
       })}
       <AddCard
         handleDragEnter={handleDragEnter}
+        handleDrop={handleDrop}
+        targetDragCard={targetDragCard}
         addCard={addCard}
         listId={list.id}
         listIndex={listIndex}

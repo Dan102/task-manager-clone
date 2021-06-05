@@ -5,7 +5,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended', // Uses the recommended rules from @typescript-eslint/eslint-plugin
-    'plugin:prettier/recommended', // Enables eslint-plugin-prettier and displays prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
+    // 'plugin:prettier/recommended', // Enables eslint-plugin-prettier and displays prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
   ],
   parserOptions: {
     ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
@@ -18,7 +18,7 @@ module.exports = {
     'no-unused-vars': 'off', // typescript solves
     'no-undef': 'off', // typescript solves
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-    'prettier/prettier': ['error', { endOfLine: 'auto' }],
+    // 'prettier/prettier': ['error', { endOfLine: 'auto' }],
     'constructor-super': 'error',
     'for-direction': 'error',
     'getter-return': 'error',

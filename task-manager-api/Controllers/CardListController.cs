@@ -10,13 +10,13 @@ using task_manager_api.Repository;
 
 namespace task_manager_api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/card-lists")]
     [ApiController]
-    public class CardListController : ControllerBase
+    public class CardListsController : ControllerBase
     {
         private readonly ICardListRepository cardListRepository;
 
-        public CardListController(ICardListRepository cardListRepository)
+        public CardListsController(ICardListRepository cardListRepository)
         {
             this.cardListRepository = cardListRepository;
         }

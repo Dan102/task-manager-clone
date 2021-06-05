@@ -13,12 +13,12 @@ namespace task_manager_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CardController : ControllerBase
+    public class CardsController : ControllerBase
     {
         private readonly ICardRepository cardRepository;
         private readonly IMapper mapper;
 
-        public CardController(ICardRepository cardRepository, IMapper mapper)
+        public CardsController(ICardRepository cardRepository, IMapper mapper)
         {
             this.cardRepository = cardRepository;
             this.mapper = mapper;

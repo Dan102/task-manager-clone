@@ -12,13 +12,13 @@ namespace task_manager_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BoardController : ControllerBase
+    public class BoardsController : ControllerBase
     {
         private readonly IBoardRepository boardRepository;
         private readonly IBoardService boardService;
         private readonly IMapper mapper;
 
-        public BoardController(IBoardRepository boardRepository, IBoardService boardService, IMapper mapper) {
+        public BoardsController(IBoardRepository boardRepository, IBoardService boardService, IMapper mapper) {
             this.boardRepository = boardRepository;
             this.boardService = boardService;
             this.mapper = mapper;
@@ -31,9 +31,9 @@ namespace task_manager_api.Controllers
             return Ok(mapper.Map<IList<BoardPreviewReadDto>>(boards));
         }
 
-        [HttpPut("{id}")]
+        [HttpPatch("{id}/favourite")]
         [Authorize]
-        public ActionResult UpdateBoardPreview(int id, [FromBody] BoardPreviewUpdateDto boardPreviewUpdate)
+        public ActionResult UpdateBoardPreview(int id, [FromBody] BoardPreviewUpdateIsFavouriteDto boardPreviewUpdate)
         {
             boardService.UpdateBoardIsFavourite(id, boardPreviewUpdate.IsFavourite);
             return Ok();
@@ -55,6 +55,18 @@ namespace task_manager_api.Controllers
         public ActionResult CreateBoard([FromBody]string title)
         {
             var success = boardRepository.CreateBoard(title);
+            if (!success)
+            {
+                throw new ArgumentException("Board couldn't be created");
+            }
+            return Ok();
+        }
+
+        [HttpPatch("{id}/card-lists")]
+        [Authorize]
+        public ActionResult UpdateBoardCardLists(int id, [FromBody] BoardPreviewUpdateCardListsDto boardDto)
+        {
+            var success = boardService.UpdateBoardCardListsOrder(id, boardDto.CardLists);
             if (!success)
             {
                 throw new ArgumentException("Board couldn't be created");

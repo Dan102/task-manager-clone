@@ -1,6 +1,7 @@
 import React from 'react';
 import ICardList from '../models/interfaces/ICardList';
 import AddCardList from './AddCardList';
+import { CardPosition } from './Board';
 import CardList from './CardList';
 
 interface IBoardKanbanProps {
@@ -11,6 +12,8 @@ interface IBoardKanbanProps {
   showCardDetail: (listIndex: number, cardIndex: number) => void;
   handleDragStart: (e: React.DragEvent<HTMLDivElement>, listIndex: number, cardIndex: number) => void;
   handleDragEnter: (e: React.DragEvent<HTMLDivElement>, targetListIndex: number, targetCardIndex: number) => void;
+  handleDrop: (e: React.DragEvent<HTMLDivElement>, targetListIndex: number, targetCardIndex: number) => void;
+  targetDragCard: CardPosition | null;
 }
 
 const BoardKanban = ({
@@ -21,6 +24,8 @@ const BoardKanban = ({
   showCardDetail,
   handleDragStart,
   handleDragEnter,
+  handleDrop,
+  targetDragCard,
 }: IBoardKanbanProps) => {
   return (
     <div className="dnd-board">
@@ -36,6 +41,8 @@ const BoardKanban = ({
               listIndex={listIndex}
               handleDragStart={handleDragStart}
               handleDragEnter={handleDragEnter}
+              handleDrop={handleDrop}
+              targetDragCard={targetDragCard}
             />
           ))}
           <AddCardList addCardList={addCardList} />

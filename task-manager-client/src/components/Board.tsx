@@ -19,10 +19,17 @@ import BoardKanban from './BoardKanban';
 import addCardListRequest from '../api/requests/addCardListRequest';
 import DisplaySettings from '../models/enums/DisplaySettings';
 import BoardTable from './BoardTable';
+import updateBoardCardListsRequest from '../api/requests/updateBoardCardListsRequest';
 
 interface MatchParams {
   id: string;
 }
+
+export interface CardPosition {
+  listIndex: number;
+  cardIndex: number;
+}
+
 
 const Board = () => {
   const { id: boardIdUrlParam } = useParams<MatchParams>();
@@ -32,7 +39,9 @@ const Board = () => {
   const sortSettings = useSelector<IApplicationState, SortSettings>((x) => x.settings.sortSettings);
   const displaySettings = useSelector<IApplicationState, DisplaySettings>((x) => x.settings.displaySettings);
   const dispatch = useDispatch();
-  const dragCard = useRef<{ listIndex: number; cardIndex: number }>();
+  const targetDragCardElement = useRef<HTMLElement>();
+  const [targetDragCard, setTargetDragCard] = useState<CardPosition | null>(null);
+  const draggedCard = useRef<CardPosition>();
 
   useEffect(() => {
     document.title = 'Board';
@@ -70,7 +79,7 @@ const Board = () => {
   };
 
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>, listIndex: number, cardIndex: number) => {
-    dragCard.current = { listIndex, cardIndex };
+    draggedCard.current = { listIndex, cardIndex };
     if (sortSettings !== SortSettings.Own) {
       dispatch(changeSortSettingsAction(SortSettings.Own));
     }
@@ -78,38 +87,64 @@ const Board = () => {
 
   const handleDragEnter = (e: React.DragEvent<HTMLDivElement>, targetListIndex: number, targetCardIndex: number) => {
     e.dataTransfer.dropEffect = 'copy';
-    const currentCard = dragCard.current;
+    const currentCard = draggedCard.current;
     const targetClassName = (e.target as HTMLHtmlElement).className;
     if (
-      targetClassName !== 'dnd-card-small' &&
-      targetClassName !== 'dnd-card-big' &&
-      targetClassName !== 'add-card' &&
-      ((e.target as HTMLHtmlElement).parentNode as HTMLHtmlElement).className !== 'add-card' &&
-      (((e.target as HTMLHtmlElement).parentNode as HTMLHtmlElement).parentNode as HTMLHtmlElement).className !==
-        'add-card'
+      !hasSomeParentTheClass(e.target as HTMLHtmlElement, 'dnd-card-container', 'dnd-list') &&
+      !targetClassName.includes('add-card') &&
+      !((e.target as HTMLHtmlElement).parentNode as HTMLHtmlElement).className.includes('add-card') &&
+      !(((e.target as HTMLHtmlElement).parentNode as HTMLHtmlElement).parentNode as HTMLHtmlElement).className.includes(
+        'add-card',
+      )
     ) {
       return;
     }
-    if (currentCard === undefined) {
+    if (currentCard === undefined) return;
+    if (targetCardIndex !== draggedCard.current?.cardIndex || targetListIndex !== draggedCard.current.listIndex) {
+      setTargetDragCard({
+        listIndex: targetListIndex,
+        cardIndex: targetCardIndex,
+      });
+      targetDragCardElement.current = e.target as HTMLElement;
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>, targetListIndex: number, targetCardIndex: number) => {
+    const currentCard = draggedCard.current;
+    if (currentCard === undefined || targetDragCard == null) {
+      setTargetDragCard(null);
       return;
+    }
+    if (targetListIndex === currentCard.listIndex && targetCardIndex > currentCard.cardIndex) {
+      targetCardIndex -= 1;
     }
     setLists((oldLists) => {
       const newLists = JSON.parse(JSON.stringify(oldLists));
       const removedCard = newLists[currentCard.listIndex].cards[currentCard.cardIndex];
       newLists[currentCard.listIndex].cards.splice(currentCard.cardIndex, 1);
-      if (targetClassName === 'dnd-card-small' || targetClassName === 'dnd-card-big') {
+      if (targetDragCardElement.current && hasSomeParentTheClass(targetDragCardElement.current, 'dnd-card-container', undefined)) {
         newLists[targetListIndex].cards.splice(targetCardIndex, 0, removedCard);
-        dragCard.current = { listIndex: targetListIndex, cardIndex: targetCardIndex };
+        draggedCard.current = { listIndex: targetListIndex, cardIndex: targetCardIndex };
       } else {
         newLists[targetListIndex].cards.push(removedCard);
-        dragCard.current = {
+        draggedCard.current = {
           listIndex: targetListIndex,
           cardIndex: newLists[targetListIndex].cards.length - 1,
         };
       }
+      setIsLoading(true)
+      updateBoardCardListsRequest(+boardIdUrlParam, newLists).then(() => setIsLoading(false));
       return newLists;
     });
+    setTargetDragCard(null);
   };
+
+  function hasSomeParentTheClass(element: HTMLElement, targetClassName: string, stopClassName: string | undefined): boolean {
+    if (!element?.parentNode || (!!stopClassName && element.className.startsWith(stopClassName))) return false;
+    if (element.className.startsWith(targetClassName)) return true;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    return hasSomeParentTheClass(element.parentNode as HTMLElement, targetClassName, stopClassName);
+}
 
   const showCardDetail = (listIndex: number, cardIndex: number) => {
     if (lists) {
@@ -152,7 +187,7 @@ const Board = () => {
     }
   };
 
-  const sortLists = (compFunc: (a: any, b: any) => number) => {
+  const sortLists = (compFunc: (a: ICard, b: ICard) => number) => {
     setLists((oldLists) => {
       const newLists: Array<ICardList> = JSON.parse(JSON.stringify(oldLists));
       newLists.forEach((list) => {
@@ -174,6 +209,8 @@ const Board = () => {
           showCardDetail={showCardDetail}
           handleDragStart={handleDragStart}
           handleDragEnter={handleDragEnter}
+          handleDrop={handleDrop}
+          targetDragCard={targetDragCard}
         />
       );
     } else {

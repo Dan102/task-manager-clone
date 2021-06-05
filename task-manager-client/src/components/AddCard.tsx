@@ -1,4 +1,5 @@
 import React, { useState, FormEvent } from 'react';
+import { CardPosition } from './Board';
 
 interface IAddCardProps {
   listId: number;
@@ -6,9 +7,11 @@ interface IAddCardProps {
   listSize: number;
   addCard: (title: string, listIndex: number) => void;
   handleDragEnter: (e: React.DragEvent<HTMLDivElement>, targetListIndex: number, targetCardIndex: number) => void;
+  handleDrop: (e: React.DragEvent<HTMLDivElement>, targetListIndex: number, targetCardIndex: number) => void;
+  targetDragCard: CardPosition | null;
 }
 
-const AddCard = ({ listId, listIndex, listSize, addCard, handleDragEnter }: IAddCardProps) => {
+const AddCard = ({ listId, listIndex, listSize, addCard, handleDragEnter, handleDrop, targetDragCard }: IAddCardProps) => {
   const [newCardTitle, setNewCardTitle] = useState<string>('');
 
   const handleAddCard = (e: FormEvent<HTMLFormElement>) => {
@@ -18,9 +21,11 @@ const AddCard = ({ listId, listIndex, listSize, addCard, handleDragEnter }: IAdd
 
   return (
     <div
-      onDragEnter={(e) => handleDragEnter(e, listIndex, listSize - 1)}
+      onDragEnter={(e) => handleDragEnter(e, listIndex, listSize)}
       onDragOver={(e) => e.preventDefault()}
-      className="add-card"
+      onDrop={(e) => handleDrop(e, listIndex, listSize)}
+      className={"add-card" +
+        (targetDragCard?.listIndex === listIndex && targetDragCard.cardIndex === listSize ? " drag-enter-top" : "")}
     >
       <form onSubmit={(e) => handleAddCard(e)}>
         <textarea

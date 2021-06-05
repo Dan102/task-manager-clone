@@ -12,13 +12,13 @@ namespace task_manager_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : Controller
+    public class UsersController : Controller
     {
         private readonly IUserRepository userRepository;
         private readonly IAuthenticationService authenticationService;
         private readonly IMapper mapper;
 
-        public UserController(
+        public UsersController(
             IUserRepository userRepository,
             IAuthenticationService authenticationService,
             IMapper mapper)

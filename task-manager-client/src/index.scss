@@ -105,10 +105,13 @@ a {
   }
 }
 
+.dnd-card-container {
+  padding: 5px 0px;
+}
+
 .dnd-card {
+  position: relative;
   cursor: grab;
-  margin: 5px 0px;
-  width: 200px;
   background-color: $main-color;
   border-radius: 2.5px;
   border: 1px dashed black;
@@ -116,14 +119,27 @@ a {
 
 .dnd-card-big {
   @extend .dnd-card;
-  height: 90px;
+  min-height: 90px;
   padding: 7px 12px;
 }
 
 .dnd-card-small {
   @extend .dnd-card;
-  height: 50px;
+  min-height: 50px;
   padding: 5px 12px;
+}
+
+.dnd-card-big.drag-enter-top,
+.dnd-card-small.drag-enter-top,
+.add-card.drag-enter-top {
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    top: -4px;
+    left: 0;
+    border-bottom: 4px solid $dark-accent-color;
+  }
 }
 
 textarea {
@@ -507,10 +523,14 @@ body,
   border-radius: 10px;
 }
 
+.add-card {
+  position: relative;
+}
+
 .add-card textarea,
 .add-card-list textarea {
   font-size: 19px;
-  width: 200px;
+  width: 100%;
   height: 45px;
 }
 

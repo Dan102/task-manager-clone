@@ -6,8 +6,8 @@ import getBoardPreviewsRequest from '../api/requests/getBoardPreviewsRequest';
 import addBoardRequest from '../api/requests/addBoardRequest';
 import removeBoardRequest from '../api/requests/removeBoardRequest';
 import SpinnerPage from './SpinnerPage';
-import updateBoardPreviewRequest from '../api/requests/updateBoardPreviewRequest';
 import TopDashboardPanel from './TopDashboardPanel';
+import updateBoardIsFavouriteRequest from '../api/requests/updateBoardIsFavouriteRequest';
 
 function Dashboard() {
   const [boardPreviews, setBoardPreviews] = useState<IBoardPreview[]>();
@@ -50,7 +50,7 @@ function Dashboard() {
     const chosenBoard = boardPreviews?.filter((x) => x.id === boardId)[0];
     console.log(chosenBoard, !chosenBoard?.isFavourite);
     if (chosenBoard) {
-      updateBoardPreviewRequest(boardId, !chosenBoard.isFavourite).then(() => getBoardPreviews());
+      updateBoardIsFavouriteRequest(boardId, !chosenBoard.isFavourite).then(() => getBoardPreviews());
     }
   };
 

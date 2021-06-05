@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace task_manager_api.Dtos
 {
-    public class BoardPreviewUpdateDto
+    public class BoardPreviewUpdateCardListsDto
     {
-        public bool IsFavourite { get; set; }
+        public IList<IList<CardReadDto>> CardLists { get; set; }
     }
 }
