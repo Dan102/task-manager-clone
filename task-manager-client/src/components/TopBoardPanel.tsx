@@ -9,6 +9,7 @@ import {
   changeDisplaySettingsAction,
   changeDetailLevelAction,
 } from '../store/reducers/settingsReducer';
+import ToggleButton from './ToggleButton';
 
 const TopBoardPanel = (): JSX.Element => {
   const sortSettings = useSelector<IApplicationState, SortSettings>((x) => x.settings.sortSettings);
@@ -20,9 +21,9 @@ const TopBoardPanel = (): JSX.Element => {
     dispatch(changeSortSettingsAction(Object.keys(SortSettings).indexOf(e.target.value)));
   };
 
-  const handleSetDisplayOption = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    dispatch(changeDisplaySettingsAction(Object.keys(DisplaySettings).indexOf(e.target.value)));
-  };
+  const handleToggleButtonChange = (newValue: string): void => {
+    dispatch(changeDisplaySettingsAction((DisplaySettings as any)[newValue]));
+  }
 
   return (
     <div className="top-panel">
@@ -56,24 +57,12 @@ const TopBoardPanel = (): JSX.Element => {
         </div>
         <div className="option-section">
           <span className="top-panel-right-title">Display:</span>
-          <input
-            type="radio"
-            id="kanban"
-            name="display"
-            value={DisplaySettings.Kanban}
-            checked={displaySettings === DisplaySettings.Kanban}
-            onChange={(e) => handleSetDisplayOption(e)}
+          <ToggleButton
+            value1={DisplaySettings[DisplaySettings.Kanban]}
+            value2={DisplaySettings[DisplaySettings.Table]}
+            chosenValue={DisplaySettings[displaySettings]}
+            changeValue={handleToggleButtonChange}
           />
-          <label htmlFor="kanban">Kanban</label>
-          <input
-            type="radio"
-            id="table"
-            name="display"
-            value={DisplaySettings.Table}
-            checked={displaySettings === DisplaySettings.Table}
-            onChange={(e) => handleSetDisplayOption(e)}
-          />
-          <label htmlFor="table">Table</label>
         </div>
       </div>
     </div>

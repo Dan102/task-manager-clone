@@ -260,7 +260,8 @@ button {
 
 .top-panel-right select {
   height: 100%;
-  font-size: 12px;
+  border-radius: 3px;
+  border: 1px dashed black;
 }
 
 .slider {
@@ -694,5 +695,29 @@ body,
 
   tr:nth-child(even) {
     background-color: #dddddd;
+  }
+}
+
+.toggle-button {
+  font-size: 20px;
+  background: $accent-color;
+  border-radius: 5px;
+
+  button {
+    padding: 3px 7px;
+
+    &:first-child {
+      border-radius: 5px 0 0 5px;
+    }
+
+    &:last-child {
+      border-radius: 0 5px 5px 0;
+
+    }
+  }
+
+  .active {
+    background-color: $dark-accent-color;
+    border: 1px dashed black;
   }
 }

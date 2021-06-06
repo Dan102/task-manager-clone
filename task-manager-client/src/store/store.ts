@@ -14,6 +14,8 @@ const store = createStore(
     settings: settingsReducer,
     auth: authReducer,
   }),
+  // for debugging redux store in devtools
+  (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__()
 );
 
 export type StoreState = ReturnType<typeof store.getState>;
