@@ -7,7 +7,7 @@ import ILoggedUser from '../models/interfaces/ILoggedUser';
 import { loginAction } from '../store/reducers/authReducer';
 import { IApplicationState } from '../store/store';
 
-const LoginPage = (): JSX.Element => {
+const AccessPage = (): JSX.Element => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [username, setUsername] = useState('');
@@ -45,7 +45,10 @@ const LoginPage = (): JSX.Element => {
   return (
     <div className="login-page">
       <div className="login-container">
-        <h1>Login</h1>
+        <div>
+          <button className="login-swap-button">Register</button>
+        </div>
+        <h1>Log in</h1>
         <div className="login-page-area">
           <span>Username:</span>
           <input
@@ -69,7 +72,7 @@ const LoginPage = (): JSX.Element => {
             }}
           />
         </div>
-        <button onClick={() => loginClick()}>Log in</button>
+        <button className="login-action-button" onClick={() => loginClick()}>Log in</button>
         <div className={loginStatus !== '' ? 'status-text-failure' : ''} style={{ width: '0px', minWidth: '100%' }}>
           {loginStatus}
         </div>
@@ -78,4 +81,4 @@ const LoginPage = (): JSX.Element => {
   );
 };
 
-export default LoginPage;
+export default AccessPage;

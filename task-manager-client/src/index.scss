@@ -46,15 +46,11 @@ h1 {
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-    'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-}
 
 a {
   text-decoration: none;
@@ -542,21 +538,37 @@ body,
 
 .login-container {
   @include flex-direction-align(column, center);
+  background-color: $light-color;
+  padding: 30px;
+  border-radius: 10px;
   margin-bottom: 10%;
+  position: relative;
 
   h1 {
-    font-size: 30px;
-    color: $light-color;
+    font-size: 40px;
+    color: black;
     margin-bottom: 5px;
   }
 
-  button {
+  .login-swap-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background-color: $main-color;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px dashed black;
+    font-size: 12px;
+  }
+
+  .login-action-button {
     padding: 5px 20px;
-    background-color: darken($accent-color, 10);
-    color: $light-color;
+    background-color: $accent-color;
+    color: black;
     border-radius: 5px;
     align-self: flex-start;
-    margin-top: 15px;
+    margin-top: 25px;
+    border: 1px dashed black;
   }
 
   span {
@@ -570,18 +582,22 @@ body,
   margin-top: 15px;
 
   span {
-    color: $light-color;
+    color: black;
     margin-bottom: 5px;
   }
 
   input {
-    background-color: $light-color;
-    padding: 5px;
+    padding-bottom: 5px;
+    min-width: 250px;
+    border-bottom: 1px solid black;
+    font-size: 15px;
+    font-style: italic;
   }
 }
 
 .status-text-failure {
-  color: darken($delete-button-color, 20);
+  margin-top: 10px;
+  color: red;
 }
 
 .spinner-container {

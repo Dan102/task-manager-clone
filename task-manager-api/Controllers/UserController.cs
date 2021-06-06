@@ -28,9 +28,10 @@ namespace task_manager_api.Controllers
             this.mapper = mapper;
         }
 
+        // TODO "POST sessions" would be a better practise from RESTful point of view
         [HttpPost]
         [Route("login")]
-        public ActionResult Login([FromBody] UserLoginDto userLogin)
+        public ActionResult Login([FromBody] UserDto userLogin)
         {
             var user = authenticationService.Authenticate(userLogin.Username, userLogin.Password);
             if (user == null)
@@ -41,8 +42,8 @@ namespace task_manager_api.Controllers
         }
 
         [HttpPost]
-        [Route("register")]
-        public ActionResult Register([FromBody] UserLoginDto userRegister)
+        [Route("")]
+        public ActionResult Register([FromBody] UserDto userRegister)
         {
             var success = authenticationService.Register(userRegister.Username, userRegister.Password);
             if (!success)

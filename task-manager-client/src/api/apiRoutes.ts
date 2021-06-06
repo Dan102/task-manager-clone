@@ -4,6 +4,7 @@ const API_ROUTES = {
   cardListUrl: baseUrl + '/card-lists',
   cardUrl: baseUrl + '/cards',
   loginUrl: baseUrl + '/users/login',
+  registerUrl: baseUrl + '/users',
   updateBoardFavouriteUrl: (id: string): string => `${baseUrl}/boards/${id}/favourite`,
   updateBoardCardListsUrl: (id: string): string => `${baseUrl}/boards/${id}/card-lists`,
 };
