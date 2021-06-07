@@ -4,12 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import DisplaySettings from '../models/enums/DisplaySettings';
 import SortSettings from '../models/enums/SortSettings';
 import { IApplicationState } from '../store/store';
-import {
-  changeSortSettingsAction,
-  changeDisplaySettingsAction,
-  changeDetailLevelAction,
-} from '../store/reducers/settingsReducer';
 import ToggleButton from './ToggleButton';
+import { changeDetailLevelAction, changeDisplaySettingsAction, changeSortSettingsAction } from '../store/actions/settingsActions';
 
 const TopBoardPanel = (): JSX.Element => {
   const sortSettings = useSelector<IApplicationState, SortSettings>((x) => x.settings.sortSettings);

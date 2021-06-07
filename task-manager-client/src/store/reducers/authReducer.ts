@@ -1,38 +1,10 @@
 import { Reducer } from 'redux';
-import ILoggedUser from '../../models/interfaces/ILoggedUser';
+import { AUTH_ACTIONS_TYPES, IAuthAction } from '../actions/authActions';
 import { IAuthState } from '../models/IAuthState';
 
 const initialAppSettings: IAuthState = {
   loggedUser: undefined,
-};
-
-export interface IAuthAction {
-  type: string;
-  payload: ILoggedUser | undefined;
-}
-
-export const AUTH_ACTIONS_TYPES = {
-  LOGIN: 'LOGIN',
-  LOGOUT: 'LOGOUT',
-};
-
-export interface ILoginActionReturn {
-  type: string,
-  payload: ILoggedUser,
-}
-
-export interface ILogoutActionReturn {
-  type: string,
-}
-
-export const loginAction = (loggedUser: ILoggedUser): ILoginActionReturn => ({
-  type: AUTH_ACTIONS_TYPES.LOGIN,
-  payload: loggedUser,
-});
-
-export const logoutAction = (): ILogoutActionReturn => ({
-  type: AUTH_ACTIONS_TYPES.LOGOUT,
-});
+};;
 
 export const authReducer: Reducer<IAuthState, IAuthAction> = (
   state: IAuthState = initialAppSettings,

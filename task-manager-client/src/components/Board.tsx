@@ -13,13 +13,13 @@ import updateCardRequest from '../api/requests/updateCardRequest';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import SpinnerPage from './SpinnerPage';
-import { changeSortSettingsAction } from '../store/reducers/settingsReducer';
 import { IApplicationState } from '../store/store';
 import BoardKanban from './BoardKanban';
 import addCardListRequest from '../api/requests/addCardListRequest';
 import DisplaySettings from '../models/enums/DisplaySettings';
 import BoardTable from './BoardTable';
 import updateBoardCardListsRequest from '../api/requests/updateBoardCardListsRequest';
+import { changeSortSettingsAction } from '../store/actions/settingsActions';
 
 interface MatchParams {
   id: string;

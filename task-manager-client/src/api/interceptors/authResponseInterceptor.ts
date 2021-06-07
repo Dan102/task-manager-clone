@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Store } from 'redux';
-import { logoutAction } from '../../store/reducers/authReducer';
+import { logoutAction } from '../../store/actions/authActions';
 import { StoreState } from '../../store/store';
 
 const authResponseInterceptor = (store: Store<StoreState>, history: any): void => {
