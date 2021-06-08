@@ -7,7 +7,7 @@ import IAppSettings from '../models/IAppSettingsState';
 const initialAppSettings: IAppSettings = {
   detailLevel: 3,
   sortSettings: SortSettings.Own,
-  displaySettings: DisplaySettings.Kanban,
+  displaySettings: DisplaySettings.Table,
 };
 
 

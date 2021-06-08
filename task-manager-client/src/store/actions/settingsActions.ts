@@ -1,6 +1,5 @@
 import DisplaySettings from '../../models/enums/DisplaySettings';
 import SortSettings from '../../models/enums/SortSettings';
-import IAppSettings from '../models/IAppSettingsState';
 
 export const SETTINGS_ACTIONS_TYPES = {
   CHANGE_DETAIL_LEVEL: 'CHANGE_DETAIL_LEVEL',
