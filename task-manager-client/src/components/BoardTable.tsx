@@ -40,7 +40,7 @@ const BoardTable = ({ lists }: IBoardTableProps): JSX.Element => {
   };
 
   const handleOnPageSizeChange = (result: INumberInputResult) => {
-    if (result.isValid) setCurrentPage(result.lastValidResult);
+    if (result.isValid) setPageSize(result.lastValidResult);
   }
 
   return (

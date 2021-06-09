@@ -23,8 +23,8 @@ const NumberInput = ({ value, onChange, min, max, step=1 }: INumberInputProps): 
     UP,
     DOWN
   }
-  const INITIAL_MOUSE_HOLD_DELAY = 500;
-  const CONTINUOUS_MOUSE_HOLD_DELAY = 50;
+  const INITIAL_MOUSE_HOLD_DELAY = 150;
+  const CONTINUOUS_MOUSE_HOLD_DELAY = 40;
 
   const [inputValue, setInputValue] = useState<string>(String(value));
   const [result, setResult] = useState<INumberInputResult>({
@@ -32,6 +32,7 @@ const NumberInput = ({ value, onChange, min, max, step=1 }: INumberInputProps): 
     isFocused: false,
     isValid: true,
   });
+  const continuousChangeTimeout = useRef<ReturnType<typeof setTimeout>>();
   const continuousChangeInterval = useRef<ReturnType<typeof setInterval>>();
 
   useEffect(() => {
@@ -96,7 +97,9 @@ const NumberInput = ({ value, onChange, min, max, step=1 }: INumberInputProps): 
 
   const handleMouseDown = (changeDirection: ChangeDirection): void => {
     if (continuousChangeInterval.current) clearInterval(continuousChangeInterval.current);
-    startIncrementing(changeDirection);
+    continuousChangeInterval.current = setTimeout(() => {
+      startIncrementing(changeDirection);
+    }, INITIAL_MOUSE_HOLD_DELAY);
   }
 
   const handleMouseUp = (): void => {
@@ -130,12 +133,14 @@ const NumberInput = ({ value, onChange, min, max, step=1 }: INumberInputProps): 
           onClick={() => handleStepChange(ChangeDirection.UP)}
           onMouseDown={() => handleMouseDown(ChangeDirection.UP)}
           onMouseUp={() => handleMouseUp()}
+          onMouseLeave={() => handleMouseUp()}
         >&lt;</button>
         <button
           className="number-input-arrow-down"
           onClick={() => handleStepChange(ChangeDirection.DOWN)}
           onMouseDown={() => handleMouseDown(ChangeDirection.DOWN)}
           onMouseUp={() => handleMouseUp()}
+          onMouseLeave={() => handleMouseUp()}
         >&gt;</button>
       </div>
     </div>
