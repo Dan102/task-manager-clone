@@ -23,8 +23,6 @@ const NumberInput = ({ value, onChange, min, max, step=1 }: INumberInputProps): 
     UP,
     DOWN
   }
-  const INITIAL_MOUSE_HOLD_DELAY = 150;
-  const CONTINUOUS_MOUSE_HOLD_DELAY = 40;
 
   const [inputValue, setInputValue] = useState<string>(String(value));
   const [result, setResult] = useState<INumberInputResult>({
@@ -32,7 +30,9 @@ const NumberInput = ({ value, onChange, min, max, step=1 }: INumberInputProps): 
     isFocused: false,
     isValid: true,
   });
-  const continuousChangeTimeout = useRef<ReturnType<typeof setTimeout>>();
+
+  const INITIAL_MOUSE_HOLD_DELAY = 150;
+  const CONTINUOUS_MOUSE_HOLD_DELAY = 40;
   const continuousChangeInterval = useRef<ReturnType<typeof setInterval>>();
 
   useEffect(() => {
@@ -43,12 +43,10 @@ const NumberInput = ({ value, onChange, min, max, step=1 }: INumberInputProps): 
         lastValidResult: Number(inputValue),
       })
     }
-  }, [inputValue])
+  }, [value])
 
   useEffect(() => {
-    if (result.isValid && result.isFocused) {
-      onChange(result)
-    }
+    onChange(result)
   }, [result])
 
   const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -75,8 +73,8 @@ const NumberInput = ({ value, onChange, min, max, step=1 }: INumberInputProps): 
       return;
     }
 
-    setInputValue(String(newValue));
     if (newValue === '' || newValue === '-') {
+      setInputValue(String(newValue));
       setResult({ ...result, isValid: false })
       return;
     }
@@ -84,6 +82,7 @@ const NumberInput = ({ value, onChange, min, max, step=1 }: INumberInputProps): 
     let newNumberValue = Number(newValue);
     if (min && newNumberValue < min) newNumberValue = min;
     if (max && newNumberValue > max) newNumberValue = max;
+    setInputValue(String(newNumberValue));
     setResult({ ...result, lastValidResult: newNumberValue, isValid: true });
   }
 
