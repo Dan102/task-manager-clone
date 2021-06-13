@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ICardList from '../models/interfaces/ICardList';
 import NumberInput, { INumberInputResult } from './NumberInput';
+import TableFooter from './TableFooter';
 import TableNavigation from './TableNavigation';
 
 interface IBoardTableProps {
@@ -91,30 +92,15 @@ const BoardTable = ({ lists }: IBoardTableProps): JSX.Element => {
           <tfoot>
             <tr>
               <td colSpan={5}>
-                <div className="kanban-footer">
-                  <div>
-                    <TableNavigation
-                      currentPageIndex={currentPageIndex}
-                      pageNavigationSide={PAGE_NAVIGATION_SIDE}
-                      pageNumber={Math.ceil(tableRows.length / pageSize)}
-                      setCurrentPageIndex={setCurrentPageIndex}
-                    />
-                    <span> Items on page: </span>
-                    <span style={{ display: 'inline-block' }}>
-                      <NumberInput
-                        value={pageSize}
-                        onChange={newValue => handleOnPageSizeChange(newValue)}
-                        min={1}
-                      />
-                    </span>
-                  </div>
-                  <div className="kanban-footer-total">
-                    Total items: {tableRows.length}
-                  </div>
-                </div>
+                <TableFooter
+                  currentPageIndex={currentPageIndex}
+                  handleOnPageSizeChange={handleOnPageSizeChange}
+                  pageNavigationSide={PAGE_NAVIGATION_SIDE}
+                  pageSize={pageSize}
+                  setCurrentPageIndex={setCurrentPageIndex}
+                  tableRowsLength={tableRows.length}
+                />
               </td>
-            </tr>
-            <tr>
             </tr>
           </tfoot>
         </table>

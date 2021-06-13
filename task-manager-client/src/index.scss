@@ -713,12 +713,19 @@ body,
 }
 
 .kanban-footer {
-  @include flex-direction-justify(row, space-between);
-
+  @include flex-direction-justify(row, flex-start);
 }
 
-.kanban-footer-total {
-  @include flex-direction-justify(column, center);
+.kanban-footer-item {
+  @include flex-direction-align-justify(row, center, center);
+  border-left: 1px solid white;
+  padding: 0px 10px;
+
+  &:first-child {
+    padding-left: 0;
+    border-left: 0;
+  }
+
 }
 
 .kanban-footer-navigation {
@@ -793,6 +800,7 @@ body,
   @include flex-direction-align(row, center);
   padding-left: 5px;
   background: $background-color;
+  border-radius: 5px;
 
   input {
     width: 40px;
@@ -806,6 +814,7 @@ body,
     border: 0;
     display: block;
     padding: 2px 3px;
+    font-weight: bold ;
   }
 }
 
