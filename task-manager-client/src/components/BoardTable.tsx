@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ICardList from '../models/interfaces/ICardList';
 import NumberInput, { INumberInputResult } from './NumberInput';
+import TableNavigation from './TableNavigation';
 
 interface IBoardTableProps {
   lists: ICardList[] | undefined;
@@ -15,18 +16,36 @@ interface ITableElement {
 }
 
 const DEFAULT_PAGE_SIZE = 10;
+const PAGE_NAVIGATION_SIDE = 3;
 
 const BoardTable = ({ lists }: IBoardTableProps): JSX.Element => {
 
   const [tableRows, setTableRows] = useState<ITableElement[]>([]);
+  const [paginatedTableRows, setPaginatedTableRows] = useState<ITableElement[]>([]);
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
-  const [currentPage, setCurrentPage] = useState<number>(DEFAULT_PAGE_SIZE);
+  const [currentPageIndex, setCurrentPageIndex] = useState<number>(0);
+
 
   useEffect(() => {
     if (lists) {
       setTableRows(cardListsToTableElements(lists));
+      setCurrentPageIndex(0);
     }
   }, [lists])
+
+  useEffect(() => {
+    if (tableRows) {
+      setPaginatedTableRows(paginateTableElements(tableRows, currentPageIndex, pageSize));
+    }
+  }, [pageSize, currentPageIndex, tableRows])
+
+  useEffect(() => {
+    setCurrentPageIndex(0);
+  }, [pageSize])
+
+  const paginateTableElements = (tableRows: ITableElement[], pageIndex: number, pageSize: number): ITableElement[] => {
+    return tableRows.slice(pageIndex * pageSize, pageIndex * pageSize + pageSize);
+  }
 
   const cardListsToTableElements = (lists: ICardList[]): ITableElement[] => {
     return lists
@@ -40,7 +59,9 @@ const BoardTable = ({ lists }: IBoardTableProps): JSX.Element => {
   };
 
   const handleOnPageSizeChange = (result: INumberInputResult) => {
-    if (result.isValid) setPageSize(result.lastValidResult);
+    if (result.isValid) {
+      setPageSize(result.lastValidResult);
+    }
   }
 
   return (
@@ -57,7 +78,7 @@ const BoardTable = ({ lists }: IBoardTableProps): JSX.Element => {
             </tr>
           </thead>
           <tbody>
-            {tableRows.map((tableEl: ITableElement) => (
+            {paginatedTableRows.map((tableEl: ITableElement) => (
               <tr key={tableEl.title}>
                 <td>{tableEl.title}</td>
                 <td>{tableEl.description}</td>
@@ -72,14 +93,23 @@ const BoardTable = ({ lists }: IBoardTableProps): JSX.Element => {
               <td colSpan={5}>
                 <div className="kanban-footer">
                   <div>
-                    <span> 1 ... 10 </span>
+                    <TableNavigation
+                      currentPageIndex={currentPageIndex}
+                      pageNavigationSide={PAGE_NAVIGATION_SIDE}
+                      pageNumber={Math.ceil(tableRows.length / pageSize)}
+                      setCurrentPageIndex={setCurrentPageIndex}
+                    />
                     <span> Items on page: </span>
-                    <span style={{display: 'inline-block'}}>
-                        <NumberInput value={pageSize} onChange={newValue => handleOnPageSizeChange(newValue)} />
+                    <span style={{ display: 'inline-block' }}>
+                      <NumberInput
+                        value={pageSize}
+                        onChange={newValue => handleOnPageSizeChange(newValue)}
+                        min={1}
+                      />
                     </span>
                   </div>
-                  <div>
-                    Total items: { tableRows.length }
+                  <div className="kanban-footer-total">
+                    Total items: {tableRows.length}
                   </div>
                 </div>
               </td>

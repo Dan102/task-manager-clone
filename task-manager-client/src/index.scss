@@ -714,6 +714,55 @@ body,
 
 .kanban-footer {
   @include flex-direction-justify(row, space-between);
+
+}
+
+.kanban-footer-total {
+  @include flex-direction-justify(column, center);
+}
+
+.kanban-footer-navigation {
+  display: inline-block;
+  border: 1px solid white;
+
+  button {
+    color: white;
+  }
+
+  .navigation-arrow-button {
+    &:first-child {
+      border-right: 1px solid white;
+      padding: 0 3px;
+    }
+
+    &:nth-child(2) {
+      border-right: 1px solid white;
+      padding: 0 3px;
+    }
+
+    &:nth-last-child(1) {
+      border-left: 1px solid white;
+      padding: 0 3px;
+    }
+
+    &:nth-last-child(2) {
+      border-left: 1px solid white;
+      padding: 0 3px;
+    }
+  }
+}
+
+.kanban-footer-navigation-num {
+  margin: 0px 4px;
+  display: inline;
+}
+
+.kanban-footer-navigation-num-active {
+  border: 1px dashed white;
+  background: white;
+  color: black !important;
+  border-radius: 5px;
+  padding: 0px 3px;
 }
 
 .toggle-button {
@@ -766,4 +815,9 @@ body,
 
 .number-input-arrow-down {
   transform: rotate(90deg);
+}
+
+.number-input-disabled {
+  opacity: 0.3;
+  cursor: auto;
 }

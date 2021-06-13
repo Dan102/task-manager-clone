@@ -128,14 +128,14 @@ const NumberInput = ({ value, onChange, min, max, step=1 }: INumberInputProps): 
       />
       <div className="number-input-buttons">
         <button
-          className="number-input-arrow-up"
+          className={"number-input-arrow-up" + (value === max ? ' number-input-disabled' : '')}
           onClick={() => handleStepChange(ChangeDirection.UP)}
           onMouseDown={() => handleMouseDown(ChangeDirection.UP)}
           onMouseUp={() => handleMouseUp()}
           onMouseLeave={() => handleMouseUp()}
         >&lt;</button>
         <button
-          className="number-input-arrow-down"
+          className={"number-input-arrow-down" + (value === min ? ' number-input-disabled' : '')}
           onClick={() => handleStepChange(ChangeDirection.DOWN)}
           onMouseDown={() => handleMouseDown(ChangeDirection.DOWN)}
           onMouseUp={() => handleMouseUp()}
