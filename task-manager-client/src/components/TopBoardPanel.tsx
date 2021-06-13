@@ -27,30 +27,34 @@ const TopBoardPanel = (): JSX.Element => {
         Dashboard
       </Link>
       <div className="top-panel-right">
-        <div className="option-section">
-          <span className="top-panel-right-title">Detail:</span>
-          <form>
-            <input
-              className="slider"
-              value={detailLevel}
-              onChange={(e) => {
-                dispatch(changeDetailLevelAction(parseInt(e.target.value)));
-              }}
-              type="range"
-              min="1"
-              max="3"
-              style={{ background: 'lightgray' }}
-            />
-          </form>
-        </div>
-        <div className="option-section">
-          <span className="top-panel-right-title">Sort:</span>
-          <select name="sort" value={sortSettings} onChange={(e) => handleSetSortOption(e)}>
-            <option value={SortSettings.Own}>Own</option>
-            <option value={SortSettings.Deadline}>Deadline</option>
-            <option value={SortSettings.Priority}>Priority</option>
-          </select>
-        </div>
+        {displaySettings === DisplaySettings.Kanban &&
+          <>
+            <div className="option-section">
+              <span className="top-panel-right-title">Detail:</span>
+              <form>
+                <input
+                  className="slider"
+                  value={detailLevel}
+                  onChange={(e) => {
+                    dispatch(changeDetailLevelAction(parseInt(e.target.value)));
+                  }}
+                  type="range"
+                  min="1"
+                  max="3"
+                  style={{ background: 'lightgray' }}
+                />
+              </form>
+            </div>
+            <div className="option-section">
+              <span className="top-panel-right-title">Sort:</span>
+              <select name="sort" value={sortSettings} onChange={(e) => handleSetSortOption(e)}>
+                <option value={SortSettings.Own}>Own</option>
+                <option value={SortSettings.Deadline}>Deadline</option>
+                <option value={SortSettings.Priority}>Priority</option>
+              </select>
+            </div>
+          </>
+        }
         <div className="option-section">
           <span className="top-panel-right-title">Display:</span>
           <ToggleButton

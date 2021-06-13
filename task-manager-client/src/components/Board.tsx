@@ -144,7 +144,7 @@ const Board = (): JSX.Element => {
     if (element.className.startsWith(targetClassName)) return true;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     return hasSomeParentTheClass(element.parentNode as HTMLElement, targetClassName, stopClassName);
-}
+  }
 
   const showCardDetail = (listIndex: number, cardIndex: number) => {
     if (lists) {
@@ -214,7 +214,10 @@ const Board = (): JSX.Element => {
         />
       );
     } else {
-      boardDisplayElement = <BoardTable lists={lists} />;
+      boardDisplayElement = <BoardTable
+        lists={lists}
+        showCardDetail={showCardDetail}
+      />;
     }
     return boardDisplayElement;
   };
@@ -224,7 +227,9 @@ const Board = (): JSX.Element => {
       isLoading={isLoading}
       component={
         <React.Fragment>
-          <CardDetail clickedInfo={clickedInfo} removeCard={removeCard} updateCard={updateCard} />
+          <CardDetail
+            clickedInfo={clickedInfo} setClickedInfo={setClickedInfo}
+            removeCard={removeCard} updateCard={updateCard} />
           <div id="visible-content">
             <TopBoardPanel />
             <div className="board-display">{switchDisplay(displaySettings)}</div>

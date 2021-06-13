@@ -1,11 +1,17 @@
+import { table } from 'console';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import ICard from '../models/interfaces/ICard';
 import ICardList from '../models/interfaces/ICardList';
 import NumberInput, { INumberInputResult } from './NumberInput';
+import PriorityBar from './PriorityBar';
 import TableFooter from './TableFooter';
 import TableNavigation from './TableNavigation';
+import TooltipMaxLengthText from './TooltipMaxLengthText';
 
 interface IBoardTableProps {
   lists: ICardList[] | undefined;
+  showCardDetail: (listIndex: number, cardIndex: number) => void;
 }
 
 interface ITableElement {
@@ -16,13 +22,19 @@ interface ITableElement {
   category: string;
 }
 
+interface ITableElementIdexed {
+  tableEl: ITableElement;
+  cardIndex: number;
+  listIndex: number;
+}
+
 const DEFAULT_PAGE_SIZE = 10;
 const PAGE_NAVIGATION_SIDE = 3;
 
-const BoardTable = ({ lists }: IBoardTableProps): JSX.Element => {
+const BoardTable = ({ lists, showCardDetail }: IBoardTableProps): JSX.Element => {
 
-  const [tableRows, setTableRows] = useState<ITableElement[]>([]);
-  const [paginatedTableRows, setPaginatedTableRows] = useState<ITableElement[]>([]);
+  const [tableRows, setTableRows] = useState<ITableElementIdexed[]>([]);
+  const [paginatedTableRows, setPaginatedTableRows] = useState<ITableElementIdexed[]>([]);
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
   const [currentPageIndex, setCurrentPageIndex] = useState<number>(0);
 
@@ -44,16 +56,20 @@ const BoardTable = ({ lists }: IBoardTableProps): JSX.Element => {
     setCurrentPageIndex(0);
   }, [pageSize])
 
-  const paginateTableElements = (tableRows: ITableElement[], pageIndex: number, pageSize: number): ITableElement[] => {
+  const paginateTableElements = (tableRows: ITableElementIdexed[], pageIndex: number, pageSize: number): ITableElementIdexed[] => {
     return tableRows.slice(pageIndex * pageSize, pageIndex * pageSize + pageSize);
   }
 
-  const cardListsToTableElements = (lists: ICardList[]): ITableElement[] => {
+  const cardListsToTableElements = (lists: ICardList[]): ITableElementIdexed[] => {
     return lists
-      .map((list: ICardList) =>
-        list.cards.map((card) => ({
-          ...card,
-          category: list.title,
+      .map((list: ICardList, listIndex: number) =>
+        list.cards.map((card: ICard, cardIndex: number) => ({
+          tableEl: {
+            ...card,
+            category: list.title,
+          },
+          cardIndex,
+          listIndex,
         })),
       )
       .flat();
@@ -79,13 +95,38 @@ const BoardTable = ({ lists }: IBoardTableProps): JSX.Element => {
             </tr>
           </thead>
           <tbody>
-            {paginatedTableRows.map((tableEl: ITableElement) => (
-              <tr key={tableEl.title}>
-                <td>{tableEl.title}</td>
-                <td>{tableEl.description}</td>
-                <td>{tableEl.deadline}</td>
-                <td>{tableEl.priority}</td>
-                <td>{tableEl.category}</td>
+            {paginatedTableRows.map((el: ITableElementIdexed) => (
+              <tr key={el.tableEl.title} onClick={() => showCardDetail(el.listIndex, el.cardIndex)}>
+                <td>
+                  <TooltipMaxLengthText
+                    text={el.tableEl.title}
+                    maxLength={30}
+                  />
+                </td>
+                <td>
+                  <TooltipMaxLengthText
+                    text={el.tableEl.description}
+                    maxLength={45}
+                  />
+                </td>
+                <td>
+                  {moment(el.tableEl.deadline).format("DD.MM.yyyy")}
+                  {moment(el.tableEl.deadline) <= moment() &&
+                    <span className="table-date-warning">&#9888;</span>
+                  }
+                </td>
+                <td>
+                  <PriorityBar
+                    priority={el.tableEl.priority}
+                    maxPriority={3}
+                  />
+                </td>
+                <td>
+                  <TooltipMaxLengthText
+                    text={el.tableEl.category}
+                    maxLength={30}
+                  />
+                </td>
               </tr>
             ))}
           </tbody>

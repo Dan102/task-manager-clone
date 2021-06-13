@@ -179,7 +179,7 @@ button {
 }
 
 .add-card-button {
-  background: $accent-color;
+  background: $dark-accent-color;
   color: black;
   padding: 3px 12px;
   border: 0px;
@@ -223,7 +223,7 @@ button {
 
 .card-priority {
   font-size: 10px;
-  background-color: $accent-color;
+  background-color: $dark-accent-color;
   color: black;
   padding: 2px 5px;
   margin-left: 8px;
@@ -238,7 +238,7 @@ button {
 .button-dashboard {
   padding: 5px 10px;
   margin: 5px 5px;
-  background-color: $accent-color;
+  background-color: $dark-accent-color;
   border-radius: 5px;
   color: black;
   border: 1px dashed black;
@@ -398,7 +398,7 @@ html.darken-page #visible-content {
 }
 
 #card-detail .save-button {
-  background-color: $accent-color;
+  background-color: $dark-accent-color;
   color: black;
 }
 
@@ -504,7 +504,7 @@ body,
 
 .add-board-button {
   padding: 5px 10px;
-  background-color: $accent-color;
+  background-color: $dark-accent-color;
   color: black;
   border: 1px dashed black;
   margin-top: 7px;
@@ -690,7 +690,7 @@ body,
   th {
     border: 1px solid #dddddd;
     text-align: left;
-    padding: 8px;
+    padding: 5px;
   }
 
   tbody {
@@ -700,16 +700,27 @@ body,
     tr:nth-child(even) {
       background-color: $main-color;
     }
+
+    tr:hover {
+      border: 2px solid black;
+      background-color: $light-color;
+      cursor: pointer;
+    }
   }
 
   thead tr, tfoot tr{
     background-color: darken(#dddddd, 40);
-    color: white;
+    color: $background-color;
 
     input {
-      background-color: white;
+      background-color: $background-color;
     }
   }
+}
+
+.table-date-warning {
+  margin-left: 10px;
+  font-size: 18px;
 }
 
 .kanban-footer {
@@ -718,7 +729,7 @@ body,
 
 .kanban-footer-item {
   @include flex-direction-align-justify(row, center, center);
-  border-left: 1px solid white;
+  border-left: 1px solid $background-color;
   padding: 0px 10px;
 
   &:first-child {
@@ -730,30 +741,30 @@ body,
 
 .kanban-footer-navigation {
   display: inline-block;
-  border: 1px solid white;
+  border: 1px solid $background-color;
 
   button {
-    color: white;
+    color: $background-color;
   }
 
   .navigation-arrow-button {
     &:first-child {
-      border-right: 1px solid white;
+      border-right: 1px solid $background-color;
       padding: 0 3px;
     }
 
     &:nth-child(2) {
-      border-right: 1px solid white;
+      border-right: 1px solid $background-color;
       padding: 0 3px;
     }
 
     &:nth-last-child(1) {
-      border-left: 1px solid white;
+      border-left: 1px solid $background-color;
       padding: 0 3px;
     }
 
     &:nth-last-child(2) {
-      border-left: 1px solid white;
+      border-left: 1px solid $background-color;
       padding: 0 3px;
     }
   }
@@ -765,8 +776,8 @@ body,
 }
 
 .kanban-footer-navigation-num-active {
-  border: 1px dashed white;
-  background: white;
+  border: 1px dashed $background-color;
+  background: $background-color;
   color: black !important;
   border-radius: 5px;
   padding: 0px 3px;
@@ -829,4 +840,46 @@ body,
 .number-input-disabled {
   opacity: 0.3;
   cursor: auto;
+}
+
+.tooltip-container {
+  position: relative;
+  cursor: help;
+
+  &:hover .tooltip-text {
+    display: block;
+  }
+}
+
+.tooltip-text {
+  position: absolute;
+  display: none;
+  z-index: 1;
+  max-width: 300px;
+  border: 1px dashed black;
+  border-radius: 3px;
+  background-color: $accent-color;
+  padding: 5px 7px;
+}
+
+.priority-bar {
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 200px;
+  height: 20px;
+  display: flex;
+  overflow: hidden;
+
+  .priority-bar-active {
+    background-color: $dark-accent-color;
+  }
+
+  div {
+    border-left: 1px solid black;;
+    flex-grow: 1;
+
+    &:first-child {
+      border-left: 0;
+    }
+  }
 }

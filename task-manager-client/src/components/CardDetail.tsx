@@ -1,45 +1,50 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Moment from 'moment';
 import ICard from '../models/interfaces/ICard';
 import IClickedInfo from '../models/interfaces/IClickedInfo';
 
 interface ICardDetailProps {
   clickedInfo: IClickedInfo | undefined;
+  setClickedInfo: React.Dispatch<React.SetStateAction<IClickedInfo | undefined>>;
   removeCard: (cardId: number, listIndex: number) => void;
   updateCard: (card: ICard) => void;
 }
 
-function CardDetail({ clickedInfo, removeCard, updateCard }: ICardDetailProps): JSX.Element {
+function CardDetail({ clickedInfo, setClickedInfo, removeCard, updateCard }: ICardDetailProps): JSX.Element {
+
   const [newTitle, setNewTitle] = useState<string>('');
   const [newDescription, setNewDescription] = useState<string>('');
   const [newDeadline, setNewDeadline] = useState<Date>(new Date());
   const [newPriority, setNewPriority] = useState<number>(1);
+  const cardDetailBackground = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (clickedInfo === undefined) {
       return;
     }
-    setNewTitle(() => {
-      return clickedInfo.card.title;
-    });
-    setNewDescription(() => {
-      return clickedInfo.card.description;
-    });
-    setNewDeadline(() => {
-      return new Date(clickedInfo.card.deadline);
-    });
-    setNewPriority(() => {
-      return clickedInfo.card.priority;
-    });
+    setNewTitle(clickedInfo.card.title);
+    setNewDescription(clickedInfo.card.description);
+    setNewDeadline(new Date(clickedInfo.card.deadline));
+    setNewPriority(clickedInfo.card.priority);
+    const htmlElement = document.querySelector('html');
+    if (htmlElement) {
+      htmlElement.classList.add('darken-page');
+    }
+    if (cardDetailBackground.current) {
+      cardDetailBackground.current.style.display = 'block';
+    }
   }, [clickedInfo, removeCard, updateCard]);
 
   const switchOffDetail = (e: React.MouseEvent | React.FormEvent) => {
     e.preventDefault();
-    (document.getElementById('card-detail-background') as HTMLFormElement).style.display = 'none';
+    if (cardDetailBackground.current) {
+      cardDetailBackground.current.style.display = 'none';
+    }
     const htmlElement = document.querySelector('html');
     if (htmlElement) {
       htmlElement.classList.remove('darken-page');
     }
+    setClickedInfo(undefined);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -67,7 +72,7 @@ function CardDetail({ clickedInfo, removeCard, updateCard }: ICardDetailProps): 
   };
 
   return (
-    <div id="card-detail-background" onClick={(e) => switchOffDetail(e)}>
+    <div id="card-detail-background" ref={cardDetailBackground} onClick={(e) => switchOffDetail(e)}>
       <div
         id="card-detail"
         onClick={(e) => {

@@ -28,18 +28,6 @@ const Card = ({
 }: ICardProps): JSX.Element => {
   const detailLevel = useSelector<IApplicationState, number>((x) => x.settings.detailLevel);
 
-  const handleCardClicked = () => {
-    const htmlElement = document.querySelector('html');
-    if (htmlElement) {
-      htmlElement.classList.add('darken-page');
-    }
-    const cardDetailBackground = document.getElementById('card-detail-background');
-    if (cardDetailBackground) {
-      cardDetailBackground.style.display = 'block';
-    }
-    showCardDetail(listIndex, cardIndex);
-  };
-
   const getCardClassName = (): string => {
     let className = detailLevel >= 2 ? 'dnd-card-big' : 'dnd-card-small';
     if (targetDragCard?.cardIndex === cardIndex && targetDragCard.listIndex === listIndex) {
@@ -50,7 +38,7 @@ const Card = ({
 
   return (
     <div className="dnd-card-container"
-      onClick={() => handleCardClicked()}
+      onClick={() => showCardDetail(listIndex, cardIndex)}
       onDragStart={(e) => handleDragStart(e, listIndex, cardIndex)}
       onDragEnter={(e) => handleDragEnter(e, listIndex, cardIndex)}
       onDragOver={(e) => e.preventDefault()}
