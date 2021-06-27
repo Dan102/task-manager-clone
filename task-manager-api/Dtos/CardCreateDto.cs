@@ -10,5 +10,11 @@ namespace task_manager_api.Dtos
         public int CardListId { get; set; }
 
         public string Title { get; set; }
+
+        public string? Description { get; set; }
+
+        public DateTime? Deadline { get; set; }
+
+        public int? Priority { get; set; }
     }
 }

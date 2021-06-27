@@ -1,10 +1,19 @@
 import axios, { AxiosResponse } from 'axios';
 import API_ROUTES from '../apiRoutes';
 
-function addCardRequest(listIndex: number, title: string): Promise<AxiosResponse<void>> {
+function addCardRequest(
+  listId: number,
+  title: string,
+  description?: string,
+  deadline?: Date,
+  priority?: number,
+): Promise<AxiosResponse<void>> {
   return axios.post<void>(API_ROUTES.cardUrl, {
-    CardListId: listIndex,
+    CardListId: listId,
     title,
+    description,
+    deadline,
+    priority
   });
 }
 

@@ -5,7 +5,7 @@ interface IAddCardProps {
   listId: number;
   listIndex: number;
   listSize: number;
-  addCard: (title: string, listIndex: number) => void;
+  addCard: (title: string, listId: number) => void;
   handleDragEnter: (e: React.DragEvent<HTMLDivElement>, targetListIndex: number, targetCardIndex: number) => void;
   handleDrop: (e: React.DragEvent<HTMLDivElement>, targetListIndex: number, targetCardIndex: number) => void;
   targetDragCard: CardPosition | null;

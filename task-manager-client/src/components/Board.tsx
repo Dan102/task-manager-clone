@@ -154,8 +154,8 @@ const Board = (): JSX.Element => {
     }
   };
 
-  const addCard = (title: string, listIndex: number) => {
-    addCardRequest(listIndex, title).then(() => {
+  const addCard = (title: string, listId: number, description?: string, priority?: number, deadline?: Date) => {
+    addCardRequest(listId, title, description, deadline, priority).then(() => {
       fetchBoard(boardIdUrlParam);
     });
   };
@@ -217,6 +217,7 @@ const Board = (): JSX.Element => {
       boardDisplayElement = <BoardTable
         lists={lists}
         showCardDetail={showCardDetail}
+        addCard={addCard}
       />;
     }
     return boardDisplayElement;

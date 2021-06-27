@@ -9,7 +9,7 @@ interface ICardListProps {
   list: ICardList;
   listIndex: number;
   showCardDetail: (listIndex: number, cardIndex: number) => void;
-  addCard: (title: string, listIndex: number) => void;
+  addCard: (title: string, listId: number) => void;
   removeCardList: (listId: number) => void;
   handleDragStart: (e: React.DragEvent<HTMLDivElement>, listIndex: number, cardIndex: number) => void;
   handleDragEnter: (e: React.DragEvent<HTMLDivElement>, targetListIndex: number, targetCardIndex: number) => void;

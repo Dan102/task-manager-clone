@@ -701,10 +701,31 @@ body,
       background-color: $main-color;
     }
 
-    tr:hover {
+    .kanban-data-row:hover {
       border: 2px solid black;
       background-color: $light-color;
       cursor: pointer;
+    }
+
+    .table-new-row {
+
+      > *{
+        vertical-align: middle;
+      }
+
+      input {
+        vertical-align: middle;
+        border-bottom: 1px solid black;
+        padding: 4px 8px;
+        width: 100%;
+      }
+    }
+
+    select {
+      background-color: $dark-accent-color;
+      border-radius: 5px;
+      width: 100%;
+      padding: 3px 5px;
     }
   }
 
@@ -716,6 +737,23 @@ body,
       background-color: $background-color;
     }
   }
+}
+
+.kanban-table-button-area {
+  margin-left: 5px;
+  margin-top: 8px;
+}
+
+.kanban-table-validation-msg {
+  color: red;
+  margin-bottom: 5px;
+}
+
+.kanban-table-add-card {
+  font-size: 20px;
+  background: $dark-accent-color;
+  border-radius: 5px;
+  padding: 3px 15px;
 }
 
 .table-date-warning {
@@ -872,6 +910,10 @@ body,
 
   .priority-bar-active {
     background-color: $dark-accent-color;
+  }
+
+  .priority-bar-hover {
+    background-color: lighten(black, 30);
   }
 
   div {

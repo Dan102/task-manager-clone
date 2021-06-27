@@ -26,7 +26,7 @@ namespace task_manager_api.Repository
             return taskManagerContext.Cards.FirstOrDefault(card => card.Id == id);
         }
 
-        public bool CreateCard(int listId, string title)
+        public bool CreateCard(int listId, string title, string? description, int? priority, DateTime? deadline)
         {
             if (title == "" || title == null)
             {
@@ -40,9 +40,9 @@ namespace task_manager_api.Repository
             targetList.Cards.Add( new Card
             {
                 Title = title,
-                Description = "",
-                Deadline = DateTime.Today,
-                Priority = 2,
+                Description = description ?? "",
+                Deadline = deadline ?? DateTime.Today,
+                Priority = priority ?? 2,
                 CreateDate = DateTime.Today
             });
             return taskManagerContext.SaveChanges() >= 0;
