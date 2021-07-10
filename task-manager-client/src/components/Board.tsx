@@ -218,6 +218,7 @@ const Board = (): JSX.Element => {
         lists={lists}
         showCardDetail={showCardDetail}
         addCard={addCard}
+        addCardList={addCardList}
       />;
     }
     return boardDisplayElement;

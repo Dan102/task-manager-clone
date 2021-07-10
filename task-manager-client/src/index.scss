@@ -184,7 +184,7 @@ button {
   padding: 3px 12px;
   border: 0px;
   border-radius: 5px;
-  margin-top: 5px;
+  margin-top: 10px;
   border: 1px dashed black;
 }
 
@@ -200,6 +200,15 @@ button {
   div > * {
     display: inline-block;
     vertical-align: middle;
+  }
+
+  & > div {
+    @include flex-direction-align(row, center);
+    margin: 2px 0;
+
+    & > label {
+      flex-shrink: 0;
+    }
   }
 }
 
@@ -320,22 +329,13 @@ input[type='range'] {
   margin-top: 5px;
 }
 
-html.darken-page {
-  background-color: black;
-}
-
-html.darken-page #visible-content {
-  opacity: 0.5;
-}
-
 #visible-content {
   @include flex-direction(column);
   background-color: $background-color;
   height: 100%;
 }
 
-#card-detail-background {
-  display: none;
+.modal-window-background {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -343,6 +343,16 @@ html.darken-page #visible-content {
   height: 100%;
   text-align: center;
   z-index: 1000;
+}
+
+.modal-window-background-darken {
+  background-color: rgba(0, 0, 0, 0.7)
+}
+
+.modal-window-cancel-button {
+  align-self: flex-end;
+  display: block;
+  background: $delete-button-color;
 }
 
 .card-detail-inline {
@@ -355,7 +365,7 @@ html.darken-page #visible-content {
   text-align: left;
 }
 
-#card-detail input {
+.modal-window input {
   padding: 5px 10px;
   width: 100%;
 }
@@ -366,8 +376,8 @@ html.darken-page #visible-content {
   text-transform: capitalize;
 }
 
-#card-detail button,
-#card-detail input[type='submit'] {
+.modal-window button,
+.modal-window input[type='submit'] {
   padding: 5px 25px;
   color: black;
   border-radius: 5px;
@@ -377,7 +387,7 @@ html.darken-page #visible-content {
   border: 1px dashed black;
 }
 
-#card-detail {
+.modal-window {
   @include flex-direction(column);
   position: fixed;
   left: 50%;
@@ -397,18 +407,18 @@ html.darken-page #visible-content {
   background-color: lightgray;
 }
 
-#card-detail .save-button {
+.modal-window .save-button {
   background-color: $dark-accent-color;
   color: black;
 }
 
-#card-detail-container {
+.modal-window-container {
   @include flex-direction-align(column, flex-start);
   margin: auto;
 }
 
-#card-detail textarea,
-#card-detail input {
+.modal-window textarea,
+.modal-window input {
   background-color: $background-color;
   border-radius: 3px;
 }
@@ -722,7 +732,8 @@ body,
     }
 
     select {
-      background-color: $dark-accent-color;
+      background-color: transparent;
+      border: 1px solid black;
       border-radius: 5px;
       width: 100%;
       padding: 3px 5px;
@@ -737,6 +748,10 @@ body,
       background-color: $background-color;
     }
   }
+}
+
+.kanban-category-cell {
+  @include flex-direction-align(row, center)
 }
 
 .kanban-table-button-area {
@@ -754,6 +769,15 @@ body,
   background: $dark-accent-color;
   border-radius: 5px;
   padding: 3px 15px;
+}
+
+.kanban-table-add-list {
+  border: 2px solid $background-color;
+  color: $background-color;
+  font-weight: bold;
+  margin-left: 5px;
+  border-radius: 5px;
+  padding: 3px 7px;
 }
 
 .table-date-warning {

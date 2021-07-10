@@ -26,10 +26,6 @@ function CardDetail({ clickedInfo, setClickedInfo, removeCard, updateCard }: ICa
     setNewDescription(clickedInfo.card.description);
     setNewDeadline(new Date(clickedInfo.card.deadline));
     setNewPriority(clickedInfo.card.priority);
-    const htmlElement = document.querySelector('html');
-    if (htmlElement) {
-      htmlElement.classList.add('darken-page');
-    }
     if (cardDetailBackground.current) {
       cardDetailBackground.current.style.display = 'block';
     }
@@ -39,10 +35,6 @@ function CardDetail({ clickedInfo, setClickedInfo, removeCard, updateCard }: ICa
     e.preventDefault();
     if (cardDetailBackground.current) {
       cardDetailBackground.current.style.display = 'none';
-    }
-    const htmlElement = document.querySelector('html');
-    if (htmlElement) {
-      htmlElement.classList.remove('darken-page');
     }
     setClickedInfo(undefined);
   };
@@ -72,9 +64,12 @@ function CardDetail({ clickedInfo, setClickedInfo, removeCard, updateCard }: ICa
   };
 
   return (
-    <div id="card-detail-background" ref={cardDetailBackground} onClick={(e) => switchOffDetail(e)}>
+
+    <div className={'modal-window-background modal-window-background-darken'}
+      ref={cardDetailBackground} onClick={(e) => switchOffDetail(e)}
+      style={{ display: 'none' }}>
       <div
-        id="card-detail"
+        className="modal-window"
         onClick={(e) => {
           e.stopPropagation();
         }}

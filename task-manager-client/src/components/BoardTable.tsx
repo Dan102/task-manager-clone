@@ -2,6 +2,7 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import ICard from '../models/interfaces/ICard';
 import ICardList from '../models/interfaces/ICardList';
+import AddCardListModal from './AddCardListModal';
 import { INumberInputResult } from './NumberInput';
 import PriorityBar from './PriorityBar';
 import TableFooter from './TableFooter';
@@ -12,6 +13,7 @@ interface IBoardTableProps {
   showCardDetail: (listIndex: number, cardIndex: number) => void;
   addCard: (title: string, listId: number, description?: string,
     priority?: number, deadline?: Date) => void;
+  addCardList: (title: string, color: string) => void;
 }
 
 interface ITableElement {
@@ -20,9 +22,10 @@ interface ITableElement {
   priority: number;
   deadline: Date;
   category: string;
+  categoryColor: string;
 }
 
-interface INewTableElement extends Omit<ITableElement, 'category'> {
+interface INewTableElement extends Omit<ITableElement, 'category' | 'categoryColor'> {
   listId?: number;
 }
 
@@ -35,7 +38,7 @@ interface ITableElementIdexed {
 const DEFAULT_PAGE_SIZE = 10;
 const PAGE_NAVIGATION_SIDE = 3;
 
-const BoardTable = ({ lists, showCardDetail, addCard }: IBoardTableProps): JSX.Element => {
+const BoardTable = ({ lists, showCardDetail, addCard, addCardList }: IBoardTableProps): JSX.Element => {
 
   const DEFAULT_CARD: INewTableElement = {
     title: '',
@@ -45,6 +48,7 @@ const BoardTable = ({ lists, showCardDetail, addCard }: IBoardTableProps): JSX.E
     listId: (lists && lists.length > 0) ? lists[0].id : undefined,
   }
 
+  const [isAddCardListModalOpened, setIsAddCardListModalOpened] = useState<boolean>(false);
   const [tableRows, setTableRows] = useState<ITableElementIdexed[]>([]);
   const [paginatedTableRows, setPaginatedTableRows] = useState<ITableElementIdexed[]>([]);
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
@@ -95,6 +99,7 @@ const BoardTable = ({ lists, showCardDetail, addCard }: IBoardTableProps): JSX.E
           tableEl: {
             ...card,
             category: list.title,
+            categoryColor: list.color
           },
           cardIndex,
           listIndex,
@@ -112,7 +117,7 @@ const BoardTable = ({ lists, showCardDetail, addCard }: IBoardTableProps): JSX.E
   return (
     <>
       {lists && (
-        <>
+        <div id="visible-content">
           <table className="kanban-table">
             <thead>
               <tr>
@@ -120,7 +125,11 @@ const BoardTable = ({ lists, showCardDetail, addCard }: IBoardTableProps): JSX.E
                 <th>Description</th>
                 <th>Deadline</th>
                 <th>Priority</th>
-                <th>Category <button>Add +</button></th>
+                <th>
+                  Category
+                  <button className="kanban-table-add-list"
+                    onClick={() => setIsAddCardListModalOpened(true)}>+</button>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -151,10 +160,13 @@ const BoardTable = ({ lists, showCardDetail, addCard }: IBoardTableProps): JSX.E
                     />
                   </td>
                   <td>
-                    <TooltipMaxLengthText
-                      text={el.tableEl.category}
-                      maxLength={30}
-                    />
+                    <div className="kanban-category-cell">
+                      <div className="add-card-colors-square" style={{ backgroundColor: el.tableEl.categoryColor }}></div>
+                      <TooltipMaxLengthText
+                        text={el.tableEl.category}
+                        maxLength={30}
+                      />
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -237,8 +249,10 @@ const BoardTable = ({ lists, showCardDetail, addCard }: IBoardTableProps): JSX.E
               onClick={() => handleAddCard()}
             >Add new</button>
           </div>
-        </>
+        </div>
       )}
+      <AddCardListModal switchOff={() => { setIsAddCardListModalOpened(false) }}
+        addCardList={addCardList} isOpened={isAddCardListModalOpened} />
     </>
   );
 };
