@@ -30,7 +30,7 @@ const PriorityBar = ({
   }
 
   return (
-    <div className="priority-bar" onMouseLeave={() => setHoveredPriority(0)}>
+    <div className="priority-bar" onMouseLeave={() => setHoveredPriority(0)} style={{ cursor: editable ? 'pointer' : 'default' }}>
       {
         ArrayHelper.getRange(1, maxPriority).map(index =>
           <div onMouseEnter={() => setHoveredPriority(index)} key={index}
