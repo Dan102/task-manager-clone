@@ -15,7 +15,7 @@ namespace task_manager_api.Models
         [MaxLength(60)]
         public string Description { get; set; }
 
-        // TODO: change to enum
+        // TODO: consider changing to enum
         public int Priority { get; set; }
 
         public DateTime Deadline { get; set; }

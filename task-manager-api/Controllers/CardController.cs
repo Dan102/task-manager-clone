@@ -49,6 +49,18 @@ namespace task_manager_api.Controllers
         }
 
         [Authorize]
+        [HttpPut]
+        public ActionResult UpdateCards([FromBody]List<CardsUpdateDto> cards)
+        {
+            var success = cardRepository.UpdateCards(cards);
+            if (!success)
+            {
+                return NotFound();
+            }
+            return Ok();
+        }
+
+        [Authorize]
         [HttpDelete("{id}")]
         public ActionResult DeleteCard(int id)
         {

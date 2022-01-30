@@ -18,6 +18,7 @@ namespace task_manager_api.Profiles
             CreateMap<Card, CardReadDto>();
             CreateMap<Card, Card>().ForMember(d => d.Id, opt => opt.Ignore());
             CreateMap<CardUpdateDto, Card>().ForMember(d => d.Id, opt => opt.Ignore());
+            CreateMap<CardsUpdateDto, Card>();
             CreateMap<CardList, CardListReadDto>();
             CreateMap<User, UserLoggedDto>();
             CreateMap<CardReadDto, Card>().ForMember(d => d.CreateDate, opt => opt.Ignore());

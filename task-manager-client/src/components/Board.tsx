@@ -219,6 +219,7 @@ const Board = (): JSX.Element => {
         showCardDetail={showCardDetail}
         addCard={addCard}
         addCardList={addCardList}
+        refetchData={() => { fetchBoard(boardIdUrlParam) }}
       />;
     }
     return boardDisplayElement;

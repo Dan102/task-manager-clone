@@ -56,7 +56,42 @@ namespace task_manager_api.Repository
                 return false;
             }
             mapper.Map(card, oldCard);
-            return taskManagerContext.SaveChanges() >= 0;
+            return taskManagerContext.SaveChanges() == 1;
+        }
+
+        public bool UpdateCards(List<CardsUpdateDto> cards)
+        {
+            var changedCardsCount = 0;
+
+            using (var transaction = taskManagerContext.Database.BeginTransaction())
+            {
+                var cardLists = taskManagerContext.CardLists;
+                foreach (var card in cards)
+                {
+                    var oldCard = GetCard(card.Id);
+                    if (oldCard == null)
+                    {
+                        transaction.Rollback();
+                        throw new ArgumentException("Updated card not found in database");
+                    }
+                    // Card was moved into different list
+                    var oldCardCardList = cardLists.First(x => x.Cards.Contains(oldCard));
+                    if (card.CardListId != oldCardCardList.Id)
+                    {
+                        oldCardCardList.Cards.Remove(oldCard);
+                    }
+                    mapper.Map(card, oldCard);
+                    var newCardCardList = cardLists.First(x => x.Id == card.CardListId);
+                    if (newCardCardList.Cards == null)
+                    {
+                        newCardCardList.Cards = new List<Card>();
+                    }
+                    newCardCardList.Cards.Add(oldCard);
+                }
+                changedCardsCount = taskManagerContext.SaveChanges();
+                transaction.Commit();
+            }
+            return changedCardsCount == cards.Count;
         }
 
         public bool DeleteCard(int id)
